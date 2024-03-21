@@ -1,0 +1,25 @@
+- name: Copy docker-compose
+  copy:
+    src: docker-compose.yml
+    dest: docker-compose-front.yml
+
+- name: Copy .env.version
+  template:
+    src: .env.version.j2
+    dest: .env.version
+
+- name: Start EvalCarboneSIH
+  community.docker.docker_compose_v2:
+    env_files:
+      - .env.prod
+      - .env.version
+    files: docker-compose-front.yml
+    project_src: .
+    state: present
+
+- name: Prune images older than 24h
+  community.docker.docker_prune:
+    images: true
+    images_filters:
+      dangling: false
+      until: 24h

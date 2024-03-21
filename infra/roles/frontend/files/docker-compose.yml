@@ -1,0 +1,17 @@
+services:
+  eval-carbone:
+    container_name: eval-carbone
+    image: $IMAGE_NAME:$IMAGE_TAG
+    networks:
+      - eval-carbone
+    env_file:
+      - .env.prod
+    environment:
+      - VIRTUAL_HOST=eval-carbone-sih.esante.gouv.fr
+      - VIRTUAL_PORT=3000
+      - LETSENCRYPT_HOST=eval-carbone-sih.esante.gouv.fr
+
+networks:
+  eval-carbone:
+    name: num-eco-eval
+    external: true

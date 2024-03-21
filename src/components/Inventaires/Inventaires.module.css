@@ -1,0 +1,14 @@
+.pastille {
+  border-radius: 2rem;
+  color: #fff;
+  font-weight: 500;
+  padding: .7rem;
+}
+
+.calculé {
+  background-color: #9AB938;
+}
+
+.non_calculé {
+  background-color: #369AEE;
+}

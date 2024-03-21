@@ -1,0 +1,21 @@
+- name: Copy docker-compose
+  become: false
+  copy:
+    src: docker-compose.yml
+    dest: docker-compose-reverse-proxy.yml
+
+- name: Create certs directory
+  file:
+    path: /etc/nginx/certs
+    state: directory
+
+- name: Copy Nginx config
+  become: false
+  copy:
+    src: eval-carbone-sih.esante.gouv.fr_location
+    dest: eval-carbone-sih.esante.gouv.fr_location
+
+- name: Start Nginx
+  community.docker.docker_compose_v2:
+    files: docker-compose-reverse-proxy.yml
+    project_src: .

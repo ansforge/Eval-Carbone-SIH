@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+
+model en_donnees_entrees {
+  id Int @id
+  date_creation DateTime
+  date_lot DateTime
+  date_update DateTime
+  nom_organisation String
+  nom_lot String
+  statut_traitement String
+}
+
+model en_equipement_physique {
+  id Int @id
+  date_creation DateTime
+  date_update DateTime
+  date_lot DateTime
+  nom_lot String
+  nom_organisation String
+  nom_source_donnee String?
+  conso_elec_annuelle Float?
+  date_achat DateTime?
+  date_retrait DateTime?
+  duree_vie_defaut Float?
+  go_telecharge Float?
+  modele String
+  nb_coeur String?
+  nb_jour_utilise_an Float
+  nom_court_datacenter String?
+  nom_entite String?
+  nom_equipement_physique String?
+  pays_utilisation String?
+  quantite Float
+  serveur Boolean
+  statut String?
+  type String
+  utilisateur String?
+  mode_utilisation String?
+  taux_utilisation Float?
+  statut_traitement String
+  stockage_total_virtuel Float?
+  ref_equipement_par_defaut String?
+  ref_equipement_retenu String?
+}
+
+model ind_indicateur_impact_equipement_physique {
+  date_calcul DateTime
+  date_lot DateTime
+  nom_lot String @unique
+  etapeacv String
+  critere String
+  source String?
+  statut_indicateur String
+  trace String
+  version_calcul String
+  conso_elec_moyenne Float?
+  impact_unitaire Float
+  quantite Int
+  statut_equipement_physique String?
+  type_equipement String
+  unite String
+  nom_entite String?
+  nom_organisation String
+  nom_source_donnee String?
+  nom_equipement String?
+  date_lot_discriminator DateTime
+  nom_organisation_discriminator String
+  nom_entite_discriminator String
+  nom_source_donnee_discriminator String
+}
+
+model ref_correspondance_ref_eqp {
+  modele_equipement_source String @unique
+}
+
+model ref_type_equipement {
+  type String  @unique
+}

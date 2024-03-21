@@ -1,0 +1,4 @@
+evalcarbone:
+  hosts:
+    eval-carbone-sih.esante.gouv.fr:
+      ansible_user: ubuntu

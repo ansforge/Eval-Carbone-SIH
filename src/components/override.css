@@ -1,0 +1,46 @@
+.js-tablist__link.selected {
+  border-bottom-color: var(--primary);
+}
+
+.js-tablist__link h1 {
+  color: unset;
+  margin-bottom: 0;
+}
+
+.js-tablist__link.selected h1 {
+  background-color: var(--gray-100);
+  color: var(--primary);
+}
+
+[data-reach-dialog-overlay] {
+  background: hsl(224.44deg 14.75% 35.88% / 90%);
+  display: block;
+  height: 100%;
+  left: 0;
+  outline: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1050;
+}
+
+.navbar-expand-xl .navbar-nav {
+  flex-direction: row;
+}
+
+.header-principal__nav .nav-lvl--1 > .nav-item {
+  margin-right: 2rem;
+}
+
+.header-principal__nav .nav-lvl--1 > .nav-item > .nav-link {
+  border-bottom: .3rem solid transparent;
+}
+
+.header-principal__nav .nav-lvl--1 > li {
+  border-bottom: 0;
+}
+
+.header-principal__nav .nav-lvl--1 > .nav-item.is-active > .nav-link {
+  border-bottom-color: var(--primary);
+}

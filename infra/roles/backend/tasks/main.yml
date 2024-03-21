@@ -1,0 +1,58 @@
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+
+- name: Add Docker Repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu jammy stable
+
+- name: Install Docker CE
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - docker-ce
+      - python3-pip
+      - python3-setuptools
+      - software-properties-common
+      - virtualenv
+
+- name: Start Docker service
+  service:
+    name: docker
+    state: started
+
+- name: Add permission to Docker for current user
+  shell: chmod 666 /var/run/docker.sock
+
+- name: Install Lazydocker
+  become: false
+  shell: curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+
+- name: Copy docker-compose
+  become: false
+  copy:
+    src: docker-compose.yml
+    dest: docker-compose.yml
+
+- name: Copy .env.prod
+  become: false
+  copy:
+    src: .env.prod
+    dest: .env.prod
+
+- name: Stop NumEcoEval
+  become: false
+  community.docker.docker_compose_v2:
+    env_files: .env.prod
+    project_src: .
+    state: absent
+
+- name: Start NumEcoEval
+  become: false
+  community.docker.docker_compose_v2:
+    env_files: .env.prod
+    project_src: .
+    state: present
+    wait: true

@@ -1,0 +1,62 @@
+{
+  "name": "evalcarbone-sih",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "amibroken": "yarn dedupe --check && yarn lint:css && yarn typecheck && yarn lint:typescript",
+    "build": "yarn prisma:generate && next build",
+    "deadcode": "knip",
+    "depcheck": "depcheck",
+    "deploy:backend": "ansible-playbook -i infra/inventories/ovh.yml infra/playbook-backend.yml",
+    "deploy:frontend": "ansible-playbook -i infra/inventories/ovh.yml infra/playbook-frontend.yml",
+    "deploy:referential": "ansible-playbook -i infra/inventories/ovh.yml infra/playbook-referential.yml",
+    "deploy:reverse-proxy": "ansible-playbook -i infra/inventories/ovh.yml infra/playbook-reverse-proxy.yml",
+    "dev": "yarn prisma:generate && next dev",
+    "dev-https": "next dev --experimental-https",
+    "lint:css": "stylelint 'src/**/*.css'",
+    "lint:typescript": "eslint . --ext .tsx,.ts --max-warnings=0",
+    "load_referentiels": "cd infra/roles/referential/files && bash load_referentiels.sh",
+    "prepare": "husky",
+    "prisma:generate": "npx prisma generate",
+    "psql:local": "docker exec -it postgresdb psql -U postgres postgres",
+    "start": "next start",
+    "start:db": "docker compose down && docker compose up -d",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.12.1",
+    "@reach/alert": "^0.18.0",
+    "@reach/dialog": "^0.18.0",
+    "@reach/tooltip": "^0.18.0",
+    "@types/node": "^20.12.7",
+    "@types/react": "^18.3.1",
+    "chart.js": "^4.4.2",
+    "next": "^14.1.3",
+    "next-auth": "^4.24.7",
+    "prisma": "^5.12.1",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "@types/react-dom": "^18.2.22",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "depcheck": "^1.4.7",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.1.3",
+    "eslint-plugin-deprecation": "^2.0.0",
+    "eslint-plugin-sort-keys-fix": "^1.1.2",
+    "eslint-plugin-unused-imports": "^3.1.0",
+    "husky": "^9.0.11",
+    "knip": "^5.9.4",
+    "stylelint": "^16.2.1",
+    "stylelint-config-standard": "^36.0.0",
+    "stylelint-order": "^6.0.4"
+  },
+  "engines": {
+    "node": "20.12.2"
+  },
+  "packageManager": "yarn@4.1.1"
+}

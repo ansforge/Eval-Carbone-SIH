@@ -1,0 +1,3 @@
+- hosts : evalcarbone
+  roles :
+    - referential

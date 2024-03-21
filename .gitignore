@@ -1,0 +1,15 @@
+.next
+node_modules
+tsconfig.tsbuildinfo
+.env.local
+.env.prod
+infra/roles/referential/files/input_ref*
+
+# yarn
+**/.yarn/*
+!**/.yarn/patches
+!**/.yarn/releases
+!**/.yarn/plugins
+!**/.yarn/sdks
+!**/.yarn/versions
+**/.pnp.*

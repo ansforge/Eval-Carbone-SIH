@@ -1,0 +1,48 @@
+services:
+  nginx-proxy:
+    container_name: nginx-proxy
+    image: nginxproxy/nginx-proxy
+    networks:
+      - eval-carbone
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - ./eval-carbone-sih.esante.gouv.fr_location:/etc/nginx/vhost.d/eval-carbone-sih.esante.gouv.fr_location
+      - html:/usr/share/nginx/html
+    restart: unless-stopped
+
+  acme-companion:
+    container_name: acme-companion
+    image: nginxproxy/acme-companion
+    networks:
+      - eval-carbone
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - acme:/etc/acme.sh
+    environment:
+      - DEFAULT_EMAIL=fabien.mercier@octo.com
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+    restart: unless-stopped
+
+networks:
+  eval-carbone:
+    name: num-eco-eval
+    external: true
+
+volumes:
+  certs:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/etc/nginx/certs'
+  vhost:
+  html:
+  acme:
