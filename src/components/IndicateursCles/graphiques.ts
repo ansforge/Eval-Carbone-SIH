@@ -1,6 +1,6 @@
 import { Chart, CategoryScale, LinearScale, BarElement, Tooltip, Legend, ArcElement, ChartData, ChartOptions } from 'chart.js'
 
-import { EtapesAcv, IndicateursSommesViewModel, TypesEquipements, tolowerCase } from '../viewModel'
+import { EtapesAcv, IndicateursSommesViewModel, toLowerCase } from '../viewModel'
 
 Chart.register(
   ArcElement,
@@ -84,7 +84,7 @@ export function donneesParTypeEquipement(indicateursSommesViewModel: Indicateurs
       data: indicateursSommesViewModel
         .filter(filtrerParEtapeAcv(etapeAcv))
         .reduce(cumulerParImpact, Array<number>()),
-      label: tolowerCase(etapeAcv),
+      label: toLowerCase(etapeAcv),
     }
   })
 
@@ -94,12 +94,12 @@ export function donneesParTypeEquipement(indicateursSommesViewModel: Indicateurs
   }
 }
 
-export function donneesParCycleDeVie(indicateursSommesViewModel: IndicateursSommesViewModel[]): ChartData<'bar'> {
+export function donneesParCycleDeVie(indicateursSommesViewModel: IndicateursSommesViewModel[], referentielsEquipementsViewModel: string[]): ChartData<'bar'> {
   const etapesAcv = indicateursSommesViewModel.reduce(
-    (quantiteAccumulee, indicateur): Set<string> => quantiteAccumulee.add(tolowerCase(indicateur.etapeAcv)), new Set<string>()
+    (quantiteAccumulee, indicateur): Set<string> => quantiteAccumulee.add(toLowerCase(indicateur.etapeAcv)), new Set<string>()
   )
 
-  const impactsParTypeEquipement = Object.keys(TypesEquipements)
+  const impactsParTypeEquipement = referentielsEquipementsViewModel
     .map((typeEquipement, index) => {
       return {
         backgroundColor: colors[index],
@@ -117,12 +117,16 @@ export function donneesParCycleDeVie(indicateursSommesViewModel: IndicateursSomm
   }
 }
 
-export function donneesRepartitionParTypeEquipement(indicateursSommesViewModel: IndicateursSommesViewModel[], etapeAcv: EtapesAcv): ChartData<'pie'> {
+export function donneesRepartitionParTypeEquipement(
+  indicateursSommesViewModel: IndicateursSommesViewModel[],
+  referentielsEquipementsViewModel: string[],
+  etapeAcv: EtapesAcv
+): ChartData<'pie'> {
   const nomTypesEquipement = indicateursSommesViewModel.reduce(
     (quantiteAccumulee, indicateur): Set<string> => quantiteAccumulee.add(indicateur.typeEquipement), new Set<string>()
   )
 
-  const impactsParTypeEquipement = Object.keys(TypesEquipements)
+  const impactsParTypeEquipement = referentielsEquipementsViewModel
     .map((typeEquipement): number[] => {
       return indicateursSommesViewModel
         .filter(filtrerParTypeEquipement(typeEquipement))
@@ -136,7 +140,7 @@ export function donneesRepartitionParTypeEquipement(indicateursSommesViewModel: 
       {
         backgroundColor: colors,
         data: impactsParTypeEquipement.flat(),
-        label: tolowerCase(etapeAcv),
+        label: toLowerCase(etapeAcv),
       },
     ],
     labels: Array.from(nomTypesEquipement),

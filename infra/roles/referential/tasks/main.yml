@@ -4,6 +4,6 @@
     dest: .
 
 - name: Install referentials
-  shell: bash load_ref.sh
+  shell: bash load_referentiels_prod.sh
   args:
     chdir: files

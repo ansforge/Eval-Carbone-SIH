@@ -33,10 +33,6 @@ export async function recupererIndicateursEquipementsPhysiquesSommesRepository(
       impact_unitaire: true,
     },
     by: ['type_equipement', 'etapeacv'],
-    orderBy: [
-      { type_equipement: 'asc' },
-      { etapeacv: 'asc' },
-    ],
     where: {
       nom_lot: nomInventaire,
       nom_organisation: nomEtablissement,

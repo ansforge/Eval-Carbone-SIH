@@ -9,18 +9,11 @@ export type ModeleReducer = Readonly<{
 }>
 
 export function useEquipement(setQuantiteGlobale: (quantite: number) => void, modeles: ModeleReducer[]) {
-  const [lignesModele, dispatch] = useReducer(modelesReducer, modeles.length === 0 ? [{ id: crypto.randomUUID(), nomModele: 'Unknown', quantite: 0 }] : modeles)
+  const [lignesModele, dispatch] = useReducer(modelesReducer, modeles)
   const [isToggle, setIsToggle] = useState<boolean>(false)
 
   const toggle = () => {
     setIsToggle(!isToggle)
-  }
-
-  const ajouterUnModele = () => {
-    dispatch({
-      id: crypto.randomUUID(),
-      type: 'added',
-    })
   }
 
   const modifierUnModele = (modele: ModeleReducer) => {
@@ -34,19 +27,10 @@ export function useEquipement(setQuantiteGlobale: (quantite: number) => void, mo
     setQuantiteGlobale(quantiteGlobale)
   }
 
-  const supprimerUnModele = (modeleId: string) => () => {
-    dispatch({
-      id: modeleId,
-      type: 'deleted',
-    })
-  }
-
   return {
-    ajouterUnModele,
     isToggle,
     lignesModele,
     modifierUnModele,
-    supprimerUnModele,
     toggle,
   }
 }
@@ -59,19 +43,6 @@ type ActionReducer = Readonly<{
 
 function modelesReducer(modeles: ModeleReducer[], action: ActionReducer): ModeleReducer[] {
   switch (action.type) {
-    case 'added': {
-      return [
-        ...modeles,
-        {
-          id: action.id,
-          nomModele: 'Unknown',
-          quantite: 0,
-        },
-      ]
-    }
-    case 'deleted': {
-      return modeles.filter((modele): boolean => modele.id !== action.id)
-    }
     case 'changed': {
       return modeles.map((modele: ModeleReducer): ModeleReducer => {
         if (modele.id === action.id) {

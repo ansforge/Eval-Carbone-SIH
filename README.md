@@ -10,10 +10,9 @@
 
 - `yarn`
 - `npx husky init`
-- `cp .env .env.local` (Remplir les variables affectées par "A_REMPLIR")
-- `yarn start:db` (il se peut que le container Kafka ne se lance pas du premier coup, relancer une seconde fois)
-- Ajouter les différents référentiels dans `infra/roles/referential/files/input_ref`, il faut les demander à Nathalie Baudiniere
-- `yarn load_ref`
+- `cp .env .env.local` (remplir les variables affectées par "A_REMPLIR")
+- `yarn start:db` (il se peut que le container Kafka ne se lance pas du premier coup, le relancer)
+- `yarn load_referentiels`
 - `yarn dev`
 
 ## NumEcoEval
@@ -90,7 +89,15 @@ Plage est le service d'authentification.
 - [Documentation pour créer un compte de test](https://atih.atlassian.net/wiki/spaces/PUBLIC/pages/2979692685/Plage)
 - [Documentation technique](https://atih.atlassian.net/wiki/external/YjE4MTQzOGU0YTNmNDFjNDg3MDcxMjY4NThkMzYzNGE)
 
-## Points d'attention
+## Les référentiels
+
+A savoir lors d'une mise à jour des référentiels au format CSV :
+
+- Les identifiants doivent être exactement les même, aucune typo (majuscule, caractère accentué,…), pas d'espaces en trop…
+- Séparateur ";"
+- Écrire les (types) équipements dans le même ordre
+
+## Points d'attention pour le futur
 
 - La mise à jour de NumEcoEval peut être douloureuse parce que
   - la plupart des appels se font directement sur la base de données (suppression, modification...) car les routes n'existent pas

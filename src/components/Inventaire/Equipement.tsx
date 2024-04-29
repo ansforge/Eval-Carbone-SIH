@@ -4,13 +4,11 @@ import { ReactElement } from 'react'
 
 import Modele from './Modele'
 import { ModeleReducer, useEquipement } from './useEquipement'
-import { NomModeleViewModel } from '../viewModel'
 
 type EquipementProps = Readonly<{
   equipementAvecSesModelesViewModel: { modeles: ModeleReducer[], type: string }
   idFieldset: string
   idAccordion: string
-  nomsModelesViewModel: NomModeleViewModel[]
   setQuantiteGlobale: (quantite: number) => void
 }>
 
@@ -18,12 +16,10 @@ export default function Equipement({
   equipementAvecSesModelesViewModel,
   idAccordion,
   idFieldset,
-  nomsModelesViewModel,
   setQuantiteGlobale,
 }: EquipementProps): ReactElement {
   const nomEquipement = equipementAvecSesModelesViewModel.type
-  const { ajouterUnModele, isToggle, lignesModele, modifierUnModele, supprimerUnModele, toggle } =
-    useEquipement(setQuantiteGlobale, equipementAvecSesModelesViewModel.modeles)
+  const { isToggle, lignesModele, modifierUnModele, toggle } = useEquipement(setQuantiteGlobale, equipementAvecSesModelesViewModel.modeles)
 
   return (
     <fieldset
@@ -71,35 +67,21 @@ export default function Equipement({
         role="tabpanel"
       >
         {
-          lignesModele.map((ligneModele): ReactElement => (
-            <Modele
-              id={ligneModele.id}
-              key={ligneModele.id}
-              ligneModele={ligneModele}
-              modifierUnModele={modifierUnModele}
-              nomEquipement={nomEquipement}
-              nomsModelesViewModel={nomsModelesViewModel}
-              supprimerUnModele={supprimerUnModele(ligneModele.id)}
-            />
+          lignesModele.map((ligneModele, index): ReactElement => (
+            <div key={ligneModele.id}>
+              <Modele
+                id={ligneModele.id}
+                ligneModele={ligneModele}
+                modifierUnModele={modifierUnModele}
+                nomEquipement={nomEquipement}
+                nomModele={ligneModele.nomModele}
+              />
+              {
+                lignesModele.length !== index + 1 && <hr />
+              }
+            </div>
           ))
         }
-        <div>
-          <button
-            className="text-primary"
-            onClick={ajouterUnModele}
-            type="button"
-          >
-            <svg
-              aria-hidden
-              className="svg-icon"
-              focusable="false"
-            >
-              <use xlinkHref="/svg-icons/icon-sprite.svg#circle-plus" />
-            </svg>
-            {' '}
-            Ajouter un modèle
-          </button>
-        </div>
       </div>
     </fieldset>
   )

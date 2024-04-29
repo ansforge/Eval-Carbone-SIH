@@ -76,10 +76,21 @@ model ind_indicateur_impact_equipement_physique {
   nom_source_donnee_discriminator String
 }
 
+model ref_correspondance_type_equipement {
+  ref_correspondance_ref_eqp ref_correspondance_ref_eqp @relation(fields: [equipement_id], references: [ref_equipement_cible])
+  equipement_id String @id
+
+  ref_type_equipement ref_type_equipement @relation(fields: [type_equipement_id], references: [type])
+  type_equipement_id String
+}
+
 model ref_correspondance_ref_eqp {
   modele_equipement_source String @unique
+  ref_equipement_cible String @id
+  equipements ref_correspondance_type_equipement[]
 }
 
 model ref_type_equipement {
-  type String  @unique
+  type String @unique
+  modeles ref_correspondance_type_equipement[]
 }

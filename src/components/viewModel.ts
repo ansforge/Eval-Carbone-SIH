@@ -11,7 +11,6 @@ export type InventaireViewModel = Readonly<{
 }>
 
 export type EquipementsAvecSesModelesViewModel = Readonly<{
-  dateInventaire: Date
   modeles: ModeleReducer[]
   type: string
 }>
@@ -26,11 +25,7 @@ export type EquipementViewModel = Readonly<{
   nomInventaire: string
   nomEtablissement: string
   quantite: number
-  type: keyof typeof TypesEquipements
-}>
-
-export type NomModeleViewModel = Readonly<{
-  modele: string
+  type: string
 }>
 
 export type IndicateursViewModel = Readonly<{
@@ -72,37 +67,6 @@ export enum EtapesAcv {
   finDeVie = 'FIN_DE_VIE',
 }
 
-export enum TypesEquipements {
-  'Cashing System' = 'x1',
-  'Cash registered device' = 'x2',
-  'Communication Device' = 'x3',
-  'Consumable' = 'x4',
-  'Invoice terminal' = 'x5',
-  'IP Router' = 'x6',
-  'IP Switch' = 'x7',
-  'Mobility Device' = 'x8',
-  'Monitor' = 'Écran d’ordinateur',
-  'Network Gear' = 'x9',
-  'Network Load Balancer' = 'x10',
-  'Personal Computer' = 'Ordinateur fixe - sans écran',
-  'Plotter' = 'x11',
-  'Printer' = 'Imprimante',
-  'Self Check Out' = 'x12',
-  'Server' = 'Serveur',
-  'Smartphone' = 'Téléphone portable',
-  'Tracer' = 'Antenne',
-}
-
-export enum TypesEquipements2 {
-  'Baie de stockage' = 'x1',
-  'Baie NAS' = 'x2',
-  'Commutateur réseau' = 'x3',
-  'écran' = 'x4',
-  'Ordinateur fixe (sans écran)' = 'x5',
-  'Ordinateur portable' = 'x6',
-  'Serveur rack' = 'x7',
-}
-
-export function tolowerCase(text: string): string {
+export function toLowerCase(text: string): string {
   return (text[0] + text.slice(1).toLowerCase()).replaceAll('_', ' ')
 }

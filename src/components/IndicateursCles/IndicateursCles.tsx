@@ -19,6 +19,7 @@ type IndicateursClesProps = Readonly<{
   indicateursViewModel: IndicateursViewModel
   nomEtablissement: string
   nomInventaire: string
+  referentielsEquipementsViewModel: string[]
 }>
 
 export default function IndicateursCles({
@@ -27,6 +28,7 @@ export default function IndicateursCles({
   indicateursViewModel,
   nomEtablissement,
   nomInventaire,
+  referentielsEquipementsViewModel,
 }: IndicateursClesProps): ReactElement {
   return (
     <>
@@ -149,7 +151,7 @@ export default function IndicateursCles({
           </p>
           <hr />
           <Bar
-            data={donneesParCycleDeVie(indicateursSommesViewModel)}
+            data={donneesParCycleDeVie(indicateursSommesViewModel, referentielsEquipementsViewModel)}
             options={optionsHistogramme}
           />
           <Astuce>
@@ -166,7 +168,7 @@ export default function IndicateursCles({
           </p>
           <hr />
           <Pie
-            data={donneesRepartitionParTypeEquipement(indicateursSommesViewModel, EtapesAcv.fabrication)}
+            data={donneesRepartitionParTypeEquipement(indicateursSommesViewModel, referentielsEquipementsViewModel, EtapesAcv.fabrication)}
             options={optionsCamembert}
           />
           <hr />
@@ -175,7 +177,7 @@ export default function IndicateursCles({
           </p>
           <hr />
           <Pie
-            data={donneesRepartitionParTypeEquipement(indicateursSommesViewModel, EtapesAcv.distribution)}
+            data={donneesRepartitionParTypeEquipement(indicateursSommesViewModel, referentielsEquipementsViewModel, EtapesAcv.distribution)}
             options={optionsCamembert}
           />
           <hr />
@@ -184,7 +186,7 @@ export default function IndicateursCles({
           </p>
           <hr />
           <Pie
-            data={donneesRepartitionParTypeEquipement(indicateursSommesViewModel, EtapesAcv.utilisation)}
+            data={donneesRepartitionParTypeEquipement(indicateursSommesViewModel, referentielsEquipementsViewModel, EtapesAcv.utilisation)}
             options={optionsCamembert}
           />
           <hr />
@@ -193,7 +195,7 @@ export default function IndicateursCles({
           </p>
           <hr />
           <Pie
-            data={donneesRepartitionParTypeEquipement(indicateursSommesViewModel, EtapesAcv.finDeVie)}
+            data={donneesRepartitionParTypeEquipement(indicateursSommesViewModel, referentielsEquipementsViewModel, EtapesAcv.finDeVie)}
             options={optionsCamembert}
           />
           <Astuce>

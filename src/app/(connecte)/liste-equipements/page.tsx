@@ -1,4 +1,4 @@
-import { en_equipement_physique } from '@prisma/client'
+import { en_equipement_physique, ref_type_equipement } from '@prisma/client'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ReactElement } from 'react'
@@ -6,8 +6,8 @@ import { ReactElement } from 'react'
 import { getProfileAtih } from '../../../authentification'
 import Breadcrumb from '../../../components/commun/Breadcrumb'
 import ListeEquipements from '../../../components/ListeEquipements/ListeEquipements'
-import { EquipementsViewModel, TypesEquipements } from '../../../components/viewModel'
-import { recupererEquipementsPhysiquesRepository } from '../../../repository/equipementsRepository'
+import { EquipementsViewModel } from '../../../components/viewModel'
+import { EquipementPhysiqueModel, recupererLesEquipementsEnregistresRepository, recupererLesReferentielsEquipementsRepository } from '../../../repository/equipementsRepository'
 
 const title = 'Liste d’équipements'
 export const metadata: Metadata = {
@@ -27,13 +27,14 @@ export default async function Page({ searchParams }: PageProps): Promise<ReactEl
 
   const profile = await getProfileAtih()
 
-  const equipementsModel = await recupererEquipementsPhysiquesRepository(profile.nomEtablissement, searchParams.nomInventaire)
+  const equipementsEnregistresModel = await recupererLesEquipementsEnregistresRepository(profile.nomEtablissement, searchParams.nomInventaire)
 
-  if (equipementsModel.length === 0) {
+  if (equipementsEnregistresModel.length === 0) {
     notFound()
   }
 
-  const equipementsViewModel = transformEquipementModelToViewModel(equipementsModel)
+  const referentielsEquipementsModel = await recupererLesReferentielsEquipementsRepository()
+  const equipementsViewModel = transformEquipementModelToViewModel(equipementsEnregistresModel, referentielsEquipementsModel)
 
   const equipements = Object.keys(equipementsViewModel)
   const dateInventaire = equipementsViewModel[equipements[0]][0].dateInventaire.toLocaleDateString('fr-FR')
@@ -51,10 +52,13 @@ export default async function Page({ searchParams }: PageProps): Promise<ReactEl
   )
 }
 
-function transformEquipementModelToViewModel(equipementsModel: en_equipement_physique[]): EquipementsViewModel {
+function transformEquipementModelToViewModel(
+  equipementsModel: en_equipement_physique[],
+  referentielsEquipementsModel: EquipementPhysiqueModel[]
+): EquipementsViewModel {
   const types = {}
 
-  for (const equipementModel of equipementsModel) {
+  for (const equipementModel of equipementsModel.sort(sortByTypeEquipementAndEtapeAcv(referentielsEquipementsModel))) {
     // @ts-ignore
     types[equipementModel.type] = [
       // @ts-ignore
@@ -66,10 +70,37 @@ function transformEquipementModelToViewModel(equipementsModel: en_equipement_phy
         nomEtablissement: equipementModel.nom_organisation,
         nomInventaire: equipementModel.nom_lot,
         quantite: equipementModel.quantite,
-        type: equipementModel.type as keyof typeof TypesEquipements,
+        type: equipementModel.type,
       },
     ]
   }
 
   return types
+}
+
+function sortByTypeEquipementAndEtapeAcv(referentielsEquipementsViewModel: ref_type_equipement[]) {
+  return (a: en_equipement_physique, b: en_equipement_physique) => {
+    let etapeAcvA = 0
+    let etapeAcvB = 0
+
+    for (let poids = 0; poids < referentielsEquipementsViewModel.length; poids++) {
+      if (a.type === referentielsEquipementsViewModel[poids].type) {
+        etapeAcvA = poids
+      }
+
+      if (b.type === referentielsEquipementsViewModel[poids].type) {
+        etapeAcvB = poids
+      }
+    }
+
+    if (etapeAcvA > etapeAcvB) {
+      return 1
+    }
+
+    if (etapeAcvA < etapeAcvB) {
+      return -1
+    }
+
+    return 0
+  }
 }

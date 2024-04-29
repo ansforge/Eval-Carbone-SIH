@@ -1,0 +1,8 @@
+type;serveur;commentaire;dureeVieDefaut;refEquipementParDefaut;source
+Ordinateur portable;;Durée de vie dans Base IMPACTS numérique v1.5;5;ordinateur-portable-1;
+Ordinateur fixe - sans écran;;Durée de vie dans Base IMPACTS numérique v1.5;6;ordinateur-fixe-1;
+Écran;;Durée de vie dans Base IMPACTS numérique v1.5;7;ecran-2;
+Serveur rack;true;Durée de vie dans Ademe - Rapport septembre 2022 - évaluation de l’impact environnemental d’un ensemble de produits reconditionnés;5;serveur-rack-1;
+Baie de stockage;;Durée de vie moyenne par Octo;8;baie-stockage-1;
+Baie NAS;;Durée de vie moyenne par Octo;8;baie-nas-1;
+Commutateur réseau;;Durée de vie moyenne par Octo;8;commutateur-1;

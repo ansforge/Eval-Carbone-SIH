@@ -1,4 +1,4 @@
-import { en_equipement_physique, ref_type_equipement } from '@prisma/client'
+import { en_equipement_physique } from '@prisma/client'
 
 import { miseAJourInventaireRepository, supprimerInventaireRepository } from './inventairesRepository'
 import prisma from '../../prisma/db'
@@ -25,15 +25,34 @@ export type EquipementPhysique = Readonly<{
   type: string
 }>
 
-export async function recupererTypesEquipementRepository(): Promise<ref_type_equipement[]> {
+export type EquipementPhysiqueModel = Readonly<{
+  type: string
+  modeles: ReadonlyArray<{
+    ref_correspondance_ref_eqp: Readonly<{
+      modele_equipement_source: string
+    }>
+  }>
+}>
+
+export async function recupererLesReferentielsEquipementsRepository(): Promise<EquipementPhysiqueModel[]> {
   return await prisma.ref_type_equipement.findMany({
-    orderBy: { type: 'asc' },
+    select: {
+      modeles: {
+        select: {
+          ref_correspondance_ref_eqp: {
+            select: {
+              modele_equipement_source: true,
+            },
+          },
+        },
+      },
+      type: true,
+    },
   })
 }
 
-export async function recupererEquipementsPhysiquesRepository(nomEtablissement: string, nomInventaire: string): Promise<en_equipement_physique[]> {
+export async function recupererLesEquipementsEnregistresRepository(nomEtablissement: string, nomInventaire: string): Promise<en_equipement_physique[]> {
   return await prisma.en_equipement_physique.findMany({
-    orderBy: { type: 'asc' },
     where: { nom_lot: nomInventaire, nom_organisation: nomEtablissement },
   })
 }

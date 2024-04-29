@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
 
-import { IndicateursSommesViewModel, tolowerCase } from '../viewModel'
+import { IndicateursSommesViewModel, toLowerCase } from '../viewModel'
 
 type IndicateurProps = Readonly<{
   indicateursSommesViewModel: IndicateursSommesViewModel[]
@@ -33,7 +33,7 @@ export default function Transcription({ indicateursSommesViewModel }: Indicateur
                 {indicateurSommeViewModel.typeEquipement}
               </td>
               <td>
-                {tolowerCase(indicateurSommeViewModel.etapeAcv)}
+                {toLowerCase(indicateurSommeViewModel.etapeAcv)}
               </td>
               <td>
                 {Number(indicateurSommeViewModel.impact.toFixed(2)).toLocaleString()}

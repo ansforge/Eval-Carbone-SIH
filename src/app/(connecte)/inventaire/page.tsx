@@ -1,4 +1,4 @@
-import { en_equipement_physique, ref_correspondance_ref_eqp, ref_type_equipement } from '@prisma/client'
+import { en_equipement_physique } from '@prisma/client'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ReactElement } from 'react'
@@ -7,9 +7,8 @@ import { getProfileAtih } from '../../../authentification'
 import Breadcrumb from '../../../components/commun/Breadcrumb'
 import Inventaire from '../../../components/Inventaire/Inventaire'
 import { ModeleReducer } from '../../../components/Inventaire/useEquipement'
-import { EquipementsAvecSesModelesViewModel, NomModeleViewModel, StatutsInventaire } from '../../../components/viewModel'
-import { recupererEquipementsPhysiquesRepository, recupererTypesEquipementRepository } from '../../../repository/equipementsRepository'
-import { recupererNomsModelesRepository } from '../../../repository/modelesRepository'
+import { EquipementsAvecSesModelesViewModel, StatutsInventaire } from '../../../components/viewModel'
+import { EquipementPhysiqueModel, recupererLesEquipementsEnregistresRepository, recupererLesReferentielsEquipementsRepository } from '../../../repository/equipementsRepository'
 
 const title = 'Renseigner les équipements'
 export const metadata: Metadata = {
@@ -30,58 +29,52 @@ export default async function Page({ searchParams }: PageProps): Promise<ReactEl
 
   const profile = await getProfileAtih()
 
-  const typesEquipementModel = await recupererTypesEquipementRepository()
-  const nomsModelesModel = await recupererNomsModelesRepository()
-  const equipementsModel = await recupererEquipementsPhysiquesRepository(profile.nomEtablissement, searchParams.nomInventaire)
+  const equipementsReferentielsModel = await recupererLesReferentielsEquipementsRepository()
 
-  const equipementsAvecSesModelesViewModel = transformTypesEquipementModelToViewModel(typesEquipementModel, equipementsModel)
-  const nomsModelesViewModel = transformNomsModelesModelToViewModel(nomsModelesModel)
+  const equipementsEnregistresModel = await recupererLesEquipementsEnregistresRepository(profile.nomEtablissement, searchParams.nomInventaire)
+
+  const equipementsAvecSesModelesViewModel = transformTypesEquipementModelToViewModel(equipementsReferentielsModel, equipementsEnregistresModel)
 
   const statut = searchParams.statut === undefined ? StatutsInventaire.EN_ATTENTE : searchParams.statut as StatutsInventaire
-  const dateInventaire = equipementsAvecSesModelesViewModel.length > 0
-    ? equipementsAvecSesModelesViewModel[0].dateInventaire.toLocaleDateString('fr-FR')
-    : new Date().toLocaleDateString('fr-FR')
+  const dateInventaire = equipementsEnregistresModel.length === 0 ? new Date() : equipementsEnregistresModel[0].date_lot
 
   return (
     <>
       <Breadcrumb label={title} />
       <Inventaire
-        dateInventaire={dateInventaire}
+        dateInventaire={dateInventaire.toLocaleDateString('fr-FR')}
         equipementsAvecSesModelesViewModel={equipementsAvecSesModelesViewModel}
         nomEtablissement={profile.nomEtablissement}
         nomInventaire={searchParams.nomInventaire}
-        nomsModelesViewModel={nomsModelesViewModel}
         statut={statut}
       />
     </>
   )
 }
 
-function transformNomsModelesModelToViewModel(nomsModelesModel: ref_correspondance_ref_eqp[]): NomModeleViewModel[] {
-  return nomsModelesModel.map((nomModeleModel): NomModeleViewModel => {
-    return {
-      modele: nomModeleModel.modele_equipement_source,
-    }
-  })
-}
-
 function transformTypesEquipementModelToViewModel(
-  typesEquipementModel: ref_type_equipement[],
-  equipementsModel: en_equipement_physique[]
+  equipementsReferentielsModel: EquipementPhysiqueModel[],
+  equipementsEnregistresModel: en_equipement_physique[]
 ): EquipementsAvecSesModelesViewModel[] {
-  return typesEquipementModel.map((typeEquipement): EquipementsAvecSesModelesViewModel => {
+  return equipementsReferentielsModel.map((equipementReferentielModel): EquipementsAvecSesModelesViewModel => {
     return {
-      dateInventaire: equipementsModel.length === 0 ? new Date() : equipementsModel[0].date_lot,
-      modeles: equipementsModel
-        .filter((equipement): boolean => equipement.type === typeEquipement.type)
-        .map((equipement): ModeleReducer => {
+      modeles: equipementReferentielModel.modeles
+        .map((modele): ModeleReducer => {
+          let quantite = 0
+          const equipementsModelFiltre = equipementsEnregistresModel
+            .filter((equipementEnregistreModel): boolean => equipementEnregistreModel.modele === modele.ref_correspondance_ref_eqp.modele_equipement_source)
+
+          if (equipementsModelFiltre.length > 0) {
+            quantite = equipementsModelFiltre[0].quantite
+          }
+
           return {
             id: crypto.randomUUID(),
-            nomModele: equipement.modele,
-            quantite: equipement.quantite,
+            nomModele: modele.ref_correspondance_ref_eqp.modele_equipement_source,
+            quantite,
           }
         }),
-      type: typeEquipement.type,
+      type: equipementReferentielModel.type,
     }
   })
 }

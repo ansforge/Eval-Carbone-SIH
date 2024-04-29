@@ -15,7 +15,7 @@
     "dev-https": "next dev --experimental-https",
     "lint:css": "stylelint 'src/**/*.css'",
     "lint:typescript": "eslint . --ext .tsx,.ts --max-warnings=0",
-    "load_referentiels": "cd infra/roles/referential/files && bash load_referentiels.sh",
+    "load_referentiels": "cd infra/roles/referential/files && bash load_referentiels_local.sh",
     "prepare": "husky",
     "prisma:generate": "npx prisma generate",
     "psql:local": "docker exec -it postgresdb psql -U postgres postgres",

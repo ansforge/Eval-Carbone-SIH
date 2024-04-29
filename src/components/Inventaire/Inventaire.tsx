@@ -6,14 +6,13 @@ import { ReactElement } from 'react'
 import Actions from './Actions'
 import Equipement from './Equipement'
 import { useInventaire } from './useInventaire'
-import { EquipementsAvecSesModelesViewModel, NomModeleViewModel, StatutsInventaire } from '../viewModel'
+import { EquipementsAvecSesModelesViewModel, StatutsInventaire } from '../viewModel'
 
 type InventaireProps = Readonly<{
   dateInventaire: string,
   equipementsAvecSesModelesViewModel: EquipementsAvecSesModelesViewModel[]
   nomEtablissement: string
   nomInventaire: string
-  nomsModelesViewModel: NomModeleViewModel[]
   statut: StatutsInventaire
 }>
 
@@ -22,7 +21,6 @@ export default function Inventaire({
   equipementsAvecSesModelesViewModel,
   nomEtablissement,
   nomInventaire,
-  nomsModelesViewModel,
   statut,
 }: InventaireProps): ReactElement {
   const { enregistrerUnInventaireNonCalcule, isInventaireEnregistre, lancerLeCalcul, quantiteGlobale, setQuantiteGlobale } = useInventaire(nomInventaire)
@@ -103,7 +101,6 @@ export default function Inventaire({
             idAccordion={equipementAvecSesModelesViewModel.type}
             idFieldset={'id-' + equipementAvecSesModelesViewModel.type}
             key={equipementAvecSesModelesViewModel.type}
-            nomsModelesViewModel={nomsModelesViewModel}
             setQuantiteGlobale={setQuantiteGlobale}
           />
         ))
