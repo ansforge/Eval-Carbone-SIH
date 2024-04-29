@@ -59,9 +59,9 @@ function transformEquipementModelToViewModel(
   const types = {}
 
   for (const equipementModel of equipementsModel.sort(sortByTypeEquipementAndEtapeAcv(referentielsEquipementsModel))) {
-    // @ts-ignore
+    // @ts-expect-error
     types[equipementModel.type] = [
-      // @ts-ignore
+      // @ts-expect-error
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       ...types[equipementModel.type] || [],
       {

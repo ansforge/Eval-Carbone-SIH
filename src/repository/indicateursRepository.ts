@@ -27,7 +27,7 @@ export async function recupererIndicateursEquipementsPhysiquesSommesRepository(
   nomEtablissement: string,
   nomInventaire: string
 ): Promise<IndicateursSommesModel[]> {
-  // @ts-ignore
+  // @ts-expect-error
   return await prisma.ind_indicateur_impact_equipement_physique.groupBy({
     _sum: {
       impact_unitaire: true,

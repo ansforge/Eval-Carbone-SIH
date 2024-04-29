@@ -1,7 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client'
-import { DefaultArgs } from '@prisma/client/runtime/library'
 
-const prismaClientSingleton = (): PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs> => {
+const prismaClientSingleton = (): PrismaClient<Prisma.PrismaClientOptions, never> => {
   const prisma = new PrismaClient({
     log: [
       {
@@ -36,12 +35,13 @@ declare global {
   const prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>
 }
 
-// @ts-ignore
+// @ts-expect-error
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 const prisma = globalThis.prismaGlobal as PrismaClient ?? prismaClientSingleton()
 
 export default prisma
 
 if (process.env.NODE_ENV !== 'production') {
-  // @ts-ignore
+  // @ts-expect-error
   globalThis.prismaGlobal = prisma
 }

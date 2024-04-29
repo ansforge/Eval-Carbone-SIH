@@ -85,7 +85,7 @@ function transformIndicateursModelToViewModel(indicateursModel: ind_indicateur_i
       emissionsDeParticulesFines += indicateur.impact_unitaire
     } else if (critere === Criteres.acidification) {
       acidification += indicateur.impact_unitaire
-    } else if (critere === Criteres.empreinteCarbone) {
+    } else {
       empreinteCarbone += indicateur.impact_unitaire / 1000
 
       if (etapeacv === EtapesAcv.fabrication) {
@@ -94,7 +94,7 @@ function transformIndicateursModelToViewModel(indicateursModel: ind_indicateur_i
         distribution += indicateur.impact_unitaire / 1000
       } else if (etapeacv === EtapesAcv.utilisation) {
         utilisation += indicateur.impact_unitaire / 1000
-      } else if (etapeacv === EtapesAcv.finDeVie) {
+      } else {
         finDeVie += indicateur.impact_unitaire / 1000
       }
     }

@@ -27,11 +27,11 @@ export type EquipementPhysique = Readonly<{
 
 export type EquipementPhysiqueModel = Readonly<{
   type: string
-  modeles: ReadonlyArray<{
+  modeles: readonly {
     ref_correspondance_ref_eqp: Readonly<{
       modele_equipement_source: string
     }>
-  }>
+  }[]
 }>
 
 export async function recupererLesReferentielsEquipementsRepository(): Promise<EquipementPhysiqueModel[]> {
@@ -96,7 +96,7 @@ async function ajouterEquipementsPhysiquesRepository(
     method: 'POST',
   })
 
-  if (responseEntrees.ok === false) {
+  if (!responseEntrees.ok) {
     if (responseEntrees.status === 415) {
       const data = await responseEntrees.json() as ApiErrorJava
       throw new Error(`Status: ${responseEntrees.status}, Status text: ${data.detail}`)
@@ -121,7 +121,7 @@ async function lancerLeCalculRepository(nomEtablissement: string, nomInventaire:
     method: 'POST',
   })
 
-  if (responseCalculs.ok === false) {
+  if (!responseCalculs.ok) {
     if (responseCalculs.status === 415) {
       const data = await responseCalculs.json() as ApiErrorJava
       throw new Error(`Status: ${responseCalculs.status}, Status text: ${data.detail}`)

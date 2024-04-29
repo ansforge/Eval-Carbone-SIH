@@ -37,7 +37,7 @@ export function useEquipement(setQuantiteGlobale: (quantite: number) => void, mo
 
 type ActionReducer = Readonly<{
   id: string
-  modele?: ModeleReducer
+  modele: ModeleReducer
   type: string
 }>
 
@@ -46,7 +46,7 @@ function modelesReducer(modeles: ModeleReducer[], action: ActionReducer): Modele
     case 'changed': {
       return modeles.map((modele: ModeleReducer): ModeleReducer => {
         if (modele.id === action.id) {
-          return action.modele as ModeleReducer
+          return action.modele
         } else {
           return modele
         }

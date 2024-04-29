@@ -11,7 +11,7 @@ type ModaleProps = Readonly<{
 }>
 
 export default function Actions({ enregistrerUnInventaireNonCalcule, quantiteGlobale, statut }: ModaleProps): ReactElement {
-  const isNonCalcule = statut && statut === StatutsInventaire.TRAITE
+  const isNonCalcule = statut === StatutsInventaire.TRAITE
 
   return (
     <div className="btn-group">

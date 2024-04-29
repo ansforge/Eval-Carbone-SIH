@@ -1,12 +1,12 @@
 {
   "extends": [
     "next/core-web-vitals",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:@typescript-eslint/strict-type-checked",
+    "plugin:@typescript-eslint/stylistic-type-checked",
     "plugin:react/all",
     "plugin:import/recommended",
     "plugin:import/typescript",
-    "plugin:jsx-a11y/recommended",
+    "plugin:jsx-a11y/strict",
     "plugin:deprecation/recommended"
   ],
   "parserOptions": {

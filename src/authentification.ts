@@ -9,7 +9,7 @@ const authOptions = {
   callbacks: {
     jwt({ token, profile }): JWT {
       if (profile !== undefined) {
-        // @ts-ignore
+        // @ts-expect-error
         token.profile_atih = profile.profile_atih
       }
 
@@ -17,7 +17,7 @@ const authOptions = {
     },
     session({ session, token }): Session {
       if (session.user !== undefined) {
-        // @ts-ignore
+        // @ts-expect-error
         session.user.profile_atih = token.profile_atih
       }
 
@@ -69,27 +69,27 @@ export async function getProfileAtih(): Promise<ProfileAtih> {
     nomEtablissement: '',
   }
 
-  // @ts-ignore
+  // @ts-expect-error
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   for (const profil of Object.keys(session.user.profile_atih.profils)) {
     let finess = ''
 
-    // @ts-ignore
+    // @ts-expect-error
     if (Number(profil) === Number(session.user.profile_atih.idProfilSelectionne)) {
-      // @ts-ignore
+      // @ts-expect-error
       finess = session.user.profile_atih.profils[profil].entite.finess
 
-      // @ts-ignore
+      // @ts-expect-error
       if (session.user.profile_atih.profils[profil].entite.niveau === 'ET') {
-        // @ts-ignore
+        // @ts-expect-error
         if (session.user.profile_atih.profils[profil].entite.statut[1] !== undefined) {
-          // @ts-ignore
+          // @ts-expect-error
           finess = session.user.profile_atih.profils[profil].entite.finessJuridique
         }
       }
 
       profile = {
-        // @ts-ignore
+        // @ts-expect-error
         nomEtablissement: session.user.profile_atih.profils[profil].entite.libelle + '$$' + finess,
       }
     }

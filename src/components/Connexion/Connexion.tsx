@@ -5,7 +5,7 @@ import { ClientSafeProvider, LiteralUnion, signIn } from 'next-auth/react'
 import { ReactElement } from 'react'
 
 type LoginProps = Readonly<{
-  providers: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | null
+  providers: Record<LiteralUnion<BuiltInProviderType>, ClientSafeProvider> | null
 }>
 
 export default function Connexion({ providers }: LoginProps): ReactElement {

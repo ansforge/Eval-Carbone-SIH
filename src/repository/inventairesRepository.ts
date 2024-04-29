@@ -41,6 +41,6 @@ export async function supprimerInventaireRepository(nomEtablissement: string, no
     await supprimerEquipementsPhysiquesRepository(nomEtablissement, nomInventaire)
     await supprimerIndicateursEquipementsPhysiquesRepository(nomEtablissement, nomInventaire)
 
-    return inventaire?.date_lot || new Date()
+    return inventaire?.date_lot ?? new Date()
   })
 }

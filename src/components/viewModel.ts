@@ -15,9 +15,9 @@ export type EquipementsAvecSesModelesViewModel = Readonly<{
   type: string
 }>
 
-export type EquipementsViewModel = Readonly<{
-  [key: string]: EquipementViewModel[]
-}>
+export type EquipementsViewModel = Readonly<
+  Record<string, EquipementViewModel[]>
+>
 
 export type EquipementViewModel = Readonly<{
   dateInventaire: Date

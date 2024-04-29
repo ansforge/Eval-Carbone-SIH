@@ -10,7 +10,7 @@ export const modelesSelectionnes = () => {
       modeles.push({
         modele: selects[index].value,
         quantite: inputs[index].valueAsNumber,
-        type: selects[index].dataset.nomEquipement as string,
+        type: selects[index].dataset.nomEquipement ?? '',
       })
     }
   }
