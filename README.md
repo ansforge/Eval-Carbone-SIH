@@ -37,6 +37,7 @@ Puis :
 - `ansible-galaxy collection install community.docker`
 - `yarn deploy:backend` (joué la première fois ou lors d'une mise à jour)
 - `yarn deploy:reverse-proxy` (joué la première fois ou lors d'une mise à jour)
+  - Les fichiers crt et key peuvent être récupérés sur la VM ou en demandant à Nathalie Baudiniere
 - `yarn deploy:referential` (joué la première fois ou lors d'une mise à jour)
 
 ### Schéma de la production

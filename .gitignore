@@ -3,6 +3,8 @@ node_modules
 tsconfig.tsbuildinfo
 .env.local
 .env.prod
+eval-carbone-sih.esante.gouv.fr.crt
+eval-carbone-sih.esante.gouv.fr.key
 
 # yarn
 **/.yarn/*

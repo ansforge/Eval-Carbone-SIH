@@ -10,10 +10,19 @@
     state: directory
 
 - name: Copy Nginx config
-  become: false
   copy:
     src: eval-carbone-sih.esante.gouv.fr_location
     dest: eval-carbone-sih.esante.gouv.fr_location
+
+- name: Copy .crt file
+  copy:
+    src: eval-carbone-sih.esante.gouv.fr.crt
+    dest: eval-carbone-sih.esante.gouv.fr.crt
+
+- name: Copy .key file
+  copy:
+    src: eval-carbone-sih.esante.gouv.fr.key
+    dest: eval-carbone-sih.esante.gouv.fr.key
 
 - name: Start Nginx
   community.docker.docker_compose_v2:

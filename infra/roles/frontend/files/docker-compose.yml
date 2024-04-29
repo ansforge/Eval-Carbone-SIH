@@ -9,7 +9,6 @@ services:
     environment:
       - VIRTUAL_HOST=eval-carbone-sih.esante.gouv.fr
       - VIRTUAL_PORT=3000
-      - LETSENCRYPT_HOST=eval-carbone-sih.esante.gouv.fr
 
 networks:
   eval-carbone:

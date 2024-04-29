@@ -10,25 +10,11 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - certs:/etc/nginx/certs
+      - html:/usr/share/nginx/html
       - vhost:/etc/nginx/vhost.d
       - ./eval-carbone-sih.esante.gouv.fr_location:/etc/nginx/vhost.d/eval-carbone-sih.esante.gouv.fr_location
-      - html:/usr/share/nginx/html
-    restart: unless-stopped
-
-  acme-companion:
-    container_name: acme-companion
-    image: nginxproxy/acme-companion
-    networks:
-      - eval-carbone
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - certs:/etc/nginx/certs
-      - vhost:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
-      - acme:/etc/acme.sh
-    environment:
-      - DEFAULT_EMAIL=fabien.mercier@octo.com
-      - NGINX_PROXY_CONTAINER=nginx-proxy
+      - ./eval-carbone-sih.esante.gouv.fr.crt:/etc/nginx/certs/eval-carbone-sih.esante.gouv.fr.crt
+      - ./eval-carbone-sih.esante.gouv.fr.key:/etc/nginx/certs/eval-carbone-sih.esante.gouv.fr.key
     restart: unless-stopped
 
 networks:
@@ -45,4 +31,3 @@ volumes:
       device: '/etc/nginx/certs'
   vhost:
   html:
-  acme:
