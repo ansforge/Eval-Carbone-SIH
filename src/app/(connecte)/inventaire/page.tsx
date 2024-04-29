@@ -61,14 +61,20 @@ function transformTypesEquipementModelToViewModel(
       modeles: equipementReferentielModel.modeles
         .map((modele): ModeleReducer => {
           let quantite = 0
+          let dureeDeVie = equipementReferentielModel.duree_vie_defaut
+          let heureUtilisation = 24
           const equipementsModelFiltre = equipementsEnregistresModel
             .filter((equipementEnregistreModel): boolean => equipementEnregistreModel.modele === modele.ref_correspondance_ref_eqp.modele_equipement_source)
 
           if (equipementsModelFiltre.length > 0) {
             quantite = equipementsModelFiltre[0].quantite
+            dureeDeVie = new Date().getFullYear() - equipementsModelFiltre[0].date_achat.getFullYear()
+            heureUtilisation = Math.round(equipementsModelFiltre[0].taux_utilisation * 24)
           }
 
           return {
+            dureeDeVie,
+            heureUtilisation,
             id: crypto.randomUUID(),
             nomModele: modele.ref_correspondance_ref_eqp.modele_equipement_source,
             quantite,

@@ -20,23 +20,27 @@ type ApiErrorJava = Readonly<{
 }>
 
 export type EquipementPhysique = Readonly<{
+  dureeDeVie: number
+  heureUtilisation: number
   modele: string
   quantite: number
   type: string
 }>
 
 export type EquipementPhysiqueModel = Readonly<{
-  type: string
+  duree_vie_defaut: number
   modeles: readonly {
     ref_correspondance_ref_eqp: Readonly<{
       modele_equipement_source: string
     }>
   }[]
+  type: string
 }>
 
 export async function recupererLesReferentielsEquipementsRepository(): Promise<EquipementPhysiqueModel[]> {
   return await prisma.ref_type_equipement.findMany({
     select: {
+      duree_vie_defaut: true,
       modeles: {
         select: {
           ref_correspondance_ref_eqp: {
@@ -78,6 +82,7 @@ async function ajouterEquipementsPhysiquesRepository(
   nomInventaire: string,
   modeles: EquipementPhysique[]
 ): Promise<boolean> {
+  const dateRetrait = new Date().toISOString().split('T')[0]
   const urlEntrees = new URL(`${process.env.EXPOSITION_DONNEES_ENTREES_URL}/entrees/csv`)
   urlEntrees.searchParams.append('nomLot', nomInventaire)
   urlEntrees.searchParams.append('nomOrganisation', nomEtablissement)
@@ -85,7 +90,10 @@ async function ajouterEquipementsPhysiquesRepository(
 
   let data = 'nomEquipementPhysique;modele;quantite;nomCourtDatacenter;dateAchat;dateRetrait;type;statut;paysDUtilisation;consoElecAnnuelle;utilisateur;nomSourceDonnee;nomEntite;nbCoeur;nbJourUtiliseAn;goTelecharge;modeUtilisation;tauxUtilisation\n'
   for (const modele of modeles) {
-    data += `;${modele.modele};${modele.quantite};;;;${modele.type};;France;;;;;;365;;;\n`
+    const dateAchat = new Date()
+    dateAchat.setFullYear(dateAchat.getFullYear() - modele.dureeDeVie)
+
+    data += `;${modele.modele};${modele.quantite};;${dateAchat.toISOString().split('T')[0]};${dateRetrait};${modele.type};;France;;;;;;365;;;${modele.heureUtilisation / 24}\n`
   }
 
   const responseEntrees = await fetch(urlEntrees, {

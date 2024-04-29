@@ -5,12 +5,11 @@ import { ReactElement } from 'react'
 import { StatutsInventaire } from '../viewModel'
 
 type ModaleProps = Readonly<{
-  enregistrerUnInventaireNonCalcule: () => void
   quantiteGlobale: number
   statut: StatutsInventaire
 }>
 
-export default function Actions({ enregistrerUnInventaireNonCalcule, quantiteGlobale, statut }: ModaleProps): ReactElement {
+export default function Actions({ quantiteGlobale, statut }: ModaleProps): ReactElement {
   const isNonCalcule = statut === StatutsInventaire.TRAITE
 
   return (
@@ -19,8 +18,8 @@ export default function Actions({ enregistrerUnInventaireNonCalcule, quantiteGlo
         isNonCalcule ? null : (
           <button
             className="btn btn--ghost btn--default"
-            onClick={enregistrerUnInventaireNonCalcule}
-            type="button"
+            name="enregistrer"
+            type="submit"
           >
             Enregistrer
           </button>
@@ -29,6 +28,7 @@ export default function Actions({ enregistrerUnInventaireNonCalcule, quantiteGlo
       <button
         className="btn btn--plain btn--primary"
         disabled={quantiteGlobale > 0 ? false : true}
+        name="calculer"
         type="submit"
       >
         Calculer l’empreinte

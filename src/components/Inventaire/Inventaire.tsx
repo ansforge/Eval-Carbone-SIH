@@ -23,12 +23,10 @@ export default function Inventaire({
   nomInventaire,
   statut,
 }: InventaireProps): ReactElement {
-  const { enregistrerUnInventaireNonCalcule, isInventaireEnregistre, lancerLeCalcul, quantiteGlobale, setQuantiteGlobale } = useInventaire(nomInventaire)
+  const { enregistrerUnInventaire, isInventaireEnregistre, quantiteGlobale, setQuantiteGlobale } = useInventaire(nomInventaire)
 
   const actions = (): ReactElement => (
     <Actions
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      enregistrerUnInventaireNonCalcule={enregistrerUnInventaireNonCalcule}
       quantiteGlobale={quantiteGlobale}
       statut={statut}
     />
@@ -40,7 +38,7 @@ export default function Inventaire({
       className="inventaire"
       method="post"
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      onSubmit={lancerLeCalcul}
+      onSubmit={enregistrerUnInventaire}
     >
       <div className="d-flex justify-content-between">
         <div>

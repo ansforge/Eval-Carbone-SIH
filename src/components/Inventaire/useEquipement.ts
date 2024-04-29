@@ -4,6 +4,8 @@ import { modelesSelectionnes } from './modele'
 
 export type ModeleReducer = Readonly<{
   id: string
+  dureeDeVie: number
+  heureUtilisation: number
   nomModele: string
   quantite: number
 }>

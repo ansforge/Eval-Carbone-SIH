@@ -1,16 +1,20 @@
 import { EquipementPhysique } from '../../repository/equipementsRepository'
 
 export const modelesSelectionnes = () => {
-  const selects = document.querySelectorAll<HTMLSelectElement>('form [data-nom-equipement]')
-  const inputs = document.querySelectorAll<HTMLInputElement>('form [data-nom-quantite]')
+  const equipements = document.querySelectorAll<HTMLDivElement>('form [data-nom-equipement]')
+  const quantites = document.querySelectorAll<HTMLInputElement>('form [data-quantite]')
+  const dureesDeVie = document.querySelectorAll<HTMLInputElement>('form [data-duree-de-vie]')
+  const heuresUtilisation = document.querySelectorAll<HTMLInputElement>('form [data-heure-utilisation]')
   const modeles: EquipementPhysique[] = []
 
-  for (let index = 0; index < selects.length; index++) {
-    if (inputs[index].valueAsNumber > 0) {
+  for (let index = 0; index < equipements.length; index++) {
+    if (quantites[index].valueAsNumber > 0) {
       modeles.push({
-        modele: selects[index].value,
-        quantite: inputs[index].valueAsNumber,
-        type: selects[index].dataset.nomEquipement ?? '',
+        dureeDeVie: dureesDeVie[index].valueAsNumber,
+        heureUtilisation: heuresUtilisation[index].valueAsNumber,
+        modele: equipements[index].innerText,
+        quantite: quantites[index].valueAsNumber,
+        type: equipements[index].dataset.nomEquipement ?? '',
       })
     }
   }

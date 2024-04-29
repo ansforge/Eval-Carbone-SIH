@@ -26,8 +26,8 @@ model en_equipement_physique {
   nom_organisation String
   nom_source_donnee String?
   conso_elec_annuelle Float?
-  date_achat DateTime?
-  date_retrait DateTime?
+  date_achat DateTime
+  date_retrait DateTime
   duree_vie_defaut Float?
   go_telecharge Float?
   modele String
@@ -43,7 +43,7 @@ model en_equipement_physique {
   type String
   utilisateur String?
   mode_utilisation String?
-  taux_utilisation Float?
+  taux_utilisation Float
   statut_traitement String
   stockage_total_virtuel Float?
   ref_equipement_par_defaut String?
@@ -92,5 +92,6 @@ model ref_correspondance_ref_eqp {
 
 model ref_type_equipement {
   type String @unique
+  duree_vie_defaut Float
   modeles ref_correspondance_type_equipement[]
 }

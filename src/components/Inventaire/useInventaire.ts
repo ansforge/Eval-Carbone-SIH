@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation'
-import { FormEvent, useEffect, useState } from 'react'
+import { SyntheticEvent, useEffect, useState } from 'react'
 
 import { creerUnInventaireAction, enregistrerUnInventaireNonCalculeAction } from './action'
 import { modelesSelectionnes } from './modele'
@@ -19,9 +19,7 @@ export function useInventaire(nomInventaire: string) {
     router.refresh()
   }
 
-  const lancerLeCalcul = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
+  const lancerLeCalcul = async () => {
     setQuantiteGlobale(0)
     await creerUnInventaireAction(nomInventaire, modelesSelectionnes())
 
@@ -31,15 +29,25 @@ export function useInventaire(nomInventaire: string) {
     router.refresh()
   }
 
+  const enregistrerUnInventaire = async (event: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
+    event.preventDefault()
+
+    // @ts-expect-error
+    if (event.nativeEvent.submitter?.name === 'enregistrer') {
+      await enregistrerUnInventaireNonCalcule()
+    } else {
+      await lancerLeCalcul()
+    }
+  }
+
   useEffect(() => {
     const quantiteGlobale = modelesSelectionnes().reduce((quantiteAccumulee, modele): number => quantiteAccumulee + modele.quantite, 0)
     setQuantiteGlobale(quantiteGlobale)
   }, [])
 
   return {
-    enregistrerUnInventaireNonCalcule,
+    enregistrerUnInventaire,
     isInventaireEnregistre,
-    lancerLeCalcul,
     quantiteGlobale,
     setQuantiteGlobale,
   }
