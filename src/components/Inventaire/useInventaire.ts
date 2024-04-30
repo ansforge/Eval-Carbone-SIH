@@ -4,13 +4,13 @@ import { SyntheticEvent, useEffect, useState } from 'react'
 import { creerUnInventaireAction, enregistrerUnInventaireNonCalculeAction } from './action'
 import { modelesSelectionnes } from './modele'
 
-export function useInventaire(nomInventaire: string) {
+export function useInventaire(nomEtablissement: string, nomInventaire: string) {
   const router = useRouter()
   const [quantiteGlobale, setQuantiteGlobale] = useState<number>(0)
   const [isInventaireEnregistre, setIsInventaireEnregistre] = useState<boolean>(false)
 
   const enregistrerUnInventaireNonCalcule = async () => {
-    await enregistrerUnInventaireNonCalculeAction(nomInventaire, modelesSelectionnes())
+    await enregistrerUnInventaireNonCalculeAction(nomEtablissement, nomInventaire, modelesSelectionnes())
 
     setIsInventaireEnregistre(true)
     setTimeout(() => {
@@ -21,9 +21,10 @@ export function useInventaire(nomInventaire: string) {
 
   const lancerLeCalcul = async () => {
     setQuantiteGlobale(0)
-    await creerUnInventaireAction(nomInventaire, modelesSelectionnes())
+    await creerUnInventaireAction(nomEtablissement, nomInventaire, modelesSelectionnes())
 
     const url = new URL('/indicateurs-cles', document.location.href)
+    url.searchParams.append('nomEtablissement', nomEtablissement)
     url.searchParams.append('nomInventaire', nomInventaire)
     router.push(url.toString())
     router.refresh()

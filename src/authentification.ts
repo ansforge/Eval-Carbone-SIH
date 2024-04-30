@@ -55,10 +55,12 @@ const authOptions = {
 export const handler = nextAuth(authOptions)
 
 export type ProfileAtih = Readonly<{
+  isAdmin: boolean
   nomEtablissement: string
 }>
 
 export async function getProfileAtih(): Promise<ProfileAtih> {
+  const niveauAdmin = 'NATIONAL'
   const session = await getServerSession(authOptions)
 
   if (!session) {
@@ -66,6 +68,7 @@ export async function getProfileAtih(): Promise<ProfileAtih> {
   }
 
   let profile: ProfileAtih = {
+    isAdmin: false,
     nomEtablissement: '',
   }
 
@@ -89,6 +92,8 @@ export async function getProfileAtih(): Promise<ProfileAtih> {
       }
 
       profile = {
+        // @ts-expect-error
+        isAdmin: session.user.profile_atih.profils[profil].niveau === niveauAdmin,
         // @ts-expect-error
         nomEtablissement: session.user.profile_atih.profils[profil].entite.libelle + '$$' + finess,
       }

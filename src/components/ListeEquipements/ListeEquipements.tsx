@@ -14,8 +14,6 @@ type ListeEquipementsProps = Readonly<{
 }>
 
 export default function ListeEquipements({ dateInventaire, equipementsViewModel, nomEtablissement, nomInventaire }: ListeEquipementsProps): ReactElement {
-  const equipements = Object.keys(equipementsViewModel)
-
   return (
     <>
       <Actions
@@ -23,9 +21,13 @@ export default function ListeEquipements({ dateInventaire, equipementsViewModel,
         nomEtablissement={nomEtablissement}
         nomInventaire={nomInventaire}
       />
-      <Onglets isSelected={false} />
+      <Onglets
+        isSelected={false}
+        nomEtablissement={nomEtablissement}
+        nomInventaire={nomInventaire}
+      />
       {
-        equipements.map((equipement): ReactElement => {
+        Object.keys(equipementsViewModel).map((equipement): ReactElement => {
           const quantite = equipementsViewModel[equipement].reduce((quantiteAccumulee, modele): number => quantiteAccumulee + modele.quantite, 0)
 
           return (

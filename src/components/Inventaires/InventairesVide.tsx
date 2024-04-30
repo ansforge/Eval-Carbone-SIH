@@ -1,7 +1,11 @@
 import Link from 'next/link'
 import { ReactElement } from 'react'
 
-export default function InventairesVide(): ReactElement {
+type InventairesVideProps = Readonly<{
+  isAdmin: boolean
+}>
+
+export default function InventairesVide({ isAdmin }: InventairesVideProps): ReactElement {
   return (
     <div className="row justify-content-center">
       <div className="col-md-5 text-center">
@@ -79,14 +83,18 @@ export default function InventairesVide(): ReactElement {
             fill="#D20050"
           />
         </svg>
-        <div>
-          <Link
-            className="btn btn--plain btn--primary"
-            href="creer-un-inventaire"
-          >
-            Créer un inventaire
-          </Link>
-        </div>
+        {
+          !isAdmin && (
+            <div>
+              <Link
+                className="btn btn--plain btn--primary"
+                href="creer-un-inventaire"
+              >
+                Créer un inventaire
+              </Link>
+            </div>
+          )
+        }
       </div>
     </div>
   )

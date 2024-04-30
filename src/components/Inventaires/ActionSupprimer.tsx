@@ -30,6 +30,7 @@ export default function ActionSupprimer({ inventaireViewModel }: InventairesProp
       <SupprimerUnInventaire
         fermerLaModale={fermerLaModale}
         isOpen={isOpen}
+        nomEtablissement={inventaireViewModel.nomEtablissement}
         nomInventaire={inventaireViewModel.nomInventaire}
       />
     </td>

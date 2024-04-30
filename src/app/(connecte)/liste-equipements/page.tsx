@@ -16,18 +16,23 @@ export const metadata: Metadata = {
 
 type PageProps = Readonly<{
   searchParams: Readonly<{
+    nomEtablissement?: string
     nomInventaire?: string
   }>
 }>
 
 export default async function Page({ searchParams }: PageProps): Promise<ReactElement> {
-  if (searchParams.nomInventaire === undefined) {
+  if (searchParams.nomEtablissement === undefined || searchParams.nomInventaire === undefined) {
     notFound()
   }
 
   const profile = await getProfileAtih()
 
-  const equipementsEnregistresModel = await recupererLesEquipementsEnregistresRepository(profile.nomEtablissement, searchParams.nomInventaire)
+  if (!profile.isAdmin && profile.nomEtablissement !== searchParams.nomEtablissement) {
+    notFound()
+  }
+
+  const equipementsEnregistresModel = await recupererLesEquipementsEnregistresRepository(searchParams.nomEtablissement, searchParams.nomInventaire)
 
   if (equipementsEnregistresModel.length === 0) {
     notFound()
@@ -45,7 +50,7 @@ export default async function Page({ searchParams }: PageProps): Promise<ReactEl
       <ListeEquipements
         dateInventaire={dateInventaire}
         equipementsViewModel={equipementsViewModel}
-        nomEtablissement={profile.nomEtablissement}
+        nomEtablissement={searchParams.nomEtablissement}
         nomInventaire={searchParams.nomInventaire}
       />
     </>

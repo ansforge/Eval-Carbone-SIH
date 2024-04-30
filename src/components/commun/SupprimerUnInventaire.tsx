@@ -9,14 +9,15 @@ import Modale from '../commun/Modale'
 type SupprimerUnInventaireProps = Readonly<{
   fermerLaModale: () => void
   isOpen: boolean
+  nomEtablissement: string
   nomInventaire: string
 }>
 
-export default function SupprimerUnInventaire({ fermerLaModale, isOpen, nomInventaire }: SupprimerUnInventaireProps): ReactElement {
+export default function SupprimerUnInventaire({ fermerLaModale, isOpen, nomInventaire, nomEtablissement }: SupprimerUnInventaireProps): ReactElement {
   const router = useRouter()
 
   const supprimerInventaire = async () => {
-    await supprimerInventaireAction(nomInventaire)
+    await supprimerInventaireAction(nomEtablissement, nomInventaire)
 
     router.push('/')
     router.refresh()

@@ -4,8 +4,10 @@ import { supprimerEquipementsPhysiquesRepository } from './equipementsRepository
 import { supprimerIndicateursEquipementsPhysiquesRepository } from './indicateursRepository'
 import prisma from '../../prisma/db'
 
-export async function recupererInventairesRepository(nomEtablissement: string): Promise<en_donnees_entrees[]> {
-  return await prisma.en_donnees_entrees.findMany({ orderBy: { date_lot: 'desc' }, where: { nom_organisation: nomEtablissement } })
+export async function recupererInventairesRepository(nomEtablissement: string, isAdmin: boolean): Promise<en_donnees_entrees[]> {
+  const nomOrganisation = isAdmin ? { startsWith: '%' } : nomEtablissement
+
+  return await prisma.en_donnees_entrees.findMany({ orderBy: { date_lot: 'desc' }, where: { nom_organisation: nomOrganisation } })
 }
 
 export async function recupererInventaireRepository(nomEtablissement: string, nomInventaire: string): Promise<en_donnees_entrees | null> {

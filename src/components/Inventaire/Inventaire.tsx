@@ -23,7 +23,7 @@ export default function Inventaire({
   nomInventaire,
   statut,
 }: InventaireProps): ReactElement {
-  const { enregistrerUnInventaire, isInventaireEnregistre, quantiteGlobale, setQuantiteGlobale } = useInventaire(nomInventaire)
+  const { enregistrerUnInventaire, isInventaireEnregistre, quantiteGlobale, setQuantiteGlobale } = useInventaire(nomEtablissement, nomInventaire)
 
   const actions = (): ReactElement => (
     <Actions

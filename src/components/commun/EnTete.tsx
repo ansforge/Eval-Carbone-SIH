@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ReactElement } from 'react'
 
@@ -83,12 +82,12 @@ export default function EnTete({ session }: EnTeteProps): ReactElement {
                           className={`nav-item ${activeClass} common-nav-item`}
                           key={menu.path}
                         >
-                          <Link
+                          <a
                             className="nav-link"
                             href={menu.path}
                           >
                             {menu.label}
-                          </Link>
+                          </a>
                         </li>
 
                       )

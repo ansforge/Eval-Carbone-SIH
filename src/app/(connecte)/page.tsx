@@ -14,12 +14,15 @@ export const metadata: Metadata = {
 export default async function Page(): Promise<ReactElement> {
   const profile = await getProfileAtih()
 
-  const inventairesModel = await recupererInventairesRepository(profile.nomEtablissement)
+  const inventairesModel = await recupererInventairesRepository(profile.nomEtablissement, profile.isAdmin)
 
   const inventairesViewModel = transformInventairesModelToViewModel(inventairesModel)
 
   return (
-    <InventairesLayout inventairesViewModel={inventairesViewModel} />
+    <InventairesLayout
+      inventairesViewModel={inventairesViewModel}
+      isAdmin={profile.isAdmin}
+    />
   )
 }
 
@@ -33,7 +36,7 @@ function transformInventairesModelToViewModel(inventairesModel: en_donnees_entre
       className: statut.toLowerCase().replace(' ', '_'),
       dateInventaire: inventaireModel.date_lot.toLocaleDateString('fr-FR'),
       id: inventaireModel.id,
-      link: `${path}?nomInventaire=${inventaireModel.nom_lot}${statusParam}`,
+      link: `${path}?nomEtablissement=${inventaireModel.nom_organisation}&nomInventaire=${inventaireModel.nom_lot}${statusParam}`,
       nomEtablissement: inventaireModel.nom_organisation,
       nomInventaire: inventaireModel.nom_lot,
       statut,

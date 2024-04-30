@@ -1,16 +1,16 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import React, { ReactElement } from 'react'
 
 type OngletsProps = Readonly<{
+  nomEtablissement: string
+  nomInventaire: string
   isSelected: boolean
 }>
 
-export default function Onglets({ isSelected }: OngletsProps): ReactElement {
-  const searchParams = useSearchParams()
-  const nomInventaire = searchParams.get('nomInventaire')
+export default function Onglets({ isSelected, nomEtablissement, nomInventaire }: OngletsProps): ReactElement {
   const pathname = usePathname()
 
   let titreIndicateursCles: ReactElement
@@ -45,7 +45,7 @@ export default function Onglets({ isSelected }: OngletsProps): ReactElement {
         <li className="js-tablist__item">
           <Link
             className={`js-tablist__link ${isSelected ? 'selected' : ''}`}
-            href={`indicateurs-cles?nomInventaire=${nomInventaire}`}
+            href={`indicateurs-cles?nomEtablissement=${nomEtablissement}&nomInventaire=${nomInventaire}`}
           >
             {titreIndicateursCles}
           </Link>
@@ -53,7 +53,7 @@ export default function Onglets({ isSelected }: OngletsProps): ReactElement {
         <li className="js-tablist__item">
           <Link
             className={`js-tablist__link ${isSelected ? '' : 'selected'}`}
-            href={`liste-equipements?nomInventaire=${nomInventaire}`}
+            href={`liste-equipements?nomEtablissement=${nomEtablissement}&nomInventaire=${nomInventaire}`}
           >
             {titreListeEquipements}
           </Link>

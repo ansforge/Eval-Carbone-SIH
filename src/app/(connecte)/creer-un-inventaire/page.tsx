@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import { ReactElement } from 'react'
 
 import { getProfileAtih } from '../../../authentification'
@@ -12,6 +13,10 @@ export const metadata: Metadata = {
 
 export default async function Page(): Promise<ReactElement> {
   const profile = await getProfileAtih()
+
+  if (profile.isAdmin) {
+    notFound()
+  }
 
   return (
     <>

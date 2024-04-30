@@ -39,13 +39,14 @@ export default function Actions({ dateInventaire, nomEtablissement, nomInventair
         </button>
         <Link
           className={`btn btn--plain btn--primary ${styles.middle}`}
-          href={`/inventaire?nomInventaire=${nomInventaire}&statut=${StatutsInventaire.TRAITE}`}
+          href={`/inventaire?nomEtablissement=${nomEtablissement}&nomInventaire=${nomInventaire}&statut=${StatutsInventaire.TRAITE}`}
         >
           Modifier l’inventaire
         </Link>
         <SupprimerUnInventaire
           fermerLaModale={fermerLaModale}
           isOpen={isOpen}
+          nomEtablissement={nomEtablissement}
           nomInventaire={nomInventaire}
         />
       </div>

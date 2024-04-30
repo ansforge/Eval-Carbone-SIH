@@ -37,7 +37,11 @@ export default function IndicateursCles({
         nomEtablissement={nomEtablissement}
         nomInventaire={nomInventaire}
       />
-      <Onglets isSelected />
+      <Onglets
+        isSelected
+        nomEtablissement={nomEtablissement}
+        nomInventaire={nomInventaire}
+      />
       <div className="border rounded-sm top-left-radius-0 p-5 bg-white">
         <div className="row mb-4">
           <section className="col-md-4 mr-1">
