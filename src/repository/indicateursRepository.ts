@@ -34,6 +34,7 @@ export async function recupererIndicateursEquipementsPhysiquesSommesRepository(
     },
     by: ['type_equipement', 'etapeacv'],
     where: {
+      critere: 'Climate change',
       nom_lot: nomInventaire,
       nom_organisation: nomEtablissement,
       statut_indicateur: 'OK',
