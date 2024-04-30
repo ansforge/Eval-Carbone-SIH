@@ -1,47 +1,47 @@
-import { ind_indicateur_impact_equipement_physique } from '@prisma/client'
+import { indicateurImpactEquipementModel } from '@prisma/client'
 
 import prisma from '../../prisma/db'
 
-export type IndicateursSommesModel = Readonly<{
+export type IndicateurImpactEquipementSommeModel = Readonly<{
   _sum: Readonly<{
-    impact_unitaire: number
+    impactUnitaire: number
   }>
-  etapeacv: string
-  type_equipement: string
+  etapeAcv: string
+  typeEquipement: string
 }>
 
-export async function recupererIndicateursEquipementsPhysiquesRepository(
+export async function recupererLesIndicateursImpactsEquipementsRepository(
   nomEtablissement: string,
   nomInventaire: string
-): Promise<ind_indicateur_impact_equipement_physique[]> {
-  return await prisma.ind_indicateur_impact_equipement_physique.findMany({
+): Promise<Array<indicateurImpactEquipementModel>> {
+  return prisma.indicateurImpactEquipementModel.findMany({
     where: {
-      nom_lot: nomInventaire,
-      nom_organisation: nomEtablissement,
-      statut_indicateur: 'OK',
+      nomEtablissement,
+      nomInventaire,
+      statutIndicateur: 'OK',
     },
   })
 }
 
-export async function recupererIndicateursEquipementsPhysiquesSommesRepository(
+export async function recupererLesIndicateursImpactsEquipementsSommesRepository(
   nomEtablissement: string,
   nomInventaire: string
-): Promise<IndicateursSommesModel[]> {
+): Promise<Array<IndicateurImpactEquipementSommeModel>> {
   // @ts-expect-error
-  return await prisma.ind_indicateur_impact_equipement_physique.groupBy({
+  return prisma.indicateurImpactEquipementModel.groupBy({
     _sum: {
-      impact_unitaire: true,
+      impactUnitaire: true,
     },
-    by: ['type_equipement', 'etapeacv'],
+    by: ['typeEquipement', 'etapeAcv'],
     where: {
       critere: 'Climate change',
-      nom_lot: nomInventaire,
-      nom_organisation: nomEtablissement,
-      statut_indicateur: 'OK',
+      nomEtablissement,
+      nomInventaire,
+      statutIndicateur: 'OK',
     },
   })
 }
 
-export async function supprimerIndicateursEquipementsPhysiquesRepository(nomEtablissement: string, nomInventaire: string) {
-  await prisma.ind_indicateur_impact_equipement_physique.deleteMany({ where: { nom_lot: nomInventaire, nom_organisation: nomEtablissement } })
+export async function supprimerLesIndicateursImpactsEquipementsRepository(nomEtablissement: string, nomInventaire: string): Promise<void> {
+  await prisma.indicateurImpactEquipementModel.deleteMany({ where: { nomEtablissement, nomInventaire } })
 }

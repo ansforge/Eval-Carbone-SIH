@@ -1,4 +1,4 @@
-import { ind_indicateur_impact_equipement_physique } from '@prisma/client'
+import { indicateurImpactEquipementModel } from '@prisma/client'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ReactElement } from 'react'
@@ -6,9 +6,9 @@ import { ReactElement } from 'react'
 import { getProfileAtih } from '../../../authentification'
 import Breadcrumb from '../../../components/commun/Breadcrumb'
 import IndicateursCles from '../../../components/IndicateursCles/IndicateursCles'
-import { Criteres, EtapesAcv, IndicateursSommesViewModel, IndicateursViewModel } from '../../../components/viewModel'
-import { EquipementPhysiqueModel, recupererLesReferentielsEquipementsRepository } from '../../../repository/equipementsRepository'
-import { IndicateursSommesModel, recupererIndicateursEquipementsPhysiquesRepository, recupererIndicateursEquipementsPhysiquesSommesRepository } from '../../../repository/indicateursRepository'
+import { Criteres, EtapesAcv, IndicateurImpactEquipementSommeViewModel, IndicateursImpactsEquipementsViewModel } from '../../../components/viewModel'
+import { IndicateurImpactEquipementSommeModel, recupererLesIndicateursImpactsEquipementsRepository, recupererLesIndicateursImpactsEquipementsSommesRepository } from '../../../repository/indicateursRepository'
+import { recupererLesReferentielsTypesEquipementsRepository, ReferentielTypeEquipementModel } from '../../../repository/typesEquipementsRepository'
 
 const title = 'Indicateurs clés'
 export const metadata: Metadata = {
@@ -33,40 +33,51 @@ export default async function Page({ searchParams }: PageProps): Promise<ReactEl
     notFound()
   }
 
-  const indicateursModel = await recupererIndicateursEquipementsPhysiquesRepository(searchParams.nomEtablissement, searchParams.nomInventaire)
+  const indicateursImpactsEquipementsModel = await recupererLesIndicateursImpactsEquipementsRepository(
+    searchParams.nomEtablissement,
+    searchParams.nomInventaire
+  )
 
-  if (indicateursModel.length === 0) {
+  if (indicateursImpactsEquipementsModel.length === 0) {
     notFound()
   }
 
-  const indicateursSommesModel = await recupererIndicateursEquipementsPhysiquesSommesRepository(searchParams.nomEtablissement, searchParams.nomInventaire)
+  const indicateursImpactsEquipementsSommesModel = await recupererLesIndicateursImpactsEquipementsSommesRepository(
+    searchParams.nomEtablissement,
+    searchParams.nomInventaire
+  )
 
-  const referentielsEquipementsModel = await recupererLesReferentielsEquipementsRepository()
+  const referentielsTypesEquipementsModel = await recupererLesReferentielsTypesEquipementsRepository()
 
-  const referentielsEquipementsViewModel = tranformReferentielsEquipementsToViewModel(referentielsEquipementsModel)
+  const referentielsTypesEquipementsViewModel = tranformerLesReferentielsTypesEquipementsModelEnViewModel(referentielsTypesEquipementsModel)
 
-  const indicateursSommesViewModel = transformIndicateursSommesModelToViewModel(indicateursSommesModel, referentielsEquipementsViewModel)
+  const indicateursImpactsEquipementsSommesViewModel = transformerLesIndicateursImpactsEquipementsSommesModelEnViewModel(
+    indicateursImpactsEquipementsSommesModel,
+    referentielsTypesEquipementsViewModel
+  )
 
-  const indicateursViewModel = transformIndicateursModelToViewModel(indicateursModel)
+  const indicateursImpactsEquipementsViewModel = transformerLesIndicateursImpactsEquipementsModelEnViewModel(indicateursImpactsEquipementsModel)
 
-  const dateInventaire = indicateursModel[0].date_lot.toLocaleDateString('fr-FR')
+  const dateInventaire = indicateursImpactsEquipementsModel[0].dateInventaire.toLocaleDateString('fr-FR')
 
   return (
     <>
       <Breadcrumb label={title} />
       <IndicateursCles
         dateInventaire={dateInventaire}
-        indicateursSommesViewModel={indicateursSommesViewModel}
-        indicateursViewModel={indicateursViewModel}
+        indicateursImpactsEquipementsSommesViewModel={indicateursImpactsEquipementsSommesViewModel}
+        indicateursImpactsEquipementsViewModel={indicateursImpactsEquipementsViewModel}
         nomEtablissement={searchParams.nomEtablissement}
         nomInventaire={searchParams.nomInventaire}
-        referentielsEquipementsViewModel={referentielsEquipementsViewModel}
+        referentielsTypesEquipementsViewModel={referentielsTypesEquipementsViewModel}
       />
     </>
   )
 }
 
-function transformIndicateursModelToViewModel(indicateursModel: ind_indicateur_impact_equipement_physique[]): IndicateursViewModel {
+function transformerLesIndicateursImpactsEquipementsModelEnViewModel(
+  indicateursImpactsEquipementsModel: Array<indicateurImpactEquipementModel>
+): IndicateursImpactsEquipementsViewModel {
   let radiationIonisantes = 0
   let epuisementDesRessources = 0
   let emissionsDeParticulesFines = 0
@@ -78,29 +89,29 @@ function transformIndicateursModelToViewModel(indicateursModel: ind_indicateur_i
   let finDeVie = 0
   const kilometresEquivalent1TonneCO2 = 5181
 
-  for (const indicateur of indicateursModel) {
-    const critere = indicateur.critere as Criteres
-    const etapeacv = indicateur.etapeacv as EtapesAcv
+  for (const indicateurImpactEquipementModel of indicateursImpactsEquipementsModel) {
+    const critere = indicateurImpactEquipementModel.critere as Criteres
+    const etapeacv = indicateurImpactEquipementModel.etapeAcv as EtapesAcv
 
     if (critere === Criteres.radiationIonisantes) {
-      radiationIonisantes += indicateur.impact_unitaire
+      radiationIonisantes += indicateurImpactEquipementModel.impactUnitaire
     } else if (critere === Criteres.epuisementDesRessources) {
-      epuisementDesRessources += indicateur.impact_unitaire
+      epuisementDesRessources += indicateurImpactEquipementModel.impactUnitaire
     } else if (critere === Criteres.emissionsDeParticulesFines) {
-      emissionsDeParticulesFines += indicateur.impact_unitaire
+      emissionsDeParticulesFines += indicateurImpactEquipementModel.impactUnitaire
     } else if (critere === Criteres.acidification) {
-      acidification += indicateur.impact_unitaire
+      acidification += indicateurImpactEquipementModel.impactUnitaire
     } else {
-      empreinteCarbone += indicateur.impact_unitaire / 1000
+      empreinteCarbone += indicateurImpactEquipementModel.impactUnitaire / 1000
 
       if (etapeacv === EtapesAcv.fabrication) {
-        fabrication += indicateur.impact_unitaire / 1000
+        fabrication += indicateurImpactEquipementModel.impactUnitaire / 1000
       } else if (etapeacv === EtapesAcv.distribution) {
-        distribution += indicateur.impact_unitaire / 1000
+        distribution += indicateurImpactEquipementModel.impactUnitaire / 1000
       } else if (etapeacv === EtapesAcv.utilisation) {
-        utilisation += indicateur.impact_unitaire / 1000
+        utilisation += indicateurImpactEquipementModel.impactUnitaire / 1000
       } else {
-        finDeVie += indicateur.impact_unitaire / 1000
+        finDeVie += indicateurImpactEquipementModel.impactUnitaire / 1000
       }
     }
   }
@@ -119,31 +130,31 @@ function transformIndicateursModelToViewModel(indicateursModel: ind_indicateur_i
   }
 }
 
-function transformIndicateursSommesModelToViewModel(
-  indicateursSommesModel: IndicateursSommesModel[],
-  referentielsEquipementsViewModel: string[]
-): IndicateursSommesViewModel[] {
-  return indicateursSommesModel
-    .map((indicateurSomme): IndicateursSommesViewModel => {
+function transformerLesIndicateursImpactsEquipementsSommesModelEnViewModel(
+  indicateursImpactsEquipementsSommesModel: Array<IndicateurImpactEquipementSommeModel>,
+  referentielsEquipementsViewModel: Array<string>
+): Array<IndicateurImpactEquipementSommeViewModel> {
+  return indicateursImpactsEquipementsSommesModel
+    .map((indicateurImpactEquipementSommeModel): IndicateurImpactEquipementSommeViewModel => {
       return {
-        etapeAcv: indicateurSomme.etapeacv as `${EtapesAcv}`,
-        impact: indicateurSomme._sum.impact_unitaire,
-        typeEquipement: indicateurSomme.type_equipement,
+        etapeAcv: indicateurImpactEquipementSommeModel.etapeAcv as `${EtapesAcv}`,
+        impact: indicateurImpactEquipementSommeModel._sum.impactUnitaire,
+        typeEquipement: indicateurImpactEquipementSommeModel.typeEquipement,
       }
     })
     .sort(sortByTypeEquipementAndEtapeAcv(referentielsEquipementsViewModel))
 }
 
-function tranformReferentielsEquipementsToViewModel(referentielsEquipementsModel: EquipementPhysiqueModel[]): string[] {
-  return referentielsEquipementsModel.map((referentielEquipementModel): string => referentielEquipementModel.type)
+function tranformerLesReferentielsTypesEquipementsModelEnViewModel(referentielsTypesEquipementsModel: Array<ReferentielTypeEquipementModel>): Array<string> {
+  return referentielsTypesEquipementsModel.map((referentielTypeEquipementModel): string => referentielTypeEquipementModel.type)
 }
 
 function deuxChiffresApresLaVirgule(chiffre: number): string {
   return Number(chiffre.toFixed(2)).toLocaleString()
 }
 
-function sortByTypeEquipementAndEtapeAcv(referentielsEquipementsViewModel: string[]) {
-  return (a: IndicateursSommesViewModel, b: IndicateursSommesViewModel) => {
+function sortByTypeEquipementAndEtapeAcv(referentielsEquipementsViewModel: Array<string>) {
+  return (a: IndicateurImpactEquipementSommeViewModel, b: IndicateurImpactEquipementSommeViewModel) => {
     let etapeAcvA = '0'
     let etapeAcvB = '0'
 

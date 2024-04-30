@@ -39,7 +39,7 @@ export default function Actions({ dateInventaire, nomEtablissement, nomInventair
         </button>
         <Link
           className={`btn btn--plain btn--primary ${styles.middle}`}
-          href={`/inventaire?nomEtablissement=${nomEtablissement}&nomInventaire=${nomInventaire}&statut=${StatutsInventaire.TRAITE}`}
+          href={`/inventaire?nomEtablissement=${encodeURI(nomEtablissement)}&nomInventaire=${encodeURI(nomInventaire)}&statut=${StatutsInventaire.TRAITE}`}
         >
           Modifier l’inventaire
         </Link>

@@ -10,7 +10,14 @@ export type ModeleReducer = Readonly<{
   quantite: number
 }>
 
-export function useEquipement(setQuantiteGlobale: (quantite: number) => void, modeles: ModeleReducer[]) {
+type UseEquipement = Readonly<{
+  isToggle: boolean
+  lignesModele: ReadonlyArray<ModeleReducer>
+  modifierUnModele: (modele: ModeleReducer) => void
+  toggle: () => void
+}>
+
+export function useEquipement(setQuantiteGlobale: (quantite: number) => void, modeles: Array<ModeleReducer>): UseEquipement {
   const [lignesModele, dispatch] = useReducer(modelesReducer, modeles)
   const [isToggle, setIsToggle] = useState<boolean>(false)
 
@@ -43,7 +50,7 @@ type ActionReducer = Readonly<{
   type: string
 }>
 
-function modelesReducer(modeles: ModeleReducer[], action: ActionReducer): ModeleReducer[] {
+function modelesReducer(modeles: ReadonlyArray<ModeleReducer>, action: ActionReducer): Array<ModeleReducer> {
   switch (action.type) {
     case 'changed': {
       return modeles.map((modele: ModeleReducer): ModeleReducer => {

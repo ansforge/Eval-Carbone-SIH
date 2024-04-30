@@ -3,7 +3,7 @@
 import { ReactElement } from 'react'
 
 type ErrorProps = Readonly<{
-  error: Error
+  error: Readonly<Error>
 }>
 
 export default function GlobalError({ error }: ErrorProps): ReactElement {

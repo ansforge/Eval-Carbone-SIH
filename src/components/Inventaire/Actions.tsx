@@ -2,16 +2,12 @@
 
 import { ReactElement } from 'react'
 
-import { StatutsInventaire } from '../viewModel'
-
 type ModaleProps = Readonly<{
+  isNonCalcule: boolean
   quantiteGlobale: number
-  statut: StatutsInventaire
 }>
 
-export default function Actions({ quantiteGlobale, statut }: ModaleProps): ReactElement {
-  const isNonCalcule = statut === StatutsInventaire.TRAITE
-
+export default function Actions({ isNonCalcule, quantiteGlobale }: ModaleProps): ReactElement {
   return (
     <div className="btn-group">
       {

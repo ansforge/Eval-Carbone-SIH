@@ -1,11 +1,11 @@
-import { EquipementPhysique } from '../../repository/equipementsRepository'
+import { Modele } from '../../repository/modelesRepository'
 
-export const modelesSelectionnes = () => {
+export const modelesSelectionnes = (): Array<Modele> => {
   const equipements = document.querySelectorAll<HTMLDivElement>('form [data-nom-equipement]')
   const quantites = document.querySelectorAll<HTMLInputElement>('form [data-quantite]')
   const dureesDeVie = document.querySelectorAll<HTMLInputElement>('form [data-duree-de-vie]')
   const heuresUtilisation = document.querySelectorAll<HTMLInputElement>('form [data-heure-utilisation]')
-  const modeles: EquipementPhysique[] = []
+  const modeles: Array<Modele> = []
 
   for (let index = 0; index < equipements.length; index++) {
     if (quantites[index].valueAsNumber > 0) {

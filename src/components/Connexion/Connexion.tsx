@@ -5,7 +5,7 @@ import { ClientSafeProvider, LiteralUnion, signIn } from 'next-auth/react'
 import { ReactElement } from 'react'
 
 type LoginProps = Readonly<{
-  providers: Record<LiteralUnion<BuiltInProviderType>, ClientSafeProvider> | null
+  providers: Readonly<Record<LiteralUnion<BuiltInProviderType>, ClientSafeProvider> | null>
 }>
 
 export default function Connexion({ providers }: LoginProps): ReactElement {
@@ -16,7 +16,7 @@ export default function Connexion({ providers }: LoginProps): ReactElement {
           <button
             className="btn btn--plain btn--primary"
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            onClick={() => signIn(provider.id)}
+            onClick={async () => signIn(provider.id)}
             type="button"
           >
             Se connecter avec Plage

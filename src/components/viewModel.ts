@@ -10,17 +10,19 @@ export type InventaireViewModel = Readonly<{
   statut: StatutsInventaire
 }>
 
-export type EquipementsAvecSesModelesViewModel = Readonly<{
-  modeles: ModeleReducer[]
+export type InventairesViewModel = ReadonlyArray<InventaireViewModel>
+
+export type EquipementAvecSesModelesViewModel = Readonly<{
+  modeles: Array<ModeleReducer>
   type: string
 }>
 
 export type EquipementsViewModel = Readonly<
-  Record<string, EquipementViewModel[]>
+  Record<string, ReadonlyArray<EquipementViewModel>>
 >
 
 export type EquipementViewModel = Readonly<{
-  dateInventaire: Date
+  dateInventaire: Readonly<Date>
   modele: string
   nomInventaire: string
   nomEtablissement: string
@@ -28,7 +30,7 @@ export type EquipementViewModel = Readonly<{
   type: string
 }>
 
-export type IndicateursViewModel = Readonly<{
+export type IndicateursImpactsEquipementsViewModel = Readonly<{
   acidification: string
   distribution: string
   emissionsDeParticulesFines: string
@@ -41,7 +43,7 @@ export type IndicateursViewModel = Readonly<{
   kilometresEnVoiture: string
 }>
 
-export type IndicateursSommesViewModel = Readonly<{
+export type IndicateurImpactEquipementSommeViewModel = Readonly<{
   etapeAcv: `${EtapesAcv}`
   impact: number
   typeEquipement: string

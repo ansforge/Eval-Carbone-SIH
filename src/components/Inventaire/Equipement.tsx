@@ -3,10 +3,11 @@
 import { ReactElement } from 'react'
 
 import Modele from './Modele'
-import { ModeleReducer, useEquipement } from './useEquipement'
+import { useEquipement } from './useEquipement'
+import { EquipementAvecSesModelesViewModel } from '../viewModel'
 
 type EquipementProps = Readonly<{
-  equipementAvecSesModelesViewModel: { modeles: ModeleReducer[], type: string }
+  equipementAvecSesModelesViewModel: EquipementAvecSesModelesViewModel
   idFieldset: string
   idAccordion: string
   setQuantiteGlobale: (quantite: number) => void

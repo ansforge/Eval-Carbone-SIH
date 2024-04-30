@@ -1,6 +1,6 @@
-import { en_equipement_physique } from '@prisma/client'
+import { modeleModel } from '@prisma/client'
 
-import { miseAJourInventaireRepository, supprimerInventaireRepository } from './inventairesRepository'
+import { passerATraiteUnInventaireRepository } from './inventairesRepository'
 import prisma from '../../prisma/db'
 
 type ApiError = Readonly<{
@@ -19,7 +19,7 @@ type ApiErrorJava = Readonly<{
   properties: string
 }>
 
-export type EquipementPhysique = Readonly<{
+export type Modele = Readonly<{
   dureeDeVie: number
   heureUtilisation: number
   modele: string
@@ -27,60 +27,15 @@ export type EquipementPhysique = Readonly<{
   type: string
 }>
 
-export type EquipementPhysiqueModel = Readonly<{
-  duree_vie_defaut: number
-  modeles: readonly {
-    ref_correspondance_ref_eqp: Readonly<{
-      modele_equipement_source: string
-    }>
-  }[]
-  type: string
-}>
-
-export async function recupererLesReferentielsEquipementsRepository(): Promise<EquipementPhysiqueModel[]> {
-  return await prisma.ref_type_equipement.findMany({
-    select: {
-      duree_vie_defaut: true,
-      modeles: {
-        select: {
-          ref_correspondance_ref_eqp: {
-            select: {
-              modele_equipement_source: true,
-            },
-          },
-        },
-      },
-      type: true,
-    },
-  })
+export async function recupererLesModelesRepository(nomEtablissement: string, nomInventaire: string): Promise<Array<modeleModel>> {
+  return prisma.modeleModel.findMany({ where: { nomEtablissement, nomInventaire } })
 }
 
-export async function recupererLesEquipementsEnregistresRepository(nomEtablissement: string, nomInventaire: string): Promise<en_equipement_physique[]> {
-  return await prisma.en_equipement_physique.findMany({
-    where: { nom_lot: nomInventaire, nom_organisation: nomEtablissement },
-  })
-}
-
-export async function enregistrerUnInventaireNonCalculeRepository(nomEtablissement: string, nomInventaire: string, modeles: EquipementPhysique[]) {
-  const dateInventaire = await supprimerInventaireRepository(nomEtablissement, nomInventaire)
-  await ajouterEquipementsPhysiquesRepository(dateInventaire, nomEtablissement, nomInventaire, modeles)
-}
-
-export async function creerUnInventaireRepository(nomEtablissement: string, nomInventaire: string, modeles: EquipementPhysique[]) {
-  const dateInventaire = await supprimerInventaireRepository(nomEtablissement, nomInventaire)
-
-  const isAjouter = await ajouterEquipementsPhysiquesRepository(dateInventaire, nomEtablissement, nomInventaire, modeles)
-
-  if (isAjouter) {
-    await lancerLeCalculRepository(nomEtablissement, nomInventaire)
-  }
-}
-
-async function ajouterEquipementsPhysiquesRepository(
-  dateInventaire: Date,
+export async function enregistrerLesModelesRepository(
+  dateInventaire: Readonly<Date>,
   nomEtablissement: string,
   nomInventaire: string,
-  modeles: EquipementPhysique[]
+  modeles: ReadonlyArray<Modele>
 ): Promise<boolean> {
   const dateRetrait = new Date().toISOString().split('T')[0]
   const urlEntrees = new URL(`${process.env.EXPOSITION_DONNEES_ENTREES_URL}/entrees/csv`)
@@ -117,7 +72,7 @@ async function ajouterEquipementsPhysiquesRepository(
   }
 }
 
-async function lancerLeCalculRepository(nomEtablissement: string, nomInventaire: string) {
+export async function calculerEmpreinteRepository(nomEtablissement: string, nomInventaire: string): Promise<void> {
   const urlCalcul = new URL(`${process.env.EXPOSITION_DONNEES_ENTREES_URL}/entrees/calculs/soumission`)
   urlCalcul.searchParams.append('mode', 'SYNC')
 
@@ -138,10 +93,10 @@ async function lancerLeCalculRepository(nomEtablissement: string, nomInventaire:
       throw new Error(`Status: ${responseCalculs.status}, Status text: ${data.message}`)
     }
   } else {
-    await miseAJourInventaireRepository(nomEtablissement, nomInventaire)
+    await passerATraiteUnInventaireRepository(nomEtablissement, nomInventaire)
   }
 }
 
-export async function supprimerEquipementsPhysiquesRepository(nomEtablissement: string, nomInventaire: string) {
-  await prisma.en_equipement_physique.deleteMany({ where: { nom_lot: nomInventaire, nom_organisation: nomEtablissement } })
+export async function supprimerLesModelesRepository(nomEtablissement: string, nomInventaire: string): Promise<void> {
+  await prisma.modeleModel.deleteMany({ where: { nomEtablissement, nomInventaire } })
 }

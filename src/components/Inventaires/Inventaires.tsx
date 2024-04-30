@@ -5,10 +5,10 @@ import React, { ReactElement } from 'react'
 
 import ActionSupprimer from './ActionSupprimer'
 import styles from './Inventaires.module.css'
-import { InventaireViewModel } from '../viewModel'
+import { InventairesViewModel } from '../viewModel'
 
 type InventairesProps = Readonly<{
-  inventairesViewModel: InventaireViewModel[]
+  inventairesViewModel: InventairesViewModel
 }>
 
 export default function Inventaires({ inventairesViewModel }: InventairesProps): ReactElement {

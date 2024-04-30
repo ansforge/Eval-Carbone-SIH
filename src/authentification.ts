@@ -5,6 +5,11 @@ import nextAuth, { NextAuthOptions, Session, getServerSession } from 'next-auth'
 import { JWT } from 'next-auth/jwt'
 import { OAuthConfig } from 'next-auth/providers'
 
+type Profile = Readonly<{
+  profile_atih: string
+  sub: string
+}>
+
 const authOptions = {
   callbacks: {
     jwt({ token, profile }): JWT {
@@ -35,14 +40,14 @@ const authOptions = {
       id: 'pasrel',
       idToken: true,
       name: 'Pasrel',
-      profile(profile) {
+      profile(profile: Profile) {
         return {
           id: profile.sub,
         }
       },
       type: 'oauth',
       wellKnown: 'https://connect-pasrel.atih.sante.fr/cas/oidc/.well-known',
-    } satisfies OAuthConfig<{ sub: string, profile_atih: string }>,
+    } satisfies OAuthConfig<Profile>,
   ],
   theme: {
     brandColor: '#1d71b8',
@@ -51,7 +56,6 @@ const authOptions = {
   },
 } satisfies NextAuthOptions
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 export const handler = nextAuth(authOptions)
 
 export type ProfileAtih = Readonly<{
@@ -103,7 +107,7 @@ export async function getProfileAtih(): Promise<ProfileAtih> {
   return profile
 }
 
-export async function isConnected() {
+export async function isConnected(): Promise<void> {
   const session = await getServerSession(authOptions)
 
   if (session) {

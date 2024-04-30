@@ -1,10 +1,17 @@
 import { useRouter } from 'next/navigation'
-import { SyntheticEvent, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, SyntheticEvent, useEffect, useState } from 'react'
 
 import { creerUnInventaireAction, enregistrerUnInventaireNonCalculeAction } from './action'
 import { modelesSelectionnes } from './modele'
 
-export function useInventaire(nomEtablissement: string, nomInventaire: string) {
+type UseInventaire = Readonly<{
+  enregistrerUnInventaire: (event: SyntheticEvent<HTMLFormElement, SubmitEvent>) => Promise<void>
+  isInventaireEnregistre: boolean
+  quantiteGlobale: number
+  setQuantiteGlobale: Dispatch<SetStateAction<number>>
+}>
+
+export function useInventaire(nomEtablissement: string, nomInventaire: string): UseInventaire {
   const router = useRouter()
   const [quantiteGlobale, setQuantiteGlobale] = useState<number>(0)
   const [isInventaireEnregistre, setIsInventaireEnregistre] = useState<boolean>(false)

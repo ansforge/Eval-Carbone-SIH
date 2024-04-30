@@ -1,48 +1,68 @@
-import { en_donnees_entrees } from '@prisma/client'
+import { inventaireModel } from '@prisma/client'
 
-import { supprimerEquipementsPhysiquesRepository } from './equipementsRepository'
-import { supprimerIndicateursEquipementsPhysiquesRepository } from './indicateursRepository'
+import { supprimerLesIndicateursImpactsEquipementsRepository } from './indicateursRepository'
+import { Modele, calculerEmpreinteRepository, enregistrerLesModelesRepository, supprimerLesModelesRepository } from './modelesRepository'
 import prisma from '../../prisma/db'
 
-export async function recupererInventairesRepository(nomEtablissement: string, isAdmin: boolean): Promise<en_donnees_entrees[]> {
+export async function recupererLesInventairesRepository(nomEtablissement: string, isAdmin: boolean): Promise<Array<inventaireModel>> {
   const nomOrganisation = isAdmin ? { startsWith: '%' } : nomEtablissement
 
-  return await prisma.en_donnees_entrees.findMany({ orderBy: { date_lot: 'desc' }, where: { nom_organisation: nomOrganisation } })
+  return prisma.inventaireModel.findMany({ orderBy: { dateInventaire: 'desc' }, where: { nomEtablissement: nomOrganisation } })
 }
 
-export async function recupererInventaireRepository(nomEtablissement: string, nomInventaire: string): Promise<en_donnees_entrees | null> {
-  return await prisma.en_donnees_entrees.findFirst({ where: { nom_lot: nomInventaire, nom_organisation: nomEtablissement } })
+export async function recupererUnInventaireRepository(nomEtablissement: string, nomInventaire: string): Promise<inventaireModel | null> {
+  return prisma.inventaireModel.findFirst({ where: { nomEtablissement, nomInventaire } })
 }
 
-export async function miseAJourInventaireRepository(nomEtablissement: string, nomInventaire: string) {
+export async function enregistrerUnInventaireNonCalculeRepository(
+  nomEtablissement: string,
+  nomInventaire: string,
+  modeles: ReadonlyArray<Modele>
+): Promise<void> {
+  const dateInventaire = await supprimerUnInventaireRepository(nomEtablissement, nomInventaire)
+
+  await enregistrerLesModelesRepository(dateInventaire, nomEtablissement, nomInventaire, modeles)
+}
+
+export async function creerUnInventaireRepository(nomEtablissement: string, nomInventaire: string, modeles: ReadonlyArray<Modele>): Promise<void> {
+  const dateInventaire = await supprimerUnInventaireRepository(nomEtablissement, nomInventaire)
+
+  const isAjouter = await enregistrerLesModelesRepository(dateInventaire, nomEtablissement, nomInventaire, modeles)
+
+  if (isAjouter) {
+    await calculerEmpreinteRepository(nomEtablissement, nomInventaire)
+  }
+}
+
+export async function passerATraiteUnInventaireRepository(nomEtablissement: string, nomInventaire: string): Promise<void> {
   return prisma.$transaction(async (prisma) => {
-    await prisma.en_donnees_entrees.updateMany({
+    await prisma.inventaireModel.updateMany({
       data: {
-        statut_traitement: 'TRAITE',
+        statut: 'TRAITE',
       },
       where: {
-        nom_lot: nomInventaire,
-        nom_organisation: nomEtablissement,
+        nomEtablissement,
+        nomInventaire,
       },
     })
   })
 }
 
-export async function supprimerInventaireRepository(nomEtablissement: string, nomInventaire: string): Promise<Date> {
+export async function supprimerUnInventaireRepository(nomEtablissement: string, nomInventaire: string): Promise<Date> {
   return prisma.$transaction(async (prisma): Promise<Date> => {
-    const inventaire = await prisma.en_donnees_entrees.findFirst({
+    const inventaire = await prisma.inventaireModel.findFirst({
       select: {
-        date_lot: true,
+        dateInventaire: true,
       },
       where: {
-        nom_lot: nomInventaire,
-        nom_organisation: nomEtablissement,
+        nomEtablissement,
+        nomInventaire,
       },
     })
-    await prisma.en_donnees_entrees.deleteMany({ where: { nom_lot: nomInventaire, nom_organisation: nomEtablissement } })
-    await supprimerEquipementsPhysiquesRepository(nomEtablissement, nomInventaire)
-    await supprimerIndicateursEquipementsPhysiquesRepository(nomEtablissement, nomInventaire)
+    await prisma.inventaireModel.deleteMany({ where: { nomEtablissement, nomInventaire } })
+    await supprimerLesModelesRepository(nomEtablissement, nomInventaire)
+    await supprimerLesIndicateursImpactsEquipementsRepository(nomEtablissement, nomInventaire)
 
-    return inventaire?.date_lot ?? new Date()
+    return inventaire?.dateInventaire ?? new Date()
   })
 }

@@ -4,10 +4,10 @@ import { ReactElement } from 'react'
 import Inventaires from './Inventaires'
 import InventairesVide from './InventairesVide'
 import InfoBulle from '../commun/Infobulle'
-import { InventaireViewModel } from '../viewModel'
+import { InventairesViewModel } from '../viewModel'
 
 type InventairesLayoutProps = Readonly<{
-  inventairesViewModel: InventaireViewModel[]
+  inventairesViewModel: InventairesViewModel
   isAdmin: boolean
 }>
 

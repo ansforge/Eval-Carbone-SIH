@@ -3,7 +3,7 @@ import { ReactElement } from 'react'
 import InfoBulle from '../commun/Infobulle'
 
 type IndicateurProps = Readonly<{
-  coin: 'top-left' | 'top-right' | 'bottom-right' | 'bottom-left'
+  coin: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right'
   texteInfoBulle: string
   titre: string
   valeur: string

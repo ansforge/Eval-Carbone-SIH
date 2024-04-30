@@ -1,12 +1,12 @@
 import { ReactElement } from 'react'
 
-import { IndicateursSommesViewModel, toLowerCase } from '../viewModel'
+import { IndicateurImpactEquipementSommeViewModel, toLowerCase } from '../viewModel'
 
-type IndicateurProps = Readonly<{
-  indicateursSommesViewModel: IndicateursSommesViewModel[]
+type TranscriptionProps = Readonly<{
+  indicateursImpactsEquipementsSommesViewModel: ReadonlyArray<IndicateurImpactEquipementSommeViewModel>
 }>
 
-export default function Transcription({ indicateursSommesViewModel }: IndicateurProps): ReactElement {
+export default function Transcription({ indicateursImpactsEquipementsSommesViewModel }: TranscriptionProps): ReactElement {
   return (
     <table className="table table-bordered">
       <caption className="nav-skip">
@@ -27,16 +27,16 @@ export default function Transcription({ indicateursSommesViewModel }: Indicateur
       </thead>
       <tbody>
         {
-          indicateursSommesViewModel.map((indicateurSommeViewModel): ReactElement => (
-            <tr key={indicateurSommeViewModel.typeEquipement + indicateurSommeViewModel.etapeAcv}>
+          indicateursImpactsEquipementsSommesViewModel.map((indicateurImpactEquipementSommeViewModel): ReactElement => (
+            <tr key={indicateurImpactEquipementSommeViewModel.typeEquipement + indicateurImpactEquipementSommeViewModel.etapeAcv}>
               <td>
-                {indicateurSommeViewModel.typeEquipement}
+                {indicateurImpactEquipementSommeViewModel.typeEquipement}
               </td>
               <td>
-                {toLowerCase(indicateurSommeViewModel.etapeAcv)}
+                {toLowerCase(indicateurImpactEquipementSommeViewModel.etapeAcv)}
               </td>
               <td>
-                {Number(indicateurSommeViewModel.impact.toFixed(2)).toLocaleString()}
+                {Number(indicateurImpactEquipementSommeViewModel.impact.toFixed(2)).toLocaleString()}
               </td>
             </tr>
           ))

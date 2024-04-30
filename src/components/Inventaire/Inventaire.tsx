@@ -6,31 +6,24 @@ import { ReactElement } from 'react'
 import Actions from './Actions'
 import Equipement from './Equipement'
 import { useInventaire } from './useInventaire'
-import { EquipementsAvecSesModelesViewModel, StatutsInventaire } from '../viewModel'
+import { EquipementAvecSesModelesViewModel } from '../viewModel'
 
 type InventaireProps = Readonly<{
   dateInventaire: string,
-  equipementsAvecSesModelesViewModel: EquipementsAvecSesModelesViewModel[]
+  equipementsAvecSesModelesViewModel: ReadonlyArray<EquipementAvecSesModelesViewModel>
+  isNonCalcule: boolean
   nomEtablissement: string
   nomInventaire: string
-  statut: StatutsInventaire
 }>
 
 export default function Inventaire({
   dateInventaire,
   equipementsAvecSesModelesViewModel,
+  isNonCalcule,
   nomEtablissement,
   nomInventaire,
-  statut,
 }: InventaireProps): ReactElement {
   const { enregistrerUnInventaire, isInventaireEnregistre, quantiteGlobale, setQuantiteGlobale } = useInventaire(nomEtablissement, nomInventaire)
-
-  const actions = (): ReactElement => (
-    <Actions
-      quantiteGlobale={quantiteGlobale}
-      statut={statut}
-    />
-  )
 
   return (
     <form
@@ -52,7 +45,10 @@ export default function Inventaire({
           </div>
         </div>
         <div>
-          {actions()}
+          <Actions
+            isNonCalcule={isNonCalcule}
+            quantiteGlobale={quantiteGlobale}
+          />
         </div>
       </div>
       <hr />
@@ -104,7 +100,10 @@ export default function Inventaire({
         ))
       }
       <div className="text-center">
-        {actions()}
+        <Actions
+          isNonCalcule={isNonCalcule}
+          quantiteGlobale={quantiteGlobale}
+        />
       </div>
     </form>
   )

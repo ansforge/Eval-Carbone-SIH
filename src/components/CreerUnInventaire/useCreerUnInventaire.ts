@@ -9,7 +9,15 @@ type State = Readonly<{
   nomInventaire: string
 }>
 
-export function useCreerUnInventaire() {
+type UseCreerUnInventaire = Readonly<{
+  creerInventaire: (event: FormEvent<HTMLFormElement>) => Promise<void>
+  isDisabled: boolean
+  isInvalid: boolean
+  modifierNomInventaire: (event: FormEvent<HTMLInputElement>) => void
+  nomInventaire: string
+}>
+
+export function useCreerUnInventaire(): UseCreerUnInventaire {
   const router = useRouter()
   const [state, setState] = useState<State>({
     isDisabled: true,

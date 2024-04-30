@@ -1,6 +1,12 @@
 import { useState } from 'react'
 
-export function useModale() {
+type UseModale = Readonly<{
+  fermerLaModale: () => void
+  isOpen: boolean
+  ouvrirLaModale: () => void
+}>
+
+export function useModale(): UseModale {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const ouvrirLaModale = () => {

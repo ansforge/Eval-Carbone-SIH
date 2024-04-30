@@ -27,18 +27,18 @@ export default function ListeEquipements({ dateInventaire, equipementsViewModel,
         nomInventaire={nomInventaire}
       />
       {
-        Object.keys(equipementsViewModel).map((equipement): ReactElement => {
-          const quantite = equipementsViewModel[equipement].reduce((quantiteAccumulee, modele): number => quantiteAccumulee + modele.quantite, 0)
+        Object.keys(equipementsViewModel).map((equipementViewModel): ReactElement => {
+          const quantite = equipementsViewModel[equipementViewModel].reduce((quantiteAccumulee, modele): number => quantiteAccumulee + modele.quantite, 0)
 
           return (
             <Accordeon
-              idAccordion={equipementsViewModel[equipement][0].type}
-              idSection={'id-' + equipementsViewModel[equipement][0].type}
-              key={equipementsViewModel[equipement][0].type}
-              label={`${equipementsViewModel[equipement][0].type} (${quantite})`}
+              idAccordion={equipementsViewModel[equipementViewModel][0].type}
+              idSection={'id-' + equipementsViewModel[equipementViewModel][0].type}
+              key={equipementsViewModel[equipementViewModel][0].type}
+              label={`${equipementsViewModel[equipementViewModel][0].type} (${quantite})`}
             >
               <Equipement
-                equipementsViewModel={equipementsViewModel[equipement]}
+                equipementsViewModel={equipementsViewModel[equipementViewModel]}
               />
             </Accordeon>
           )

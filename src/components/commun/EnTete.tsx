@@ -13,7 +13,7 @@ type EnTeteProps = Readonly<{
 
 export default function EnTete({ session }: EnTeteProps): ReactElement {
   const pathname = usePathname()
-  const menu = [
+  const menu: ReadonlyArray<Readonly<{ label: string, path: string }>> = [
     {
       label: 'Inventaires',
       path: '/',
@@ -74,7 +74,7 @@ export default function EnTete({ session }: EnTeteProps): ReactElement {
               <nav aria-label="Menu principal">
                 <ul className="navbar-nav nav-lvl--1">
                   {
-                    menu.map((menu) => {
+                    menu.map((menu): ReactElement => {
                       const activeClass = pathname === menu.path ? 'is-active' : ''
 
                       return (

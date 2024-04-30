@@ -32,7 +32,7 @@ const prismaClientSingleton = (): PrismaClient<Prisma.PrismaClientOptions, never
 }
 
 declare global {
-  const prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>
+  const prismaGlobal: ReturnType<typeof prismaClientSingleton> | undefined
 }
 
 // @ts-expect-error

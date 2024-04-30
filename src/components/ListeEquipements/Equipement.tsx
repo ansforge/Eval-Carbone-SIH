@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react'
 import { EquipementViewModel } from '../viewModel'
 
 type EquipementProps = Readonly<{
-  equipementsViewModel: EquipementViewModel[]
+  equipementsViewModel: ReadonlyArray<EquipementViewModel>
 }>
 
 export default function Equipement({ equipementsViewModel }: EquipementProps): ReactElement {

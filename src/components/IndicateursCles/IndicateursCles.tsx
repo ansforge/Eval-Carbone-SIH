@@ -11,24 +11,24 @@ import Accordeon from '../commun/Accordeon'
 import Actions from '../commun/Actions'
 import InfoBulle from '../commun/Infobulle'
 import Onglets from '../commun/Onglets'
-import { EtapesAcv, IndicateursSommesViewModel, IndicateursViewModel } from '../viewModel'
+import { EtapesAcv, IndicateurImpactEquipementSommeViewModel, IndicateursImpactsEquipementsViewModel } from '../viewModel'
 
 type IndicateursClesProps = Readonly<{
   dateInventaire: string
-  indicateursSommesViewModel: IndicateursSommesViewModel[]
-  indicateursViewModel: IndicateursViewModel
+  indicateursImpactsEquipementsSommesViewModel: ReadonlyArray<IndicateurImpactEquipementSommeViewModel>
+  indicateursImpactsEquipementsViewModel: IndicateursImpactsEquipementsViewModel
   nomEtablissement: string
   nomInventaire: string
-  referentielsEquipementsViewModel: string[]
+  referentielsTypesEquipementsViewModel: ReadonlyArray<string>
 }>
 
 export default function IndicateursCles({
   dateInventaire,
-  indicateursSommesViewModel,
-  indicateursViewModel,
+  indicateursImpactsEquipementsSommesViewModel,
+  indicateursImpactsEquipementsViewModel,
   nomEtablissement,
   nomInventaire,
-  referentielsEquipementsViewModel,
+  referentielsTypesEquipementsViewModel,
 }: IndicateursClesProps): ReactElement {
   return (
     <>
@@ -50,7 +50,7 @@ export default function IndicateursCles({
               <InfoBulle label="L’empreinte carbone mesure la quantité totale de gaz à effet de serre émise, directement ou indirectement, par une activité, un produit ou un service, exprimée en équivalent de dioxyde de carbone (CO2)." />
             </h2>
             <div className="h1 fw-bold">
-              {indicateursViewModel.empreinteCarbone}
+              {indicateursImpactsEquipementsViewModel.empreinteCarbone}
             </div>
             <div>
               <abbr title="tonnes équivalent en dioxyde de carbone">
@@ -65,7 +65,7 @@ export default function IndicateursCles({
               🚗
               {' '}
               <span className="fw-semiBold">
-                {indicateursViewModel.kilometresEnVoiture}
+                {indicateursImpactsEquipementsViewModel.kilometresEnVoiture}
               </span>
               {' '}
               kilomètres en voiture
@@ -80,7 +80,7 @@ export default function IndicateursCles({
                 Fabrication
               </div>
               <div className="col-md-8 fw-semiBold text-right">
-                {indicateursViewModel.fabrication}
+                {indicateursImpactsEquipementsViewModel.fabrication}
                 {' '}
                 <abbr title="tonnes équivalent en dioxyde de carbone">
                   tCO2 eq
@@ -93,7 +93,7 @@ export default function IndicateursCles({
                 Distribution
               </div>
               <div className="col-md-8 fw-semiBold text-right">
-                {indicateursViewModel.distribution}
+                {indicateursImpactsEquipementsViewModel.distribution}
                 {' '}
                 <abbr title="tonnes équivalent en dioxyde de carbone">
                   tCO2 eq
@@ -106,7 +106,7 @@ export default function IndicateursCles({
                 Utilisation
               </div>
               <div className="col-md-8 fw-semiBold text-right">
-                {indicateursViewModel.utilisation}
+                {indicateursImpactsEquipementsViewModel.utilisation}
                 {' '}
                 <abbr title="tonnes équivalent en dioxyde de carbone">
                   tCO2 eq
@@ -119,7 +119,7 @@ export default function IndicateursCles({
                 Fin de vie
               </div>
               <div className="col-md-8 fw-semiBold text-right">
-                {indicateursViewModel.finDeVie}
+                {indicateursImpactsEquipementsViewModel.finDeVie}
                 {' '}
                 <abbr title="tonnes équivalent en dioxyde de carbone">
                   tCO2 eq
@@ -137,7 +137,7 @@ export default function IndicateursCles({
           </p>
           <hr />
           <Bar
-            data={donneesParTypeEquipement(indicateursSommesViewModel)}
+            data={donneesParTypeEquipement(indicateursImpactsEquipementsSommesViewModel)}
             options={optionsHistogramme}
           />
           <Astuce>
@@ -155,12 +155,12 @@ export default function IndicateursCles({
           </p>
           <hr />
           <Bar
-            data={donneesParCycleDeVie(indicateursSommesViewModel, referentielsEquipementsViewModel)}
+            data={donneesParCycleDeVie(indicateursImpactsEquipementsSommesViewModel, referentielsTypesEquipementsViewModel)}
             options={optionsHistogramme}
           />
           <Astuce>
-            La phase de fabrication représente généralement l’impact environnemental le plus significatif.
-            Pour réduire son impact, prolongez la durée de vie de vos équipements, optez pour la réparation et l’achat d’équipements reconditionnés.
+            Pour optimiser l’empreinte de votre inventaire, encouragez la prolongation de la durée de vie de vos équipements,
+            privilégiez la réparation et promouvez l’extinction des équipements hors utilisation.
           </Astuce>
         </div>
         <div className="border rounded-sm top-left-radius-0 p-4 mb-4">
@@ -172,7 +172,11 @@ export default function IndicateursCles({
           </p>
           <hr />
           <Pie
-            data={donneesRepartitionParTypeEquipement(indicateursSommesViewModel, referentielsEquipementsViewModel, EtapesAcv.fabrication)}
+            data={donneesRepartitionParTypeEquipement(
+              indicateursImpactsEquipementsSommesViewModel,
+              referentielsTypesEquipementsViewModel,
+              EtapesAcv.fabrication
+            )}
             options={optionsCamembert}
           />
           <hr />
@@ -181,7 +185,11 @@ export default function IndicateursCles({
           </p>
           <hr />
           <Pie
-            data={donneesRepartitionParTypeEquipement(indicateursSommesViewModel, referentielsEquipementsViewModel, EtapesAcv.distribution)}
+            data={donneesRepartitionParTypeEquipement(
+              indicateursImpactsEquipementsSommesViewModel,
+              referentielsTypesEquipementsViewModel,
+              EtapesAcv.distribution
+            )}
             options={optionsCamembert}
           />
           <hr />
@@ -190,7 +198,11 @@ export default function IndicateursCles({
           </p>
           <hr />
           <Pie
-            data={donneesRepartitionParTypeEquipement(indicateursSommesViewModel, referentielsEquipementsViewModel, EtapesAcv.utilisation)}
+            data={donneesRepartitionParTypeEquipement(
+              indicateursImpactsEquipementsSommesViewModel,
+              referentielsTypesEquipementsViewModel,
+              EtapesAcv.utilisation
+            )}
             options={optionsCamembert}
           />
           <hr />
@@ -199,7 +211,7 @@ export default function IndicateursCles({
           </p>
           <hr />
           <Pie
-            data={donneesRepartitionParTypeEquipement(indicateursSommesViewModel, referentielsEquipementsViewModel, EtapesAcv.finDeVie)}
+            data={donneesRepartitionParTypeEquipement(indicateursImpactsEquipementsSommesViewModel, referentielsTypesEquipementsViewModel, EtapesAcv.finDeVie)}
             options={optionsCamembert}
           />
           <Astuce>
@@ -226,7 +238,7 @@ export default function IndicateursCles({
           idSection="id-transcription1"
           label="Transcription des données de l’empreinte carbone par type d’équipement"
         >
-          <Transcription indicateursSommesViewModel={indicateursSommesViewModel} />
+          <Transcription indicateursImpactsEquipementsSommesViewModel={indicateursImpactsEquipementsSommesViewModel} />
         </Accordeon>
       </div>
       <div className="row">
@@ -239,18 +251,18 @@ export default function IndicateursCles({
               kg U235 eq
             </abbr>
           }
-          valeur={indicateursViewModel.radiationIonisantes}
+          valeur={indicateursImpactsEquipementsViewModel.radiationIonisantes}
         />
         <Indicateur
           coin="bottom-left"
           texteInfoBulle="L’épuisement des ressources mesure la diminution des matériaux ou des ressources naturelles disponibles, en kg équivalent antimoine. Cela peut conduire à de la déforestation, de la perte de biodiversité, etc."
-          titre="Épuisement des ressources"
+          titre="Épuisement des ressources - minéraux et métaux"
           unite={
             <abbr title="kilogrammes d’antimoine équivalent">
               kg SB eq
             </abbr>
           }
-          valeur={indicateursViewModel.epuisementDesRessources}
+          valeur={indicateursImpactsEquipementsViewModel.epuisementDesRessources}
         />
       </div>
       <div className="row">
@@ -259,7 +271,7 @@ export default function IndicateursCles({
           texteInfoBulle="Les particules fines (PM2,5) peuvent provenir du chauffage au bois, du trafic routier et des activités de chantier. Elles sont nocives pour la santé respiratoire et cardiovasculaire."
           titre="Émissions de particules fines"
           unite="Incidence de maladies"
-          valeur={indicateursViewModel.emissionsDeParticulesFines}
+          valeur={indicateursImpactsEquipementsViewModel.emissionsDeParticulesFines}
         />
         <Indicateur
           coin="top-left"
@@ -270,7 +282,7 @@ export default function IndicateursCles({
               mol H+ eq
             </abbr>
           }
-          valeur={indicateursViewModel.acidification}
+          valeur={indicateursImpactsEquipementsViewModel.acidification}
         />
       </div>
     </>

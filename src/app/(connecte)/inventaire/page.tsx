@@ -1,4 +1,4 @@
-import { en_equipement_physique } from '@prisma/client'
+import { modeleModel } from '@prisma/client'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ReactElement } from 'react'
@@ -7,8 +7,9 @@ import { getProfileAtih } from '../../../authentification'
 import Breadcrumb from '../../../components/commun/Breadcrumb'
 import Inventaire from '../../../components/Inventaire/Inventaire'
 import { ModeleReducer } from '../../../components/Inventaire/useEquipement'
-import { EquipementsAvecSesModelesViewModel, StatutsInventaire } from '../../../components/viewModel'
-import { EquipementPhysiqueModel, recupererLesEquipementsEnregistresRepository, recupererLesReferentielsEquipementsRepository } from '../../../repository/equipementsRepository'
+import { EquipementAvecSesModelesViewModel, StatutsInventaire } from '../../../components/viewModel'
+import { recupererLesModelesRepository } from '../../../repository/modelesRepository'
+import { recupererLesReferentielsTypesEquipementsRepository, ReferentielTypeEquipementModel } from '../../../repository/typesEquipementsRepository'
 
 const title = 'Renseigner les équipements'
 export const metadata: Metadata = {
@@ -34,14 +35,14 @@ export default async function Page({ searchParams }: PageProps): Promise<ReactEl
     notFound()
   }
 
-  const equipementsEnregistresModel = await recupererLesEquipementsEnregistresRepository(searchParams.nomEtablissement, searchParams.nomInventaire)
+  const modelesModel = await recupererLesModelesRepository(searchParams.nomEtablissement, searchParams.nomInventaire)
 
-  const equipementsReferentielsModel = await recupererLesReferentielsEquipementsRepository()
+  const referentielsTypesEquipementsModel = await recupererLesReferentielsTypesEquipementsRepository()
 
-  const equipementsAvecSesModelesViewModel = transformTypesEquipementModelToViewModel(equipementsReferentielsModel, equipementsEnregistresModel)
+  const equipementsAvecSesModelesViewModel = transformerLesReferentielsTypesEquipementsModelEnViewModel(referentielsTypesEquipementsModel, modelesModel)
 
   const statut = searchParams.statut === undefined ? StatutsInventaire.EN_ATTENTE : searchParams.statut as StatutsInventaire
-  const dateInventaire = equipementsEnregistresModel.length === 0 ? new Date() : equipementsEnregistresModel[0].date_lot
+  const dateInventaire = modelesModel.length === 0 ? new Date() : modelesModel[0].dateInventaire
 
   return (
     <>
@@ -49,43 +50,43 @@ export default async function Page({ searchParams }: PageProps): Promise<ReactEl
       <Inventaire
         dateInventaire={dateInventaire.toLocaleDateString('fr-FR')}
         equipementsAvecSesModelesViewModel={equipementsAvecSesModelesViewModel}
+        isNonCalcule={statut === StatutsInventaire.TRAITE}
         nomEtablissement={searchParams.nomEtablissement}
         nomInventaire={searchParams.nomInventaire}
-        statut={statut}
       />
     </>
   )
 }
 
-function transformTypesEquipementModelToViewModel(
-  equipementsReferentielsModel: EquipementPhysiqueModel[],
-  equipementsEnregistresModel: en_equipement_physique[]
-): EquipementsAvecSesModelesViewModel[] {
-  return equipementsReferentielsModel.map((equipementReferentielModel): EquipementsAvecSesModelesViewModel => {
+function transformerLesReferentielsTypesEquipementsModelEnViewModel(
+  referentielsTypesEquipementsModel: Array<ReferentielTypeEquipementModel>,
+  modelesModel: Array<modeleModel>
+): Array<EquipementAvecSesModelesViewModel> {
+  return referentielsTypesEquipementsModel.map((referentielTypeEquipementModel): EquipementAvecSesModelesViewModel => {
     return {
-      modeles: equipementReferentielModel.modeles
+      modeles: referentielTypeEquipementModel.modeles
         .map((modele): ModeleReducer => {
           let quantite = 0
-          let dureeDeVie = equipementReferentielModel.duree_vie_defaut
+          let dureeDeVie = referentielTypeEquipementModel.dureeDeVie
           let heureUtilisation = 24
-          const equipementsModelFiltre = equipementsEnregistresModel
-            .filter((equipementEnregistreModel): boolean => equipementEnregistreModel.modele === modele.ref_correspondance_ref_eqp.modele_equipement_source)
+          const equipementsModelFiltre = modelesModel
+            .filter((modeleModel): boolean => modeleModel.nom === modele.relationModeles.nom)
 
           if (equipementsModelFiltre.length > 0) {
             quantite = equipementsModelFiltre[0].quantite
-            dureeDeVie = new Date().getFullYear() - equipementsModelFiltre[0].date_achat.getFullYear()
-            heureUtilisation = Math.round(equipementsModelFiltre[0].taux_utilisation * 24)
+            dureeDeVie = new Date().getFullYear() - equipementsModelFiltre[0].dateAchat.getFullYear()
+            heureUtilisation = Math.round(equipementsModelFiltre[0].tauxUtilisation * 24)
           }
 
           return {
             dureeDeVie,
             heureUtilisation,
             id: crypto.randomUUID(),
-            nomModele: modele.ref_correspondance_ref_eqp.modele_equipement_source,
+            nomModele: modele.relationModeles.nom,
             quantite,
           }
         }),
-      type: equipementReferentielModel.type,
+      type: referentielTypeEquipementModel.type,
     }
   })
 }

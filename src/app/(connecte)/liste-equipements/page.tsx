@@ -1,4 +1,4 @@
-import { en_equipement_physique, ref_type_equipement } from '@prisma/client'
+import { modeleModel } from '@prisma/client'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ReactElement } from 'react'
@@ -7,7 +7,8 @@ import { getProfileAtih } from '../../../authentification'
 import Breadcrumb from '../../../components/commun/Breadcrumb'
 import ListeEquipements from '../../../components/ListeEquipements/ListeEquipements'
 import { EquipementsViewModel } from '../../../components/viewModel'
-import { EquipementPhysiqueModel, recupererLesEquipementsEnregistresRepository, recupererLesReferentielsEquipementsRepository } from '../../../repository/equipementsRepository'
+import { recupererLesModelesRepository } from '../../../repository/modelesRepository'
+import { recupererLesReferentielsTypesEquipementsRepository, ReferentielTypeEquipementModel } from '../../../repository/typesEquipementsRepository'
 
 const title = 'Liste d’équipements'
 export const metadata: Metadata = {
@@ -32,17 +33,17 @@ export default async function Page({ searchParams }: PageProps): Promise<ReactEl
     notFound()
   }
 
-  const equipementsEnregistresModel = await recupererLesEquipementsEnregistresRepository(searchParams.nomEtablissement, searchParams.nomInventaire)
+  const modelesModel = await recupererLesModelesRepository(searchParams.nomEtablissement, searchParams.nomInventaire)
 
-  if (equipementsEnregistresModel.length === 0) {
+  if (modelesModel.length === 0) {
     notFound()
   }
 
-  const referentielsEquipementsModel = await recupererLesReferentielsEquipementsRepository()
-  const equipementsViewModel = transformEquipementModelToViewModel(equipementsEnregistresModel, referentielsEquipementsModel)
+  const referentielsTypesEquipementsModel = await recupererLesReferentielsTypesEquipementsRepository()
+  const equipementsViewModel = transformerLesReferentielsTypesEquipementsModelEnViewModel(referentielsTypesEquipementsModel, modelesModel)
 
-  const equipements = Object.keys(equipementsViewModel)
-  const dateInventaire = equipementsViewModel[equipements[0]][0].dateInventaire.toLocaleDateString('fr-FR')
+  const modeles = Object.keys(equipementsViewModel)
+  const dateInventaire = equipementsViewModel[modeles[0]][0].dateInventaire.toLocaleDateString('fr-FR')
 
   return (
     <>
@@ -57,25 +58,25 @@ export default async function Page({ searchParams }: PageProps): Promise<ReactEl
   )
 }
 
-function transformEquipementModelToViewModel(
-  equipementsModel: en_equipement_physique[],
-  referentielsEquipementsModel: EquipementPhysiqueModel[]
+function transformerLesReferentielsTypesEquipementsModelEnViewModel(
+  referentielsTypesEquipementsModel: Array<ReferentielTypeEquipementModel>,
+  modelesModel: Array<modeleModel>
 ): EquipementsViewModel {
-  const types = {}
+  const types: EquipementsViewModel = {}
 
-  for (const equipementModel of equipementsModel.sort(sortByTypeEquipementAndEtapeAcv(referentielsEquipementsModel))) {
+  for (const modeleModel of modelesModel.sort(trierParTypeEquipementEtEtapeAcv(referentielsTypesEquipementsModel))) {
+    const ancienModeleModel = types[modeleModel.type] ?? []
+
     // @ts-expect-error
-    types[equipementModel.type] = [
-      // @ts-expect-error
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      ...types[equipementModel.type] || [],
+    types[modeleModel.type] = [
+      ...ancienModeleModel,
       {
-        dateInventaire: equipementModel.date_lot,
-        modele: equipementModel.modele,
-        nomEtablissement: equipementModel.nom_organisation,
-        nomInventaire: equipementModel.nom_lot,
-        quantite: equipementModel.quantite,
-        type: equipementModel.type,
+        dateInventaire: modeleModel.dateInventaire,
+        modele: modeleModel.nom,
+        nomEtablissement: modeleModel.nomEtablissement,
+        nomInventaire: modeleModel.nomInventaire,
+        quantite: modeleModel.quantite,
+        type: modeleModel.type,
       },
     ]
   }
@@ -83,17 +84,17 @@ function transformEquipementModelToViewModel(
   return types
 }
 
-function sortByTypeEquipementAndEtapeAcv(referentielsEquipementsViewModel: ref_type_equipement[]) {
-  return (a: en_equipement_physique, b: en_equipement_physique) => {
+function trierParTypeEquipementEtEtapeAcv(referentielsTypesEquipementsModel: Array<ReferentielTypeEquipementModel>) {
+  return (a: modeleModel, b: modeleModel) => {
     let etapeAcvA = 0
     let etapeAcvB = 0
 
-    for (let poids = 0; poids < referentielsEquipementsViewModel.length; poids++) {
-      if (a.type === referentielsEquipementsViewModel[poids].type) {
+    for (let poids = 0; poids < referentielsTypesEquipementsModel.length; poids++) {
+      if (a.type === referentielsTypesEquipementsModel[poids].type) {
         etapeAcvA = poids
       }
 
-      if (b.type === referentielsEquipementsViewModel[poids].type) {
+      if (b.type === referentielsTypesEquipementsModel[poids].type) {
         etapeAcvB = poids
       }
     }

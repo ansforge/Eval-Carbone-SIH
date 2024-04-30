@@ -13,8 +13,17 @@ type OngletsProps = Readonly<{
 export default function Onglets({ isSelected, nomEtablissement, nomInventaire }: OngletsProps): ReactElement {
   const pathname = usePathname()
 
-  let titreIndicateursCles: ReactElement
-  let titreListeEquipements: ReactElement
+  let titreIndicateursCles: ReactElement = (
+    <span className="h5">
+      Indicateurs clés
+    </span>
+  )
+  let titreListeEquipements: ReactElement = (
+    <h1 className="h5">
+      Liste d’équipements
+    </h1>
+  )
+
   if (pathname === '/indicateurs-cles') {
     titreIndicateursCles = (
       <h1 className="h5">
@@ -26,17 +35,6 @@ export default function Onglets({ isSelected, nomEtablissement, nomInventaire }:
         Liste d’équipements
       </span>
     )
-  } else {
-    titreIndicateursCles = (
-      <span className="h5">
-        Indicateurs clés
-      </span>
-    )
-    titreListeEquipements = (
-      <h1 className="h5">
-        Liste d’équipements
-      </h1>
-    )
   }
 
   return (
@@ -44,16 +42,18 @@ export default function Onglets({ isSelected, nomEtablissement, nomInventaire }:
       <ul className="js-tablist">
         <li className="js-tablist__item">
           <Link
+            aria-selected={isSelected ? true : false}
             className={`js-tablist__link ${isSelected ? 'selected' : ''}`}
-            href={`indicateurs-cles?nomEtablissement=${nomEtablissement}&nomInventaire=${nomInventaire}`}
+            href={`indicateurs-cles?nomEtablissement=${encodeURI(nomEtablissement)}&nomInventaire=${encodeURI(nomInventaire)}`}
           >
             {titreIndicateursCles}
           </Link>
         </li>
         <li className="js-tablist__item">
           <Link
+            aria-selected={isSelected ? false : true}
             className={`js-tablist__link ${isSelected ? '' : 'selected'}`}
-            href={`liste-equipements?nomEtablissement=${nomEtablissement}&nomInventaire=${nomInventaire}`}
+            href={`liste-equipements?nomEtablissement=${encodeURI(nomEtablissement)}&nomInventaire=${encodeURI(nomInventaire)}`}
           >
             {titreListeEquipements}
           </Link>
