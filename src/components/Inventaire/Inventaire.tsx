@@ -7,6 +7,7 @@ import Actions from './Actions'
 import Equipement from './Equipement'
 import { useInventaire } from './useInventaire'
 import { InventairePresenter } from '../../presenters/inventairePresenter'
+import { formaterLeNomEtablissement } from '../../presenters/sharedPresenter'
 
 type InventaireProps = Readonly<{
   nomEtablissement: string
@@ -35,7 +36,7 @@ export default function Inventaire({
             {nomInventaire}
           </div>
           <div>
-            {nomEtablissement.split('$$')[0]}
+            {formaterLeNomEtablissement(nomEtablissement)}
             {' - '}
             {presenter.dateInventaire}
           </div>

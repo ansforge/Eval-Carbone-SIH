@@ -1,6 +1,7 @@
 import { ReactElement } from 'react'
 
-import { IndicateurImpactEquipementSomme, toLowerCase } from '../../presenters/indicateursClesPresenter'
+import { IndicateurImpactEquipementSomme } from '../../presenters/indicateursClesPresenter'
+import { mettreEnBasDeCasse } from '../../presenters/sharedPresenter'
 
 type TranscriptionProps = Readonly<{
   indicateursImpactsEquipementsSommes: ReadonlyArray<IndicateurImpactEquipementSomme>
@@ -33,7 +34,7 @@ export default function Transcription({ indicateursImpactsEquipementsSommes }: T
                 {indicateurImpactEquipementSomme.typeEquipement}
               </td>
               <td>
-                {toLowerCase(indicateurImpactEquipementSomme.etapeAcv)}
+                {mettreEnBasDeCasse(indicateurImpactEquipementSomme.etapeAcv)}
               </td>
               <td>
                 {Number(indicateurImpactEquipementSomme.impact.toFixed(2)).toLocaleString()}

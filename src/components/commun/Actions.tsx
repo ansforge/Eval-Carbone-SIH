@@ -6,7 +6,7 @@ import { ReactElement } from 'react'
 import styles from './Action.module.css'
 import SupprimerUnInventaire from './SupprimerUnInventaire'
 import { useModale } from './useModale'
-import { StatutsInventaire } from '../../presenters/sharedPresenter'
+import { StatutsInventaire, formaterLeNomEtablissement } from '../../presenters/sharedPresenter'
 
 type IndicateursClesProps = Readonly<{
   dateInventaire: string
@@ -24,7 +24,7 @@ export default function Actions({ dateInventaire, nomEtablissement, nomInventair
           {nomInventaire}
         </div>
         <div>
-          {nomEtablissement.split('$$')[0]}
+          {formaterLeNomEtablissement(nomEtablissement)}
           {' - '}
           {dateInventaire}
         </div>
@@ -39,7 +39,7 @@ export default function Actions({ dateInventaire, nomEtablissement, nomInventair
         </button>
         <Link
           className={`btn btn--plain btn--primary ${styles.middle}`}
-          href={`/inventaire?nomEtablissement=${encodeURI(nomEtablissement)}&nomInventaire=${encodeURI(nomInventaire)}&statut=${StatutsInventaire.TRAITE}`}
+          href={encodeURI(`/inventaire?nomEtablissement=${nomEtablissement}&nomInventaire=${nomInventaire}&statut=${StatutsInventaire.TRAITE}`)}
         >
           Modifier l’inventaire
         </Link>

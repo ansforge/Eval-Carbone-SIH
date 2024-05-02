@@ -1,9 +1,12 @@
 import { modeleModel } from '@prisma/client'
 
+import { calculerLaDureeDeVie, convertirLeTauxUtilisationEnHeureUtilisation, formaterLaDateEnFrancais } from './sharedPresenter'
 import { ReferentielTypeEquipementModel } from '../repository/typesEquipementsRepository'
 
 export type EquipementPresenter = Readonly<{
   dateInventaire: Readonly<Date>
+  dureeDeVie: number
+  heuresUtilisation: number
   modele: string
   nomInventaire: string
   nomEtablissement: string
@@ -29,6 +32,8 @@ export function listeEquipementsPresenter(
       ...ancienModeleModel,
       {
         dateInventaire: modeleModel.dateInventaire,
+        dureeDeVie: calculerLaDureeDeVie(modeleModel.dateAchat),
+        heuresUtilisation: convertirLeTauxUtilisationEnHeureUtilisation(modeleModel.tauxUtilisation),
         modele: modeleModel.nom,
         nomEtablissement: modeleModel.nomEtablissement,
         nomInventaire: modeleModel.nomInventaire,
@@ -39,8 +44,7 @@ export function listeEquipementsPresenter(
   }
 
   const modeles = Object.keys(equipements)
-  const dateInventaire = equipements[modeles[0]][0].dateInventaire.toLocaleDateString('fr-FR')
-
+  const dateInventaire = formaterLaDateEnFrancais(equipements[modeles[0]][0].dateInventaire)
 
   return {
     dateInventaire,

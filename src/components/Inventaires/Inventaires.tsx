@@ -6,9 +6,10 @@ import React, { ReactElement } from 'react'
 import ActionSupprimer from './ActionSupprimer'
 import styles from './Inventaires.module.css'
 import { InventairePresenter } from '../../presenters/inventairesPresenter'
+import { formaterLeNomEtablissement } from '../../presenters/sharedPresenter'
 
 type InventairesProps = Readonly<{
-  inventaires: Array<InventairePresenter>
+  inventaires: ReadonlyArray<InventairePresenter>
 }>
 
 export default function Inventaires({ inventaires }: InventairesProps): ReactElement {
@@ -47,7 +48,7 @@ export default function Inventaires({ inventaires }: InventairesProps): ReactEle
                   </Link>
                 </td>
                 <td>
-                  {inventaire.nomEtablissement.split('$$')[0]}
+                  {formaterLeNomEtablissement(inventaire.nomEtablissement)}
                 </td>
                 <td>
                   {inventaire.dateInventaire}

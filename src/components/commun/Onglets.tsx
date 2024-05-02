@@ -44,7 +44,7 @@ export default function Onglets({ isSelected, nomEtablissement, nomInventaire }:
           <Link
             aria-selected={isSelected ? true : false}
             className={`js-tablist__link ${isSelected ? 'selected' : ''}`}
-            href={`indicateurs-cles?nomEtablissement=${encodeURI(nomEtablissement)}&nomInventaire=${encodeURI(nomInventaire)}`}
+            href={encodeURI(`indicateurs-cles?nomEtablissement=${nomEtablissement}&nomInventaire=${nomInventaire}`)}
           >
             {titreIndicateursCles}
           </Link>
@@ -53,7 +53,7 @@ export default function Onglets({ isSelected, nomEtablissement, nomInventaire }:
           <Link
             aria-selected={isSelected ? false : true}
             className={`js-tablist__link ${isSelected ? '' : 'selected'}`}
-            href={`liste-equipements?nomEtablissement=${encodeURI(nomEtablissement)}&nomInventaire=${encodeURI(nomInventaire)}`}
+            href={encodeURI(`liste-equipements?nomEtablissement=${nomEtablissement}&nomInventaire=${nomInventaire}`)}
           >
             {titreListeEquipements}
           </Link>

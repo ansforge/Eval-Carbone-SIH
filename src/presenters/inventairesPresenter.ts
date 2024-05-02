@@ -1,6 +1,6 @@
 import { inventaireModel } from '@prisma/client'
 
-import { StatutsInventaire } from './sharedPresenter'
+import { StatutsInventaire, formaterLaDateEnFrancais } from './sharedPresenter'
 import { ProfileAtih } from '../authentification'
 
 export type InventairePresenter = Readonly<{
@@ -15,10 +15,10 @@ export type InventairePresenter = Readonly<{
 
 export type InventairesPresenter = Readonly<{
   isAdmin: boolean
-  inventaires: Array<InventairePresenter>
+  inventaires: ReadonlyArray<InventairePresenter>
 }>
 
-export function inventairesPresenter(inventairesModel: Array<inventaireModel>, profile: ProfileAtih): InventairesPresenter {
+export function inventairesPresenter(inventairesModel: ReadonlyArray<inventaireModel>, profile: ProfileAtih): InventairesPresenter {
   const inventaires = inventairesModel.map((inventaireModel): InventairePresenter => {
     const statut = StatutsInventaire[inventaireModel.statut as keyof typeof StatutsInventaire]
     const path = statut === StatutsInventaire.EN_ATTENTE ? '/inventaire' : '/indicateurs-cles'
@@ -26,9 +26,9 @@ export function inventairesPresenter(inventairesModel: Array<inventaireModel>, p
 
     return {
       className: statut.toLowerCase().replace(' ', '_'),
-      dateInventaire: inventaireModel.dateInventaire.toLocaleDateString('fr-FR'),
+      dateInventaire: formaterLaDateEnFrancais(inventaireModel.dateInventaire),
       id: inventaireModel.id,
-      link: `${path}?nomEtablissement=${encodeURI(inventaireModel.nomEtablissement)}&nomInventaire=${encodeURI(inventaireModel.nomInventaire)}${statusParam}`,
+      link: encodeURI(`${path}?nomEtablissement=${inventaireModel.nomEtablissement}&nomInventaire=${inventaireModel.nomInventaire}${statusParam}`),
       nomEtablissement: inventaireModel.nomEtablissement,
       nomInventaire: inventaireModel.nomInventaire,
       statut,

@@ -1,6 +1,7 @@
 import { Chart, CategoryScale, LinearScale, BarElement, Tooltip, Legend, ArcElement, ChartData, ChartOptions, ChartDataset } from 'chart.js'
 
-import { EtapesAcv, IndicateurImpactEquipementSomme, toLowerCase } from '../../presenters/indicateursClesPresenter'
+import { EtapesAcv, IndicateurImpactEquipementSomme } from '../../presenters/indicateursClesPresenter'
+import { mettreEnBasDeCasse } from '../../presenters/sharedPresenter'
 
 Chart.register(
   ArcElement,
@@ -91,7 +92,7 @@ export function donneesParTypeEquipement(indicateursImpactsEquipementsSommes: Re
       data: indicateursImpactsEquipementsSommes
         .filter(filtrerParEtapeAcv(etapeAcv))
         .reduce(cumulerParImpact, Array<number>()),
-      label: toLowerCase(etapeAcv),
+      label: mettreEnBasDeCasse(etapeAcv),
     }
   })
 
@@ -104,7 +105,7 @@ export function donneesParTypeEquipement(indicateursImpactsEquipementsSommes: Re
 export function donneesParCycleDeVie(indicateursImpactsEquipementsSommes: ReadonlyArray<IndicateurImpactEquipementSomme>, referentielsTypesEquipements: ReadonlyArray<string>): ChartData<'bar'> {
   const etapesAcv = indicateursImpactsEquipementsSommes.reduce(
     (quantiteAccumulee, indicateurImpactEquipementSomme): Set<string> => {
-      return quantiteAccumulee.add(toLowerCase(indicateurImpactEquipementSomme.etapeAcv))
+      return quantiteAccumulee.add(mettreEnBasDeCasse(indicateurImpactEquipementSomme.etapeAcv))
     },
     new Set<string>()
   )
@@ -153,7 +154,7 @@ export function donneesRepartitionParTypeEquipement(
       {
         backgroundColor: colors,
         data: impactsParTypeEquipement.flat(),
-        label: toLowerCase(etapeAcv),
+        label: mettreEnBasDeCasse(etapeAcv),
       },
     ],
     labels: Array.from(nomTypesEquipement),

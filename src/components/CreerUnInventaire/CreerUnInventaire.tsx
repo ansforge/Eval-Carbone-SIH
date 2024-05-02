@@ -3,6 +3,7 @@
 import { ReactElement } from 'react'
 
 import { useCreerUnInventaire } from './useCreerUnInventaire'
+import { formaterLeNomEtablissement } from '../../presenters/sharedPresenter'
 import InfoBulle from '../commun/Infobulle'
 
 type CreerUnInventaireProps = Readonly<{
@@ -21,7 +22,7 @@ export default function CreerUnInventaire({ nomEtablissement }: CreerUnInventair
         <p className="fw-bold">
           pour l’établissement
           {' '}
-          {nomEtablissement.split('$$')[0]}
+          {formaterLeNomEtablissement(nomEtablissement)}
         </p>
         <p>
           Pour créer un inventaire, vous aurez besoin de renseigner les modèles des équipements de votre parc informatique et leur quantité.

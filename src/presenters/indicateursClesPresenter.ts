@@ -1,5 +1,6 @@
 import { indicateurImpactEquipementModel } from '@prisma/client'
 
+import { formaterDeuxChiffresApresLaVirgule, formaterLaDateEnFrancais } from './sharedPresenter'
 import { IndicateurImpactEquipementSommeModel } from '../repository/indicateursRepository'
 import { ReferentielTypeEquipementModel } from '../repository/typesEquipementsRepository'
 
@@ -49,7 +50,7 @@ export function indicateursClesPresenter(
   indicateursImpactsEquipementsSommesModel: ReadonlyArray<IndicateurImpactEquipementSommeModel>,
   indicateursImpactsEquipementsModel: ReadonlyArray<indicateurImpactEquipementModel>
 ): IndicateursClesPresenter {
-  const dateInventaire = indicateursImpactsEquipementsModel[0].dateInventaire.toLocaleDateString('fr-FR')
+  const dateInventaire = formaterLaDateEnFrancais(indicateursImpactsEquipementsModel[0].dateInventaire)
   const referentielsTypesEquipements = referentielsTypesEquipementsPresenter(referentielsTypesEquipementsModel)
   const indicateursImpactsEquipementsSommes = indicateursImpactsEquipementsSommesPresenter(
     indicateursImpactsEquipementsSommesModel,
@@ -63,10 +64,6 @@ export function indicateursClesPresenter(
     indicateursImpactsEquipementsSommes,
     referentielsTypesEquipements,
   }
-}
-
-export function toLowerCase(text: string): string {
-  return (text[0] + text.slice(1).toLowerCase()).replaceAll('_', ' ')
 }
 
 function indicateursImpactsEquipementsPresenter(
@@ -111,16 +108,16 @@ function indicateursImpactsEquipementsPresenter(
   }
 
   return {
-    acidification: deuxChiffresApresLaVirgule(acidification),
-    distribution: deuxChiffresApresLaVirgule(distribution),
-    emissionsDeParticulesFines: deuxChiffresApresLaVirgule(emissionsDeParticulesFines),
-    empreinteCarbone: deuxChiffresApresLaVirgule(empreinteCarbone),
-    epuisementDesRessources: deuxChiffresApresLaVirgule(epuisementDesRessources),
-    fabrication: deuxChiffresApresLaVirgule(fabrication),
-    finDeVie: deuxChiffresApresLaVirgule(finDeVie),
+    acidification: formaterDeuxChiffresApresLaVirgule(acidification),
+    distribution: formaterDeuxChiffresApresLaVirgule(distribution),
+    emissionsDeParticulesFines: formaterDeuxChiffresApresLaVirgule(emissionsDeParticulesFines),
+    empreinteCarbone: formaterDeuxChiffresApresLaVirgule(empreinteCarbone),
+    epuisementDesRessources: formaterDeuxChiffresApresLaVirgule(epuisementDesRessources),
+    fabrication: formaterDeuxChiffresApresLaVirgule(fabrication),
+    finDeVie: formaterDeuxChiffresApresLaVirgule(finDeVie),
     kilometresEnVoiture: Math.round(empreinteCarbone * kilometresEquivalent1TonneCO2).toLocaleString(),
-    radiationIonisantes: deuxChiffresApresLaVirgule(radiationIonisantes),
-    utilisation: deuxChiffresApresLaVirgule(utilisation),
+    radiationIonisantes: formaterDeuxChiffresApresLaVirgule(radiationIonisantes),
+    utilisation: formaterDeuxChiffresApresLaVirgule(utilisation),
   }
 }
 
@@ -139,14 +136,8 @@ function indicateursImpactsEquipementsSommesPresenter(
     .sort(sortByTypeEquipementAndEtapeAcv(referentielsEquipements))
 }
 
-function referentielsTypesEquipementsPresenter(
-  referentielsTypesEquipementsModel: ReadonlyArray<ReferentielTypeEquipementModel>
-): Array<string> {
+function referentielsTypesEquipementsPresenter(referentielsTypesEquipementsModel: ReadonlyArray<ReferentielTypeEquipementModel>): Array<string> {
   return referentielsTypesEquipementsModel.map((referentielTypeEquipementModel): string => referentielTypeEquipementModel.type)
-}
-
-function deuxChiffresApresLaVirgule(chiffre: number): string {
-  return Number(chiffre.toFixed(2)).toLocaleString()
 }
 
 function sortByTypeEquipementAndEtapeAcv(referentielsEquipements: Array<string>) {

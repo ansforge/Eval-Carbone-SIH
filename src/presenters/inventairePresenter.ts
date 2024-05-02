@@ -1,6 +1,6 @@
 import { modeleModel } from '@prisma/client'
 
-import { StatutsInventaire } from './sharedPresenter'
+import { StatutsInventaire, calculerLaDureeDeVie, convertirLeTauxUtilisationEnHeureUtilisation, formaterLaDateEnFrancais, genererUnIdentifiantUnique } from './sharedPresenter'
 import { ModeleReducer } from '../components/Inventaire/useEquipement'
 import { ReferentielTypeEquipementModel } from '../repository/typesEquipementsRepository'
 
@@ -16,8 +16,8 @@ export type InventairePresenter = Readonly<{
 }>
 
 export function inventairePresenter(
-  referentielsTypesEquipementsModel: Array<ReferentielTypeEquipementModel>,
-  modelesModel: Array<modeleModel>,
+  referentielsTypesEquipementsModel: ReadonlyArray<ReferentielTypeEquipementModel>,
+  modelesModel: ReadonlyArray<modeleModel>,
   statut: StatutsInventaire
 ): InventairePresenter {
   const equipementsAvecSesModeles = referentielsTypesEquipementsModel.map((referentielTypeEquipementModel): EquipementAvecSesModelesPresenter => {
@@ -27,19 +27,18 @@ export function inventairePresenter(
           let quantite = 0
           let dureeDeVie = referentielTypeEquipementModel.dureeDeVie
           let heureUtilisation = 24
-          const equipementsModelFiltre = modelesModel
-            .filter((modeleModel): boolean => modeleModel.nom === modele.relationModeles.nom)
+          const equipementsModelFiltre = modelesModel.filter((modeleModel): boolean => modeleModel.nom === modele.relationModeles.nom)
 
           if (equipementsModelFiltre.length > 0) {
             quantite = equipementsModelFiltre[0].quantite
-            dureeDeVie = new Date().getFullYear() - equipementsModelFiltre[0].dateAchat.getFullYear()
-            heureUtilisation = Math.round(equipementsModelFiltre[0].tauxUtilisation * 24)
+            dureeDeVie = calculerLaDureeDeVie(equipementsModelFiltre[0].dateAchat)
+            heureUtilisation = convertirLeTauxUtilisationEnHeureUtilisation(equipementsModelFiltre[0].tauxUtilisation)
           }
 
           return {
             dureeDeVie,
             heureUtilisation,
-            id: crypto.randomUUID(),
+            id: genererUnIdentifiantUnique(),
             nomModele: modele.relationModeles.nom,
             quantite,
           }
@@ -51,7 +50,7 @@ export function inventairePresenter(
   const dateInventaire = modelesModel.length === 0 ? new Date() : modelesModel[0].dateInventaire
 
   return {
-    dateInventaire: dateInventaire.toLocaleDateString('fr-FR'),
+    dateInventaire: formaterLaDateEnFrancais(dateInventaire),
     equipementsAvecSesModeles,
     isNonCalcule: statut === StatutsInventaire.TRAITE,
   }
