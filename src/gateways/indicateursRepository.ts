@@ -1,6 +1,6 @@
 import { indicateurImpactEquipementModel } from '@prisma/client'
 
-import prisma from '../../prisma/db'
+import prisma from './database'
 
 export type IndicateurImpactEquipementSommeModel = Readonly<{
   _sum: Readonly<{

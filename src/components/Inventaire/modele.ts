@@ -1,4 +1,4 @@
-import { Modele } from '../../repository/modelesRepository'
+import { Modele } from '../../gateways/modelesRepository'
 
 export const modelesSelectionnes = (): Array<Modele> => {
   const equipements = document.querySelectorAll<HTMLDivElement>('form [data-nom-equipement]')

@@ -1,7 +1,7 @@
 'use server'
 
 import { getProfileAtih } from '../../authentification'
-import { recupererUnInventaireRepository } from '../../repository/inventairesRepository'
+import { recupererUnInventaireRepository } from '../../gateways/inventairesRepository'
 
 export async function estCeQueLeNomInventaireExisteAction(nomInventaire: string): Promise<boolean> {
   const profile = await getProfileAtih()

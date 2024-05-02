@@ -1,4 +1,4 @@
-import prisma from '../../prisma/db'
+import prisma from './database'
 
 export type ReferentielTypeEquipementModel = Readonly<{
   dureeDeVie: number

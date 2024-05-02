@@ -3,8 +3,8 @@ import { ReactElement } from 'react'
 
 import { getProfileAtih } from '../../authentification'
 import InventairesLayout from '../../components/Inventaires/InventairesLayout'
+import { recupererLesInventairesRepository } from '../../gateways/inventairesRepository'
 import { inventairesPresenter } from '../../presenters/inventairesPresenter'
-import { recupererLesInventairesRepository } from '../../repository/inventairesRepository'
 
 export const metadata: Metadata = {
   title: 'Accueil',

@@ -1,7 +1,7 @@
 import { modeleModel } from '@prisma/client'
 
+import prisma from './database'
 import { passerATraiteUnInventaireRepository } from './inventairesRepository'
-import prisma from '../../prisma/db'
 
 type ApiError = Readonly<{
   code: string

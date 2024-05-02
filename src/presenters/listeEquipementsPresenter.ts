@@ -1,7 +1,7 @@
 import { modeleModel } from '@prisma/client'
 
 import { calculerLaDureeDeVie, convertirLeTauxUtilisationEnHeureUtilisation, formaterLaDateEnFrancais } from './sharedPresenter'
-import { ReferentielTypeEquipementModel } from '../repository/typesEquipementsRepository'
+import { ReferentielTypeEquipementModel } from '../gateways/typesEquipementsRepository'
 
 export type EquipementPresenter = Readonly<{
   dateInventaire: Readonly<Date>

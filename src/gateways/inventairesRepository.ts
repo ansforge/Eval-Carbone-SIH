@@ -1,8 +1,8 @@
 import { inventaireModel } from '@prisma/client'
 
+import prisma from './database'
 import { supprimerLesIndicateursImpactsEquipementsRepository } from './indicateursRepository'
 import { Modele, calculerEmpreinteRepository, enregistrerLesModelesRepository, supprimerLesModelesRepository } from './modelesRepository'
-import prisma from '../../prisma/db'
 
 export async function recupererLesInventairesRepository(nomEtablissement: string, isAdmin: boolean): Promise<Array<inventaireModel>> {
   const nomOrganisation = isAdmin ? { startsWith: '%' } : nomEtablissement
