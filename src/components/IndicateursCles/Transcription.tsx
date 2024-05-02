@@ -1,12 +1,12 @@
 import { ReactElement } from 'react'
 
-import { IndicateurImpactEquipementSommeViewModel, toLowerCase } from '../viewModel'
+import { IndicateurImpactEquipementSomme, toLowerCase } from '../../presenters/indicateursClesPresenter'
 
 type TranscriptionProps = Readonly<{
-  indicateursImpactsEquipementsSommesViewModel: ReadonlyArray<IndicateurImpactEquipementSommeViewModel>
+  indicateursImpactsEquipementsSommes: ReadonlyArray<IndicateurImpactEquipementSomme>
 }>
 
-export default function Transcription({ indicateursImpactsEquipementsSommesViewModel }: TranscriptionProps): ReactElement {
+export default function Transcription({ indicateursImpactsEquipementsSommes }: TranscriptionProps): ReactElement {
   return (
     <table className="table table-bordered">
       <caption className="nav-skip">
@@ -27,16 +27,16 @@ export default function Transcription({ indicateursImpactsEquipementsSommesViewM
       </thead>
       <tbody>
         {
-          indicateursImpactsEquipementsSommesViewModel.map((indicateurImpactEquipementSommeViewModel): ReactElement => (
-            <tr key={indicateurImpactEquipementSommeViewModel.typeEquipement + indicateurImpactEquipementSommeViewModel.etapeAcv}>
+          indicateursImpactsEquipementsSommes.map((indicateurImpactEquipementSomme): ReactElement => (
+            <tr key={indicateurImpactEquipementSomme.typeEquipement + indicateurImpactEquipementSomme.etapeAcv}>
               <td>
-                {indicateurImpactEquipementSommeViewModel.typeEquipement}
+                {indicateurImpactEquipementSomme.typeEquipement}
               </td>
               <td>
-                {toLowerCase(indicateurImpactEquipementSommeViewModel.etapeAcv)}
+                {toLowerCase(indicateurImpactEquipementSomme.etapeAcv)}
               </td>
               <td>
-                {Number(indicateurImpactEquipementSommeViewModel.impact.toFixed(2)).toLocaleString()}
+                {Number(indicateurImpactEquipementSomme.impact.toFixed(2)).toLocaleString()}
               </td>
             </tr>
           ))

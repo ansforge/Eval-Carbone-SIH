@@ -6,7 +6,7 @@ import { ReactElement } from 'react'
 import styles from './Action.module.css'
 import SupprimerUnInventaire from './SupprimerUnInventaire'
 import { useModale } from './useModale'
-import { StatutsInventaire } from '../viewModel'
+import { StatutsInventaire } from '../../presenters/sharedPresenter'
 
 type IndicateursClesProps = Readonly<{
   dateInventaire: string

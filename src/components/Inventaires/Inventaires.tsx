@@ -5,13 +5,13 @@ import React, { ReactElement } from 'react'
 
 import ActionSupprimer from './ActionSupprimer'
 import styles from './Inventaires.module.css'
-import { InventairesViewModel } from '../viewModel'
+import { InventairePresenter } from '../../presenters/inventairesPresenter'
 
 type InventairesProps = Readonly<{
-  inventairesViewModel: InventairesViewModel
+  inventaires: Array<InventairePresenter>
 }>
 
-export default function Inventaires({ inventairesViewModel }: InventairesProps): ReactElement {
+export default function Inventaires({ inventaires }: InventairesProps): ReactElement {
   return (
     <table className="table table-bordered">
       <caption className="nav-skip">
@@ -38,26 +38,26 @@ export default function Inventaires({ inventairesViewModel }: InventairesProps):
       </thead>
       <tbody>
         {
-          inventairesViewModel.map((inventaireViewModel): ReactElement => {
+          inventaires.map((inventaire): ReactElement => {
             return (
-              <tr key={inventaireViewModel.id}>
+              <tr key={inventaire.id}>
                 <td>
-                  <Link href={inventaireViewModel.link}>
-                    {inventaireViewModel.nomInventaire}
+                  <Link href={inventaire.link}>
+                    {inventaire.nomInventaire}
                   </Link>
                 </td>
                 <td>
-                  {inventaireViewModel.nomEtablissement.split('$$')[0]}
+                  {inventaire.nomEtablissement.split('$$')[0]}
                 </td>
                 <td>
-                  {inventaireViewModel.dateInventaire}
+                  {inventaire.dateInventaire}
                 </td>
                 <td>
-                  <span className={`${styles.pastille} ${styles[inventaireViewModel.className]} fz-16`}>
-                    {inventaireViewModel.statut}
+                  <span className={`${styles.pastille} ${styles[inventaire.className]} fz-16`}>
+                    {inventaire.statut}
                   </span>
                 </td>
-                <ActionSupprimer inventaireViewModel={inventaireViewModel} />
+                <ActionSupprimer inventairePresenter={inventaire} />
               </tr>
             )
           })

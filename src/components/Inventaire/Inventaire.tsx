@@ -6,22 +6,18 @@ import { ReactElement } from 'react'
 import Actions from './Actions'
 import Equipement from './Equipement'
 import { useInventaire } from './useInventaire'
-import { EquipementAvecSesModelesViewModel } from '../viewModel'
+import { InventairePresenter } from '../../presenters/inventairePresenter'
 
 type InventaireProps = Readonly<{
-  dateInventaire: string,
-  equipementsAvecSesModelesViewModel: ReadonlyArray<EquipementAvecSesModelesViewModel>
-  isNonCalcule: boolean
   nomEtablissement: string
   nomInventaire: string
+  presenter: InventairePresenter
 }>
 
 export default function Inventaire({
-  dateInventaire,
-  equipementsAvecSesModelesViewModel,
-  isNonCalcule,
   nomEtablissement,
   nomInventaire,
+  presenter,
 }: InventaireProps): ReactElement {
   const { enregistrerUnInventaire, isInventaireEnregistre, quantiteGlobale, setQuantiteGlobale } = useInventaire(nomEtablissement, nomInventaire)
 
@@ -41,12 +37,12 @@ export default function Inventaire({
           <div>
             {nomEtablissement.split('$$')[0]}
             {' - '}
-            {dateInventaire}
+            {presenter.dateInventaire}
           </div>
         </div>
         <div>
           <Actions
-            isNonCalcule={isNonCalcule}
+            isNonCalcule={presenter.isNonCalcule}
             quantiteGlobale={quantiteGlobale}
           />
         </div>
@@ -89,19 +85,19 @@ export default function Inventaire({
         Pour calculer l’empreinte environnementale de l’inventaire, vous devez renseigner au moins un modèle d’équipement.
       </p>
       {
-        equipementsAvecSesModelesViewModel.map((equipementAvecSesModelesViewModel): ReactElement => (
+        presenter.equipementsAvecSesModeles.map((equipementAvecSesModeles): ReactElement => (
           <Equipement
-            equipementAvecSesModelesViewModel={equipementAvecSesModelesViewModel}
-            idAccordion={equipementAvecSesModelesViewModel.type}
-            idFieldset={'id-' + equipementAvecSesModelesViewModel.type}
-            key={equipementAvecSesModelesViewModel.type}
+            equipementAvecSesModeles={equipementAvecSesModeles}
+            idAccordion={equipementAvecSesModeles.type}
+            idFieldset={'id-' + equipementAvecSesModeles.type}
+            key={equipementAvecSesModeles.type}
             setQuantiteGlobale={setQuantiteGlobale}
           />
         ))
       }
       <div className="text-center">
         <Actions
-          isNonCalcule={isNonCalcule}
+          isNonCalcule={presenter.isNonCalcule}
           quantiteGlobale={quantiteGlobale}
         />
       </div>

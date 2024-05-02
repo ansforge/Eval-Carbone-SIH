@@ -1,6 +1,6 @@
 import { Chart, CategoryScale, LinearScale, BarElement, Tooltip, Legend, ArcElement, ChartData, ChartOptions, ChartDataset } from 'chart.js'
 
-import { EtapesAcv, IndicateurImpactEquipementSommeViewModel, toLowerCase } from '../viewModel'
+import { EtapesAcv, IndicateurImpactEquipementSomme, toLowerCase } from '../../presenters/indicateursClesPresenter'
 
 Chart.register(
   ArcElement,
@@ -64,23 +64,23 @@ export const optionsCamembert: ChartOptions<'pie'> = {
 
 const filtrerParEtapeAcv =
   (etapeAcv: EtapesAcv) =>
-    (indicateurImpactEquipementSommeViewModel: IndicateurImpactEquipementSommeViewModel): boolean =>
-      indicateurImpactEquipementSommeViewModel.etapeAcv === etapeAcv
+    (indicateurImpactEquipementSomme: IndicateurImpactEquipementSomme): boolean =>
+      indicateurImpactEquipementSomme.etapeAcv === etapeAcv
 
 const filtrerParTypeEquipement =
   (typeEquipement: string) =>
-    (indicateurImpactEquipementSommeViewModel: IndicateurImpactEquipementSommeViewModel): boolean =>
-      indicateurImpactEquipementSommeViewModel.typeEquipement === typeEquipement
+    (indicateurImpactEquipementSomme: IndicateurImpactEquipementSomme): boolean =>
+      indicateurImpactEquipementSomme.typeEquipement === typeEquipement
 
-const cumulerParImpact = (impactAccumule: Array<number>, indicateurImpactEquipementSommeViewModel: IndicateurImpactEquipementSommeViewModel): Array<number> => {
-  impactAccumule.push(indicateurImpactEquipementSommeViewModel.impact)
+const cumulerParImpact = (impactAccumule: Array<number>, indicateurImpactEquipementSomme: IndicateurImpactEquipementSomme): Array<number> => {
+  impactAccumule.push(indicateurImpactEquipementSomme.impact)
   return impactAccumule
 }
 
-export function donneesParTypeEquipement(indicateursImpactsEquipementsSommesViewModel: ReadonlyArray<IndicateurImpactEquipementSommeViewModel>): ChartData<'bar'> {
-  const nomTypesEquipement = indicateursImpactsEquipementsSommesViewModel.reduce(
-    (quantiteAccumulee, indicateurImpactEquipementSommeViewModel): Set<string> => {
-      return quantiteAccumulee.add(indicateurImpactEquipementSommeViewModel.typeEquipement)
+export function donneesParTypeEquipement(indicateursImpactsEquipementsSommes: ReadonlyArray<IndicateurImpactEquipementSomme>): ChartData<'bar'> {
+  const nomTypesEquipement = indicateursImpactsEquipementsSommes.reduce(
+    (quantiteAccumulee, indicateurImpactEquipementSomme): Set<string> => {
+      return quantiteAccumulee.add(indicateurImpactEquipementSomme.typeEquipement)
     },
     new Set<string>()
   )
@@ -88,7 +88,7 @@ export function donneesParTypeEquipement(indicateursImpactsEquipementsSommesView
   const impactsParCycleDeVie = Object.values(EtapesAcv).map((etapeAcv, index): ChartDataset<'bar', Array<number | [number, number] | null>> => {
     return {
       backgroundColor: colors[index],
-      data: indicateursImpactsEquipementsSommesViewModel
+      data: indicateursImpactsEquipementsSommes
         .filter(filtrerParEtapeAcv(etapeAcv))
         .reduce(cumulerParImpact, Array<number>()),
       label: toLowerCase(etapeAcv),
@@ -101,22 +101,22 @@ export function donneesParTypeEquipement(indicateursImpactsEquipementsSommesView
   }
 }
 
-export function donneesParCycleDeVie(indicateursImpactsEquipementsSommesViewModel: ReadonlyArray<IndicateurImpactEquipementSommeViewModel>, referentielsTypesEquipementsViewModel: ReadonlyArray<string>): ChartData<'bar'> {
-  const etapesAcv = indicateursImpactsEquipementsSommesViewModel.reduce(
-    (quantiteAccumulee, indicateurImpactEquipementSommeViewModel): Set<string> => {
-      return quantiteAccumulee.add(toLowerCase(indicateurImpactEquipementSommeViewModel.etapeAcv))
+export function donneesParCycleDeVie(indicateursImpactsEquipementsSommes: ReadonlyArray<IndicateurImpactEquipementSomme>, referentielsTypesEquipements: ReadonlyArray<string>): ChartData<'bar'> {
+  const etapesAcv = indicateursImpactsEquipementsSommes.reduce(
+    (quantiteAccumulee, indicateurImpactEquipementSomme): Set<string> => {
+      return quantiteAccumulee.add(toLowerCase(indicateurImpactEquipementSomme.etapeAcv))
     },
     new Set<string>()
   )
 
-  const impactsParTypeEquipement = referentielsTypesEquipementsViewModel
-    .map((referentielTypeEquipementViewModel, index): ChartDataset<'bar', Array<number | [number, number] | null>> => {
+  const impactsParTypeEquipement = referentielsTypesEquipements
+    .map((referentielTypeEquipement, index): ChartDataset<'bar', Array<number | [number, number] | null>> => {
       return {
         backgroundColor: colors[index],
-        data: indicateursImpactsEquipementsSommesViewModel
-          .filter(filtrerParTypeEquipement(referentielTypeEquipementViewModel))
+        data: indicateursImpactsEquipementsSommes
+          .filter(filtrerParTypeEquipement(referentielTypeEquipement))
           .reduce(cumulerParImpact, Array<number>()),
-        label: referentielTypeEquipementViewModel,
+        label: referentielTypeEquipement,
       }
     })
     .filter((data): boolean => data.data.length !== 0)
@@ -128,21 +128,21 @@ export function donneesParCycleDeVie(indicateursImpactsEquipementsSommesViewMode
 }
 
 export function donneesRepartitionParTypeEquipement(
-  indicateursImpactsEquipementsSommesViewModel: ReadonlyArray<IndicateurImpactEquipementSommeViewModel>,
-  referentielsTypesEquipementsViewModel: ReadonlyArray<string>,
+  indicateursImpactsEquipementsSommes: ReadonlyArray<IndicateurImpactEquipementSomme>,
+  referentielsTypesEquipements: ReadonlyArray<string>,
   etapeAcv: EtapesAcv
 ): ChartData<'pie'> {
-  const nomTypesEquipement = indicateursImpactsEquipementsSommesViewModel.reduce(
-    (quantiteAccumulee, indicateurImpactEquipementSommeViewModel): Set<string> => {
-      return quantiteAccumulee.add(indicateurImpactEquipementSommeViewModel.typeEquipement)
+  const nomTypesEquipement = indicateursImpactsEquipementsSommes.reduce(
+    (quantiteAccumulee, indicateurImpactEquipementSomme): Set<string> => {
+      return quantiteAccumulee.add(indicateurImpactEquipementSomme.typeEquipement)
     },
     new Set<string>()
   )
 
-  const impactsParTypeEquipement = referentielsTypesEquipementsViewModel
-    .map((referentielTypeEquipementViewModel): ReadonlyArray<number> => {
-      return indicateursImpactsEquipementsSommesViewModel
-        .filter(filtrerParTypeEquipement(referentielTypeEquipementViewModel))
+  const impactsParTypeEquipement = referentielsTypesEquipements
+    .map((referentielTypeEquipement): ReadonlyArray<number> => {
+      return indicateursImpactsEquipementsSommes
+        .filter(filtrerParTypeEquipement(referentielTypeEquipement))
         .filter(filtrerParEtapeAcv(etapeAcv))
         .reduce(cumulerParImpact, Array<number>())
     })

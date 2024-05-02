@@ -4,23 +4,23 @@ import { ReactElement } from 'react'
 
 import Modele from './Modele'
 import { useEquipement } from './useEquipement'
-import { EquipementAvecSesModelesViewModel } from '../viewModel'
+import { EquipementAvecSesModelesPresenter } from '../../presenters/inventairePresenter'
 
 type EquipementProps = Readonly<{
-  equipementAvecSesModelesViewModel: EquipementAvecSesModelesViewModel
+  equipementAvecSesModeles: EquipementAvecSesModelesPresenter
   idFieldset: string
   idAccordion: string
   setQuantiteGlobale: (quantite: number) => void
 }>
 
 export default function Equipement({
-  equipementAvecSesModelesViewModel,
+  equipementAvecSesModeles,
   idAccordion,
   idFieldset,
   setQuantiteGlobale,
 }: EquipementProps): ReactElement {
-  const nomEquipement = equipementAvecSesModelesViewModel.type
-  const { isToggle, lignesModele, modifierUnModele, toggle } = useEquipement(setQuantiteGlobale, equipementAvecSesModelesViewModel.modeles)
+  const nomEquipement = equipementAvecSesModeles.type
+  const { isToggle, lignesModele, modifierUnModele, toggle } = useEquipement(setQuantiteGlobale, equipementAvecSesModeles.modeles)
 
   return (
     <fieldset

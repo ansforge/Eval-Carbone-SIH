@@ -3,15 +3,14 @@ import { ReactElement } from 'react'
 
 import Inventaires from './Inventaires'
 import InventairesVide from './InventairesVide'
+import { InventairesPresenter } from '../../presenters/inventairesPresenter'
 import InfoBulle from '../commun/Infobulle'
-import { InventairesViewModel } from '../viewModel'
 
 type InventairesLayoutProps = Readonly<{
-  inventairesViewModel: InventairesViewModel
-  isAdmin: boolean
+  presenter: InventairesPresenter
 }>
 
-export default function InventairesLayout({ inventairesViewModel, isAdmin }: InventairesLayoutProps): ReactElement {
+export default function InventairesLayout({ presenter }: InventairesLayoutProps): ReactElement {
   return (
     <>
       <div className="d-flex justify-content-between">
@@ -25,7 +24,7 @@ export default function InventairesLayout({ inventairesViewModel, isAdmin }: Inv
           </div>
         </div>
         {
-          !isAdmin && (
+          !presenter.isAdmin && (
             <div>
               <Link
                 className="btn btn--plain btn--primary"
@@ -39,10 +38,10 @@ export default function InventairesLayout({ inventairesViewModel, isAdmin }: Inv
       </div>
       <hr />
       {
-        inventairesViewModel.length > 0 ? (
-          <Inventaires inventairesViewModel={inventairesViewModel} />
+        presenter.inventaires.length > 0 ? (
+          <Inventaires inventaires={presenter.inventaires} />
         ) : (
-          <InventairesVide isAdmin={isAdmin} />
+          <InventairesVide isAdmin={presenter.isAdmin} />
         )
       }
     </>

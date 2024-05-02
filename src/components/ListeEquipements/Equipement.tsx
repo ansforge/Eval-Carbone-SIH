@@ -1,18 +1,18 @@
 import React, { ReactElement } from 'react'
 
-import { EquipementViewModel } from '../viewModel'
+import { EquipementPresenter } from '../../presenters/listeEquipementsPresenter'
 
 type EquipementProps = Readonly<{
-  equipementsViewModel: ReadonlyArray<EquipementViewModel>
+  equipements: ReadonlyArray<EquipementPresenter>
 }>
 
-export default function Equipement({ equipementsViewModel }: EquipementProps): ReactElement {
+export default function Equipement({ equipements }: EquipementProps): ReactElement {
   return (
     <table className="table table-bordered">
       <caption className="nav-skip">
         Liste des
         {' '}
-        {equipementsViewModel[0].type}
+        {equipements[0].type}
       </caption>
       <thead>
         <tr>
@@ -26,13 +26,13 @@ export default function Equipement({ equipementsViewModel }: EquipementProps): R
       </thead>
       <tbody>
         {
-          equipementsViewModel.map((equipementViewModel): ReactElement => (
-            <tr key={equipementViewModel.modele + crypto.randomUUID()}>
+          equipements.map((equipement): ReactElement => (
+            <tr key={equipement.modele + crypto.randomUUID()}>
               <td>
-                {equipementViewModel.modele}
+                {equipement.modele}
               </td>
               <td>
-                {equipementViewModel.quantite}
+                {equipement.quantite}
               </td>
             </tr>
           ))

@@ -2,15 +2,15 @@
 
 import React, { ReactElement } from 'react'
 
+import { InventairePresenter } from '../../presenters/inventairesPresenter'
 import SupprimerUnInventaire from '../commun/SupprimerUnInventaire'
 import { useModale } from '../commun/useModale'
-import { InventaireViewModel } from '../viewModel'
 
 type InventairesProps = Readonly<{
-  inventaireViewModel: InventaireViewModel
+  inventairePresenter: InventairePresenter
 }>
 
-export default function ActionSupprimer({ inventaireViewModel }: InventairesProps): ReactElement {
+export default function ActionSupprimer({ inventairePresenter }: InventairesProps): ReactElement {
   const { fermerLaModale, isOpen, ouvrirLaModale } = useModale()
 
   return (
@@ -30,8 +30,8 @@ export default function ActionSupprimer({ inventaireViewModel }: InventairesProp
       <SupprimerUnInventaire
         fermerLaModale={fermerLaModale}
         isOpen={isOpen}
-        nomEtablissement={inventaireViewModel.nomEtablissement}
-        nomInventaire={inventaireViewModel.nomInventaire}
+        nomEtablissement={inventairePresenter.nomEtablissement}
+        nomInventaire={inventairePresenter.nomInventaire}
       />
     </td>
   )
