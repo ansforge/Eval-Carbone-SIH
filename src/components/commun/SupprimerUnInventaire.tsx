@@ -28,9 +28,9 @@ export default function SupprimerUnInventaire({ fermerLaModale, isOpen, nomInven
     <Modale
       fermerLaModale={fermerLaModale}
       isOpen={isOpen}
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      submit={supprimerInventaire}
       titre={'Supprimer l’inventaire'}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      validerLaModale={supprimerInventaire}
     >
       <p>
         Si vous supprimez l’inventaire, celui si sera définitivement effacé et ne sera plus accessible dans la liste des inventaires.

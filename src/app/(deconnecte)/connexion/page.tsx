@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: 'Se connecter à EvalCarboneSIH',
 }
 
-export default async function Page(): Promise<ReactElement> {
+export default async function PageConnexion(): Promise<ReactElement> {
   await isConnected()
 
   const providers = await getProviders()

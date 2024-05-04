@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ReactElement } from 'react'
 
-import { getProfileAtih } from '../../../authentification'
+import { getProfilAtih } from '../../../authentification'
 import Breadcrumb from '../../../components/commun/Breadcrumb'
 import ListeEquipements from '../../../components/ListeEquipements/ListeEquipements'
 import { recupererLesModelesRepository } from '../../../gateways/modelesRepository'
@@ -26,9 +26,9 @@ export default async function Page({ searchParams }: PageProps): Promise<ReactEl
     notFound()
   }
 
-  const profile = await getProfileAtih()
+  const profil = await getProfilAtih()
 
-  if (!profile.isAdmin && profile.nomEtablissement !== searchParams.nomEtablissement) {
+  if (!profil.isAdmin && profil.nomEtablissement !== searchParams.nomEtablissement) {
     notFound()
   }
 

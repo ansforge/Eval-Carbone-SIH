@@ -19,7 +19,7 @@ export default function Breadcrumb({ label }: BreadcrumbProps): ReactElement {
           <Link href="/">
             Inventaires
             <svg
-              aria-hidden="true"
+              aria-hidden
               className="svg-icon svg-angle-right"
               focusable="false"
             >

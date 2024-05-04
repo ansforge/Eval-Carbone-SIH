@@ -1,7 +1,7 @@
 import { inventaireModel } from '@prisma/client'
 
 import { StatutsInventaire, formaterLaDateEnFrancais } from './sharedPresenter'
-import { ProfileAtih } from '../authentification'
+import { ProfilAtih } from '../authentification'
 
 export type InventairePresenter = Readonly<{
   className: string
@@ -18,7 +18,7 @@ export type InventairesPresenter = Readonly<{
   inventaires: ReadonlyArray<InventairePresenter>
 }>
 
-export function inventairesPresenter(inventairesModel: ReadonlyArray<inventaireModel>, profile: ProfileAtih): InventairesPresenter {
+export function inventairesPresenter(inventairesModel: ReadonlyArray<inventaireModel>, profil: ProfilAtih): InventairesPresenter {
   const inventaires = inventairesModel.map((inventaireModel): InventairePresenter => {
     const statut = StatutsInventaire[inventaireModel.statut as keyof typeof StatutsInventaire]
     const path = statut === StatutsInventaire.EN_ATTENTE ? '/inventaire' : '/indicateurs-cles'
@@ -37,6 +37,6 @@ export function inventairesPresenter(inventairesModel: ReadonlyArray<inventaireM
 
   return {
     inventaires,
-    isAdmin: profile.isAdmin,
+    isAdmin: profil.isAdmin,
   }
 }

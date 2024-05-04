@@ -26,6 +26,9 @@ export default function ActionSupprimer({ inventairePresenter }: InventairesProp
         >
           <use xlinkHref="/svg-icons/icon-sprite.svg#trash" />
         </svg>
+        <span className="sr-only">
+          Supprimer un inventaire
+        </span>
       </button>
       <SupprimerUnInventaire
         fermerLaModale={fermerLaModale}

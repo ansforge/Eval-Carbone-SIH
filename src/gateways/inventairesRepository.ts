@@ -4,8 +4,8 @@ import prisma from './database'
 import { supprimerLesIndicateursImpactsEquipementsRepository } from './indicateursRepository'
 import { Modele, calculerEmpreinteRepository, enregistrerLesModelesRepository, supprimerLesModelesRepository } from './modelesRepository'
 
-export async function recupererLesInventairesRepository(nomEtablissement: string, isAdmin: boolean): Promise<Array<inventaireModel>> {
-  const nomOrganisation = isAdmin ? { startsWith: '%' } : nomEtablissement
+export async function recupererLesInventairesRepository(nomEtablissement: string): Promise<Array<inventaireModel>> {
+  const nomOrganisation = nomEtablissement.endsWith('$$admin') ? { startsWith: '%' } : nomEtablissement
 
   return prisma.inventaireModel.findMany({ orderBy: { dateInventaire: 'desc' }, where: { nomEtablissement: nomOrganisation } })
 }
@@ -35,7 +35,7 @@ export async function creerUnInventaireRepository(nomEtablissement: string, nomI
 }
 
 export async function passerATraiteUnInventaireRepository(nomEtablissement: string, nomInventaire: string): Promise<void> {
-  return prisma.$transaction(async (prisma) => {
+  await prisma.$transaction(async (prisma) => {
     await prisma.inventaireModel.updateMany({
       data: {
         statut: 'TRAITE',

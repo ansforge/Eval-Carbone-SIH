@@ -1,6 +1,5 @@
 'use client'
 
-import { Alert } from '@reach/alert'
 import { ReactElement } from 'react'
 
 import Actions from './Actions'
@@ -8,6 +7,7 @@ import Equipement from './Equipement'
 import { useInventaire } from './useInventaire'
 import { InventairePresenter } from '../../presenters/inventairePresenter'
 import { formaterLeNomEtablissement } from '../../presenters/sharedPresenter'
+import AlerteSucces from '../commun/AlerteSucces'
 
 type InventaireProps = Readonly<{
   nomEtablissement: string
@@ -15,11 +15,7 @@ type InventaireProps = Readonly<{
   presenter: InventairePresenter
 }>
 
-export default function Inventaire({
-  nomEtablissement,
-  nomInventaire,
-  presenter,
-}: InventaireProps): ReactElement {
+export default function Inventaire({ nomEtablissement, nomInventaire, presenter }: InventaireProps): ReactElement {
   const { enregistrerUnInventaire, isInventaireEnregistre, quantiteGlobale, setQuantiteGlobale } = useInventaire(nomEtablissement, nomInventaire)
 
   return (
@@ -51,32 +47,16 @@ export default function Inventaire({
       <hr />
       {
         isInventaireEnregistre ? (
-          <Alert>
-            <div className="row justify-content-center">
-              <div
-                className="o-alert o-alert--success col-md-7"
-                role="status"
-              >
-                <div className="o-alert__icon">
-                  <svg
-                    aria-hidden="true"
-                    className="svg-icon svg-circle-check"
-                    focusable="false"
-                  >
-                    <use xlinkHref="svg-icons/icon-sprite.svg#circle-check" />
-                  </svg>
-                </div>
-                <h2 className="o-alert__title">
-                  Inventaire enregistré
-                </h2>
-                <p>
-                  Votre inventaire a bien été enregistré.
-                  <br />
-                  Vous pourrez le modifier depuis votre liste d’inventaire.
-                </p>
-              </div>
-            </div>
-          </Alert>
+          <AlerteSucces marge={7}>
+            <h2 className="o-alert__title">
+              Inventaire enregistré
+            </h2>
+            <p>
+              Votre inventaire a bien été enregistré.
+              <br />
+              Vous pourrez le modifier depuis votre liste d’inventaire.
+            </p>
+          </AlerteSucces>
         ) : null
       }
       <h2 className="text-center fw-bold">

@@ -2,25 +2,38 @@
 
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { ReactElement } from 'react'
+import { ReactElement, ReactNode } from 'react'
 
-import { ProfileAtih } from '../../authentification'
-import Deconnexion from '../Deconnexion/Deconnexion'
+import Deconnexion from './Deconnexion'
+import { ProfilAtih } from '../../authentification'
 
 type EnTeteProps = Readonly<{
-  session?: ProfileAtih
+  session?: ProfilAtih
+}>
+
+type Menu = Readonly<{
+  isDisplayed: boolean
+  label: string
+  path: string
 }>
 
 export default function EnTete({ session }: EnTeteProps): ReactElement {
   const pathname = usePathname()
-  const menu: ReadonlyArray<Readonly<{ label: string, path: string }>> = [
+  const menu: ReadonlyArray<Menu> = [
     {
+      isDisplayed: true,
       label: 'Inventaires',
       path: '/',
     },
     {
+      isDisplayed: true,
       label: 'FAQ',
       path: '/faq',
+    },
+    {
+      isDisplayed: session ? session.isAdmin : false,
+      label: 'Référentiels',
+      path: '/modifier-un-referentiel',
     },
   ]
 
@@ -74,23 +87,27 @@ export default function EnTete({ session }: EnTeteProps): ReactElement {
               <nav aria-label="Menu principal">
                 <ul className="navbar-nav nav-lvl--1">
                   {
-                    menu.map((menu): ReactElement => {
+                    menu.map((menu): ReactNode => {
+                      // istanbul ignore next @preserve
                       const activeClass = pathname === menu.path ? 'is-active' : ''
 
-                      return (
-                        <li
-                          className={`nav-item ${activeClass} common-nav-item`}
-                          key={menu.path}
-                        >
-                          <a
-                            className="nav-link"
-                            href={menu.path}
+                      if (menu.isDisplayed) {
+                        return (
+                          <li
+                            className={`nav-item ${activeClass} common-nav-item`}
+                            key={menu.path}
                           >
-                            {menu.label}
-                          </a>
-                        </li>
+                            <a
+                              className="nav-link"
+                              href={menu.path}
+                            >
+                              {menu.label}
+                            </a>
+                          </li>
+                        )
+                      }
 
-                      )
+                      return null
                     })
                   }
                   {

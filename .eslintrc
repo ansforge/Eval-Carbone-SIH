@@ -126,5 +126,25 @@
       ]
     }],
     "unused-imports/no-unused-imports": "error"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts?(x)"],
+      "extends": [
+        "plugin:vitest/all"
+      ],
+      "rules": {
+        "@typescript-eslint/unbound-method": "off",
+        "vitest/max-expects": "off",
+        "vitest/no-conditional-expect": "off",
+        "vitest/no-hooks": "off",
+        "vitest/require-hook": "off",
+        "vitest/prefer-expect-assertions": "off"
+      }
+    },
+    {
+      "files": ["**/*.test.tsx"],
+      "extends": ["plugin:testing-library/react"]
+    }
+  ]
 }

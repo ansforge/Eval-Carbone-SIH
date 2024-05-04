@@ -13,8 +13,8 @@ type UseInventaire = Readonly<{
 
 export function useInventaire(nomEtablissement: string, nomInventaire: string): UseInventaire {
   const router = useRouter()
-  const [quantiteGlobale, setQuantiteGlobale] = useState<number>(0)
-  const [isInventaireEnregistre, setIsInventaireEnregistre] = useState<boolean>(false)
+  const [quantiteGlobale, setQuantiteGlobale] = useState(0)
+  const [isInventaireEnregistre, setIsInventaireEnregistre] = useState(false)
 
   const enregistrerUnInventaireNonCalcule = async () => {
     await enregistrerUnInventaireNonCalculeAction(nomEtablissement, nomInventaire, modelesSelectionnes())

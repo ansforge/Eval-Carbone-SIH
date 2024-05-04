@@ -7,7 +7,7 @@ type UseModale = Readonly<{
 }>
 
 export function useModale(): UseModale {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   const ouvrirLaModale = () => {
     setIsOpen(true)

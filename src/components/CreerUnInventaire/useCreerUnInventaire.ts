@@ -27,13 +27,14 @@ export function useCreerUnInventaire(): UseCreerUnInventaire {
 
   const creerInventaire = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+
     const formData = new FormData(event.currentTarget)
     const nomInventaire = formData.get('nomInventaire') as string
     const nomEtablissement = formData.get('nomEtablissement') as string
 
-    const existe = await estCeQueLeNomInventaireExisteAction(nomInventaire)
+    const nomInventaireExiste = await estCeQueLeNomInventaireExisteAction(nomInventaire)
 
-    if (!existe) {
+    if (!nomInventaireExiste) {
       const url = new URL('/inventaire', document.location.href)
       url.searchParams.append('nomEtablissement', nomEtablissement)
       url.searchParams.append('nomInventaire', nomInventaire)
@@ -49,8 +50,10 @@ export function useCreerUnInventaire(): UseCreerUnInventaire {
   }
 
   const modifierNomInventaire = (event: FormEvent<HTMLInputElement>) => {
+    const caracteresMinimumPourUnNomInventaire = 4
+
     setState({
-      isDisabled: event.currentTarget.value.length > 3 ? false : true,
+      isDisabled: event.currentTarget.value.length >= caracteresMinimumPourUnNomInventaire ? false : true,
       isInvalid: false,
       nomInventaire: event.currentTarget.value,
     })

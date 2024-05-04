@@ -9,7 +9,7 @@ type AccordeonProps = PropsWithChildren<Readonly<{
 }>>
 
 export default function Accordeon({ children, idSection, idAccordion, label }: AccordeonProps): ReactElement {
-  const [isToggle, setIsToggle] = useState<boolean>(false)
+  const [isToggle, setIsToggle] = useState(false)
 
   const toggle = () => {
     setIsToggle(!isToggle)

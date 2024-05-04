@@ -19,7 +19,7 @@ type UseEquipement = Readonly<{
 
 export function useEquipement(setQuantiteGlobale: (quantite: number) => void, modeles: Array<ModeleReducer>): UseEquipement {
   const [lignesModele, dispatch] = useReducer(modelesReducer, modeles)
-  const [isToggle, setIsToggle] = useState<boolean>(false)
+  const [isToggle, setIsToggle] = useState(false)
 
   const toggle = () => {
     setIsToggle(!isToggle)

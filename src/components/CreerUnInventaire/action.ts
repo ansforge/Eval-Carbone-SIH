@@ -1,12 +1,12 @@
 'use server'
 
-import { getProfileAtih } from '../../authentification'
+import { getProfilAtih } from '../../authentification'
 import { recupererUnInventaireRepository } from '../../gateways/inventairesRepository'
 
 export async function estCeQueLeNomInventaireExisteAction(nomInventaire: string): Promise<boolean> {
-  const profile = await getProfileAtih()
+  const profil = await getProfilAtih()
 
-  const inventaire = await recupererUnInventaireRepository(profile.nomEtablissement, nomInventaire)
+  const inventaire = await recupererUnInventaireRepository(profil.nomEtablissement, nomInventaire)
 
   if (inventaire) {
     return true

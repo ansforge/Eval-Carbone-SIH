@@ -28,6 +28,9 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es6",
+    "types": [
+      "vitest/globals"
+    ],
     "plugins": [
       {
         "name": "next"

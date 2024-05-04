@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { redirect } from 'next/navigation'
-import nextAuth, { NextAuthOptions, Session, getServerSession } from 'next-auth'
+import NextAuth, { NextAuthOptions, Session, getServerSession } from 'next-auth'
 import { JWT } from 'next-auth/jwt'
 import { OAuthConfig } from 'next-auth/providers'
 
-type Profile = Readonly<{
+type Profil = Readonly<{
   profile_atih: string
   sub: string
 }>
@@ -15,7 +15,7 @@ const authOptions = {
     jwt({ token, profile }): JWT {
       if (profile !== undefined) {
         // @ts-expect-error
-        token.profile_atih = profile.profile_atih
+        token.profile_atih = profile.profile_atih.profils[profile.profile_atih.idProfilSelectionne]
       }
 
       return token
@@ -40,14 +40,14 @@ const authOptions = {
       id: 'pasrel',
       idToken: true,
       name: 'Pasrel',
-      profile(profile: Profile) {
+      profile(profile: Profil) {
         return {
           id: profile.sub,
         }
       },
       type: 'oauth',
       wellKnown: 'https://connect-pasrel.atih.sante.fr/cas/oidc/.well-known',
-    } satisfies OAuthConfig<Profile>,
+    } satisfies OAuthConfig<Profil>,
   ],
   theme: {
     brandColor: '#1d71b8',
@@ -56,14 +56,14 @@ const authOptions = {
   },
 } satisfies NextAuthOptions
 
-export const handler = nextAuth(authOptions)
+export const handler = NextAuth(authOptions)
 
-export type ProfileAtih = Readonly<{
+export type ProfilAtih = Readonly<{
   isAdmin: boolean
   nomEtablissement: string
 }>
 
-export async function getProfileAtih(): Promise<ProfileAtih> {
+export async function getProfilAtih(): Promise<ProfilAtih> {
   const niveauAdmin = 'NATIONAL'
   const session = await getServerSession(authOptions)
 
@@ -71,40 +71,22 @@ export async function getProfileAtih(): Promise<ProfileAtih> {
     redirect('connexion')
   }
 
-  let profile: ProfileAtih = {
-    isAdmin: false,
-    nomEtablissement: '',
-  }
-
+  const etablissementGeographique = 'ET'
   // @ts-expect-error
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  for (const profil of Object.keys(session.user.profile_atih.profils)) {
-    let finess = ''
+  const profilsAtih = session.user.profile_atih
 
-    // @ts-expect-error
-    if (Number(profil) === Number(session.user.profile_atih.idProfilSelectionne)) {
-      // @ts-expect-error
-      finess = session.user.profile_atih.profils[profil].entite.finess
+  let numeroFiness = profilsAtih.entite.finess ?? 'admin'
 
-      // @ts-expect-error
-      if (session.user.profile_atih.profils[profil].entite.niveau === 'ET') {
-        // @ts-expect-error
-        if (session.user.profile_atih.profils[profil].entite.statut[1] !== undefined) {
-          // @ts-expect-error
-          finess = session.user.profile_atih.profils[profil].entite.finessJuridique
-        }
-      }
-
-      profile = {
-        // @ts-expect-error
-        isAdmin: session.user.profile_atih.profils[profil].niveau === niveauAdmin,
-        // @ts-expect-error
-        nomEtablissement: session.user.profile_atih.profils[profil].entite.libelle + '$$' + finess,
-      }
+  if (profilsAtih.entite.niveau === etablissementGeographique) {
+    if (profilsAtih.entite.statut[1] !== undefined) {
+      numeroFiness = profilsAtih.entite.finessJuridique
     }
   }
 
-  return profile
+  return {
+    isAdmin: profilsAtih.niveau === niveauAdmin,
+    nomEtablissement: profilsAtih.entite.libelle + '$$' + numeroFiness,
+  }
 }
 
 export async function isConnected(): Promise<void> {

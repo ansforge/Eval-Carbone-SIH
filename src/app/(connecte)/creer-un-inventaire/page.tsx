@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ReactElement } from 'react'
 
-import { getProfileAtih } from '../../../authentification'
+import { getProfilAtih } from '../../../authentification'
 import Breadcrumb from '../../../components/commun/Breadcrumb'
 import CreerUnInventaire from '../../../components/CreerUnInventaire/CreerUnInventaire'
 
@@ -12,16 +12,16 @@ export const metadata: Metadata = {
 }
 
 export default async function Page(): Promise<ReactElement> {
-  const profile = await getProfileAtih()
+  const profil = await getProfilAtih()
 
-  if (profile.isAdmin) {
+  if (profil.isAdmin) {
     notFound()
   }
 
   return (
     <>
       <Breadcrumb label={title} />
-      <CreerUnInventaire nomEtablissement={profile.nomEtablissement} />
+      <CreerUnInventaire nomEtablissement={profil.nomEtablissement} />
     </>
   )
 }

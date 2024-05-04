@@ -8,6 +8,7 @@ export default function Astuce({ children }: PropsWithChildren): ReactElement {
       <div className="row">
         <div className="col-md-2">
           <svg
+            aria-hidden
             height="120"
             width="120"
             xmlns="http://www.w3.org/2000/svg"

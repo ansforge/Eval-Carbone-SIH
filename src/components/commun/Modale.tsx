@@ -1,21 +1,14 @@
 import { DialogContent, DialogOverlay } from '@reach/dialog'
-import { PropsWithChildren, ReactElement, useState } from 'react'
+import { PropsWithChildren, ReactElement } from 'react'
 
 type ModaleProps = PropsWithChildren<Readonly<{
   fermerLaModale: () => void
   isOpen: boolean
-  submit: () => void
   titre: string
+  validerLaModale: () => void
 }>>
 
-export default function Modale({ children, fermerLaModale, isOpen, submit, titre }: ModaleProps): ReactElement {
-  const [isDisabled, setIsDisabled] = useState<boolean>(false)
-
-  const validerLaModale = () => {
-    setIsDisabled(true)
-    submit()
-  }
-
+export default function Modale({ children, fermerLaModale, isOpen, titre, validerLaModale }: ModaleProps): ReactElement {
   return (
     <DialogOverlay
       isOpen={isOpen}
@@ -41,7 +34,7 @@ export default function Modale({ children, fermerLaModale, isOpen, submit, titre
               type="button"
             >
               <svg
-                aria-hidden="true"
+                aria-hidden
                 className="svg-icon svg-close"
                 focusable="false"
               >
@@ -67,7 +60,6 @@ export default function Modale({ children, fermerLaModale, isOpen, submit, titre
             </button>
             <button
               className="btn btn--plain btn--primary"
-              disabled={isDisabled}
               onClick={validerLaModale}
               type="button"
             >

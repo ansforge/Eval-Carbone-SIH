@@ -1,4 +1,6 @@
 .next
+.vscode
+coverage
 node_modules
 tsconfig.tsbuildinfo
 .env.local
