@@ -233,8 +233,8 @@ export default function IndicateursCles({
           </Astuce>
         </div>
         <Accordeon
-          idAccordion="transcription1"
-          idSection="id-transcription1"
+          idAccordion="transcription"
+          idSection="id-transcription"
           label="Transcription des données de l’empreinte carbone par type d’équipement"
         >
           <Transcription indicateursImpactsEquipementsSommes={presenter.indicateursImpactsEquipementsSommes} />
@@ -310,50 +310,56 @@ export default function IndicateursCles({
           </section>
         )
       }
-      <div className="row">
-        <Indicateur
-          coin="bottom-right"
-          texteInfoBulle="Les radiations ionisantes quantifient l’énergie libérée par une substance radioactive,  en équivalent uranium 235. Leurs expositions provoquent des dommages à l’ADN (cancer, malformations, etc.)."
-          titre="Radiations ionisantes"
-          unite={
-            <abbr title="kilogrammes d’uranium 235 équivalent">
-              kg U235 eq
-            </abbr>
-          }
-          valeur={presenter.indicateursImpactsEquipements.radiationIonisantes}
-        />
-        <Indicateur
-          coin="bottom-left"
-          texteInfoBulle="L’épuisement des ressources mesure la diminution des matériaux ou des ressources naturelles disponibles, en kg équivalent antimoine. Cela peut conduire à de la déforestation, de la perte de biodiversité, etc."
-          titre="Épuisement des ressources - minéraux et métaux"
-          unite={
-            <abbr title="kilogrammes d’antimoine équivalent">
-              kg SB eq
-            </abbr>
-          }
-          valeur={presenter.indicateursImpactsEquipements.epuisementDesRessources}
-        />
-      </div>
-      <div className="row">
-        <Indicateur
-          coin="top-right"
-          texteInfoBulle="Les particules fines (PM2,5) peuvent provenir du chauffage au bois, du trafic routier et des activités de chantier. Elles sont nocives pour la santé respiratoire et cardiovasculaire."
-          titre="Émissions de particules fines"
-          unite="Incidence de maladies"
-          valeur={presenter.indicateursImpactsEquipements.emissionsDeParticulesFines}
-        />
-        <Indicateur
-          coin="top-left"
-          texteInfoBulle="L’acidification fait référence à la transformation de polluants en acides dans les écosystèmes, exprimée en équivalent acidification de l’eau de mer. Cela impacte la biodiversité, les bâtiments, etc."
-          titre="Acidification"
-          unite={
-            <abbr title="molécules ion hydron équivalent">
-              mol H+ eq
-            </abbr>
-          }
-          valeur={presenter.indicateursImpactsEquipements.acidification}
-        />
-      </div>
+      <Accordeon
+        idAccordion="transcription-indicateur"
+        idSection="id-transcription-indicateur"
+        label="Autres indicateurs d’impact environnemental"
+      >
+        <div className="row">
+          <Indicateur
+            coin="bottom-right"
+            texteInfoBulle="Les radiations ionisantes quantifient l’énergie libérée par une substance radioactive,  en équivalent uranium 235. Leurs expositions provoquent des dommages à l’ADN (cancer, malformations, etc.)."
+            titre="Radiations ionisantes"
+            unite={
+              <abbr title="kilogrammes d’uranium 235 équivalent">
+                kg U235 eq
+              </abbr>
+            }
+            valeur={presenter.indicateursImpactsEquipements.radiationIonisantes}
+          />
+          <Indicateur
+            coin="bottom-left"
+            texteInfoBulle="L’épuisement des ressources mesure la diminution des matériaux ou des ressources naturelles disponibles, en kg équivalent antimoine. Cela peut conduire à de la déforestation, de la perte de biodiversité, etc."
+            titre="Épuisement des ressources - minéraux et métaux"
+            unite={
+              <abbr title="kilogrammes d’antimoine équivalent">
+                kg SB eq
+              </abbr>
+            }
+            valeur={presenter.indicateursImpactsEquipements.epuisementDesRessources}
+          />
+        </div>
+        <div className="row">
+          <Indicateur
+            coin="top-right"
+            texteInfoBulle="Les particules fines (PM2,5) peuvent provenir du chauffage au bois, du trafic routier et des activités de chantier. Elles sont nocives pour la santé respiratoire et cardiovasculaire."
+            titre="Émissions de particules fines"
+            unite="Incidence de maladies"
+            valeur={presenter.indicateursImpactsEquipements.emissionsDeParticulesFines}
+          />
+          <Indicateur
+            coin="top-left"
+            texteInfoBulle="L’acidification fait référence à la transformation de polluants en acides dans les écosystèmes, exprimée en équivalent acidification de l’eau de mer. Cela impacte la biodiversité, les bâtiments, etc."
+            titre="Acidification"
+            unite={
+              <abbr title="molécules ion hydron équivalent">
+                mol H+ eq
+              </abbr>
+            }
+            valeur={presenter.indicateursImpactsEquipements.acidification}
+          />
+        </div>
+      </Accordeon>
     </>
   )
 }
