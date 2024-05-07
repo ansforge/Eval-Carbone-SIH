@@ -48,6 +48,44 @@ export async function passerATraiteUnInventaireRepository(nomEtablissement: stri
   })
 }
 
+export async function modifierLeNomInventaireRepository(
+  nomEtablissement: string,
+  ancienNomInventaire: string,
+  nouveauNomInventaire: string
+): Promise<void> {
+  await prisma.$transaction(async (prisma) => {
+    await prisma.inventaireModel.updateMany({
+      data: {
+        nomInventaire: nouveauNomInventaire,
+      },
+      where: {
+        nomEtablissement,
+        nomInventaire: ancienNomInventaire,
+      },
+    })
+
+    await prisma.modeleModel.updateMany({
+      data: {
+        nomInventaire: nouveauNomInventaire,
+      },
+      where: {
+        nomEtablissement,
+        nomInventaire: ancienNomInventaire,
+      },
+    })
+
+    await prisma.indicateurImpactEquipementModel.updateMany({
+      data: {
+        nomInventaire: nouveauNomInventaire,
+      },
+      where: {
+        nomEtablissement,
+        nomInventaire: ancienNomInventaire,
+      },
+    })
+  })
+}
+
 export async function supprimerUnInventaireRepository(nomEtablissement: string, nomInventaire: string): Promise<Date> {
   return prisma.$transaction(async (prisma): Promise<Date> => {
     const inventaire = await prisma.inventaireModel.findFirst({

@@ -34,7 +34,7 @@ export default function CreerUneSimulation({ ancienNomInventaire, nomEtablisseme
           Créer une simulation
         </h1>
         <p className="fw-bold">
-          pour l’établissement
+          Inventaire à simuler
           {' '}
           {formaterLeNomEtablissement(nomEtablissement)}
         </p>

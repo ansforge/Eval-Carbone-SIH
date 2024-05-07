@@ -1,6 +1,7 @@
 import { indicateurImpactEquipementModel } from '@prisma/client'
 
 import { formaterDeuxChiffresApresLaVirgule, formaterLaDateEnFrancais } from './sharedPresenter'
+import { ProfilAtih } from '../authentification'
 import { IndicateurImpactEquipementSommeModel } from '../gateways/indicateursRepository'
 import { ReferentielTypeEquipementModel } from '../gateways/typesEquipementsRepository'
 
@@ -27,6 +28,7 @@ export type IndicateursClesPresenter = Readonly<{
   dateInventaire: string
   indicateursImpactsEquipementsSommes: ReadonlyArray<IndicateurImpactEquipementSomme>
   indicateursImpactsEquipements: IndicateursImpactsEquipements
+  isAdmin: boolean
   referentielsTypesEquipements: ReadonlyArray<string>
 }>
 
@@ -48,7 +50,8 @@ enum Criteres {
 export function indicateursClesPresenter(
   referentielsTypesEquipementsModel: ReadonlyArray<ReferentielTypeEquipementModel>,
   indicateursImpactsEquipementsSommesModel: ReadonlyArray<IndicateurImpactEquipementSommeModel>,
-  indicateursImpactsEquipementsModel: ReadonlyArray<indicateurImpactEquipementModel>
+  indicateursImpactsEquipementsModel: ReadonlyArray<indicateurImpactEquipementModel>,
+  profil: ProfilAtih
 ): IndicateursClesPresenter {
   const dateInventaire = formaterLaDateEnFrancais(indicateursImpactsEquipementsModel[0].dateInventaire)
   const referentielsTypesEquipements = referentielsTypesEquipementsPresenter(referentielsTypesEquipementsModel)
@@ -62,6 +65,7 @@ export function indicateursClesPresenter(
     dateInventaire,
     indicateursImpactsEquipements,
     indicateursImpactsEquipementsSommes,
+    isAdmin: profil.isAdmin,
     referentielsTypesEquipements,
   }
 }

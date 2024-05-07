@@ -6,12 +6,12 @@ import EnTete from '../../components/commun/EnTete'
 import PiedDePage from '../../components/commun/PiedDePage'
 
 export default async function Layout({ children }: PropsWithChildren): Promise<ReactElement> {
-  const session = await getProfilAtih()
+  const profil = await getProfilAtih()
 
   return (
     <>
       <AccesRapide />
-      <EnTete session={session} />
+      <EnTete profil={profil} />
       <main
         className="main pt-4"
         id="main"

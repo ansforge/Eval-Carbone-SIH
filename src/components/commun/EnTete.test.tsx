@@ -9,13 +9,13 @@ describe('en-tête', () => {
     describe('en tant qu’utilisateur', () => {
       it('quand j’affiche une page quelconque alors je ne vois que 3 liens', () => {
         // GIVEN
-        const session = {
+        const profil = {
           isAdmin: false,
           nomEtablissement: 'fakeNom$$fakeNumeroFiness',
         }
 
         // WHEN
-        renderComponent(<EnTete session={session} />)
+        renderComponent(<EnTete profil={profil} />)
 
         // THEN
         const header = screen.getByRole('banner')
@@ -33,11 +33,11 @@ describe('en-tête', () => {
       it('quand je clique sur se déconnecter alors je me déconnecte', () => {
         // GIVEN
         vi.spyOn(nextAuth, 'signOut').mockResolvedValueOnce({ url: '' })
-        const session = {
+        const profil = {
           isAdmin: false,
           nomEtablissement: 'fakeNom$$fakeNumeroFiness',
         }
-        renderComponent(<EnTete session={session} />)
+        renderComponent(<EnTete profil={profil} />)
         const boutonSeDeconnecter = screen.getByRole('button', { name: 'Se déconnecter' })
 
         // WHEN
@@ -51,13 +51,13 @@ describe('en-tête', () => {
     describe('en tant qu’admin', () => {
       it('quand j’affiche une page quelconque alors je vois en plus le lien référentiels', () => {
         // GIVEN
-        const session = {
+        const profil = {
           isAdmin: true,
           nomEtablissement: 'fakeNom$$admin',
         }
 
         // WHEN
-        renderComponent(<EnTete session={session} />)
+        renderComponent(<EnTete profil={profil} />)
 
         // THEN
         const listItems = screen.getAllByRole('listitem')

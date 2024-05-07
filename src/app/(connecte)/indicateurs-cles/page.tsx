@@ -54,7 +54,12 @@ export default async function Page({ searchParams }: PageProps): Promise<ReactEl
       <IndicateursCles
         nomEtablissement={searchParams.nomEtablissement}
         nomInventaire={searchParams.nomInventaire}
-        presenter={indicateursClesPresenter(referentielsTypesEquipementsModel, indicateursImpactsEquipementsSommesModel, indicateursImpactsEquipementsModel)}
+        presenter={indicateursClesPresenter(
+          referentielsTypesEquipementsModel,
+          indicateursImpactsEquipementsSommesModel,
+          indicateursImpactsEquipementsModel,
+          profil
+        )}
       />
     </>
   )

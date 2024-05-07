@@ -103,9 +103,9 @@ describe('page créer une simulation', () => {
       expect(textErreur).toBeInTheDocument()
     })
 
-    it('quand je valide le formulaire alors je vais à la suite', async () => {
+    it('quand je valide le formulaire avec un nom d’inventaire qui n’existe pas alors je vais à la suite', async () => {
       // GIVEN
-      vi.spyOn(repository, 'recupererUnInventaireRepository').mockResolvedValue(null)
+      vi.spyOn(repository, 'recupererUnInventaireRepository').mockResolvedValueOnce(null)
       jeSuisUnUtilisateur()
       renderComponent(await PageCreerUneSimulation(queryParams()))
 
@@ -153,7 +153,7 @@ describe('page créer une simulation', () => {
   })
 })
 
-function queryParams() {
+function queryParams(): { searchParams: { nomInventaire: string } } {
   return {
     searchParams: {
       nomInventaire: 'Centre hospitalier',

@@ -22,6 +22,22 @@ export default function Actions({ dateInventaire, nomEtablissement, nomInventair
       <div>
         <div className="h3">
           {nomInventaire}
+          {'  '}
+          <Link
+            href={encodeURI(`/modifier-le-nom-inventaire?nomEtablissement=${nomEtablissement}&nomInventaire=${nomInventaire}`)}
+            title="Modifier le nom de l’inventaire"
+          >
+            <svg
+              aria-hidden
+              className="svg-icon svg-edit"
+              focusable="false"
+            >
+              <use xlinkHref="/svg-icons/icon-sprite.svg#edit" />
+            </svg>
+            <span className="sr-only">
+              Modifier le nom de l’inventaire
+            </span>
+          </Link>
         </div>
         <div>
           {formaterLeNomEtablissement(nomEtablissement)}
