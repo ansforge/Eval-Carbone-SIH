@@ -1,5 +1,14 @@
 import 'vitest-dom/extend-expect'
 
+// Date par défaut dans tous les tests
+class StubedDate extends Date {
+  constructor() {
+    super('1995-12-17T03:24:00')
+  }
+}
+// @ts-expect-error
+global.Date = StubedDate
+
 vi.mock('next/navigation', () => {
   return {
     notFound: vi.fn(() => {
@@ -9,7 +18,11 @@ vi.mock('next/navigation', () => {
       throw new Error('NEXT REDIRECT ' + destination)
     }),
     usePathname: vi.fn(),
-    useRouter: vi.fn(),
+    useRouter: vi.fn(() => {
+      return {
+        push: vi.fn(),
+      }
+    }),
   }
 })
 

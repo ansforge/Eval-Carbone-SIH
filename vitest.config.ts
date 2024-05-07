@@ -8,6 +8,8 @@ export default defineConfig({
       include: [
         'src/app/(connecte)/modifier-un-referentiel/**/*',
         'src/components/ModifierUnReferentiel/**/*',
+        'src/app/(connecte)/creer-une-simulation/*',
+        'src/components/CreerUneSimulation/**/*',
         'src/app/(connecte)/page.tsx',
         'src/components/Inventaires/**/*',
         'src/app/(deconnecte)/connexion/**/*',

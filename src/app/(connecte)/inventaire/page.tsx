@@ -15,11 +15,15 @@ export const metadata: Metadata = {
   title,
 }
 
-type PageProps = Readonly<{
+export type PageProps = Readonly<{
   searchParams: Readonly<{
+    dureeDeVie?: string
+    heureUtilisation?: string
+    nombreEquipement?: string
     nomEtablissement?: string
     nomInventaire?: string
-    statut?: string
+    nouveauNomInventaire?: string
+    statut?: StatutsInventaire
   }>
 }>
 
@@ -38,15 +42,13 @@ export default async function Page({ searchParams }: PageProps): Promise<ReactEl
 
   const referentielsTypesEquipementsModel = await recupererLesReferentielsTypesEquipementsRepository()
 
-  const statut = searchParams.statut === undefined ? StatutsInventaire.EN_ATTENTE : searchParams.statut as StatutsInventaire
-
   return (
     <>
       <Breadcrumb label={title} />
       <Inventaire
         nomEtablissement={searchParams.nomEtablissement}
-        nomInventaire={searchParams.nomInventaire}
-        presenter={inventairePresenter(referentielsTypesEquipementsModel, modelesModel, statut)}
+        nomInventaire={searchParams.nouveauNomInventaire ?? searchParams.nomInventaire}
+        presenter={inventairePresenter(referentielsTypesEquipementsModel, modelesModel, searchParams)}
       />
     </>
   )
