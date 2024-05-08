@@ -36,6 +36,7 @@ export function jeSuisUnUtilisateur(): string {
 function stubProfil(isAdmin: boolean, nomEtablissement: string): void {
   vi.spyOn(authentification, 'getProfilAtih').mockResolvedValue({
     isAdmin,
+    isConnected: true,
     nomEtablissement,
   })
 }

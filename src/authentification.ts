@@ -60,6 +60,7 @@ export const handler = NextAuth(authOptions)
 
 export type ProfilAtih = Readonly<{
   isAdmin: boolean
+  isConnected: boolean
   nomEtablissement: string
 }>
 
@@ -68,7 +69,11 @@ export async function getProfilAtih(): Promise<ProfilAtih> {
   const session = await getServerSession(authOptions)
 
   if (!session) {
-    redirect('connexion')
+    return {
+      isAdmin: false,
+      isConnected: false,
+      nomEtablissement: '',
+    }
   }
 
   const etablissementGeographique = 'ET'
@@ -85,14 +90,23 @@ export async function getProfilAtih(): Promise<ProfilAtih> {
 
   return {
     isAdmin: profilsAtih.niveau === niveauAdmin,
+    isConnected: true,
     nomEtablissement: profilsAtih.entite.libelle + '$$' + numeroFiness,
   }
 }
 
-export async function isConnected(): Promise<void> {
+export async function checkIfConnected(): Promise<void> {
   const session = await getServerSession(authOptions)
 
   if (session) {
     redirect('/')
+  }
+}
+
+export async function checkIfNotConnected(): Promise<void> {
+  const session = await getServerSession(authOptions)
+
+  if (!session) {
+    redirect('/connexion')
   }
 }

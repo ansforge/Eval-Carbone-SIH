@@ -8,7 +8,7 @@ import Deconnexion from './Deconnexion'
 import { ProfilAtih } from '../../authentification'
 
 type EnTeteProps = Readonly<{
-  profil?: ProfilAtih
+  profil: ProfilAtih
 }>
 
 type Menu = Readonly<{
@@ -21,7 +21,7 @@ export default function EnTete({ profil }: EnTeteProps): ReactElement {
   const pathname = usePathname()
   const menu: ReadonlyArray<Menu> = [
     {
-      isDisplayed: true,
+      isDisplayed: profil.isConnected,
       label: 'Inventaires',
       path: '/',
     },
@@ -31,9 +31,14 @@ export default function EnTete({ profil }: EnTeteProps): ReactElement {
       path: '/faq',
     },
     {
-      isDisplayed: profil ? profil.isAdmin : false,
+      isDisplayed: profil.isAdmin,
       label: 'Référentiels',
       path: '/modifier-un-referentiel',
+    },
+    {
+      isDisplayed: !profil.isConnected,
+      label: 'Se connecter',
+      path: '/connexion',
     },
   ]
 
@@ -111,7 +116,7 @@ export default function EnTete({ profil }: EnTeteProps): ReactElement {
                     })
                   }
                   {
-                    profil ? (
+                    profil.isConnected ? (
                       <li className="nav-item common-nav-item">
                         <Deconnexion />
                       </li>

@@ -1,17 +1,17 @@
 import { PropsWithChildren, ReactElement } from 'react'
 
-import { getProfilAtih } from '../../authentification'
+import { getProfilAtih, checkIfNotConnected } from '../../authentification'
 import AccesRapide from '../../components/commun/AccesRapide'
 import EnTete from '../../components/commun/EnTete'
 import PiedDePage from '../../components/commun/PiedDePage'
 
 export default async function Layout({ children }: PropsWithChildren): Promise<ReactElement> {
-  const profil = await getProfilAtih()
+  await checkIfNotConnected()
 
   return (
     <>
       <AccesRapide />
-      <EnTete profil={profil} />
+      <EnTete profil={await getProfilAtih()} />
       <main
         className="main pt-4"
         id="main"

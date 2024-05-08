@@ -12,12 +12,10 @@ export const metadata: Metadata = {
 }
 
 export default async function NotFound(): Promise<ReactElement> {
-  const profil = await getProfilAtih()
-
   return (
     <>
       <AccesRapide />
-      <EnTete profil={profil} />
+      <EnTete profil={await getProfilAtih()} />
       <main
         className="main pt-4"
         id="main"

@@ -25,7 +25,7 @@ describe('page de connexion', () => {
   describe('en étant déconnecté', () => {
     it('quand je clique sur me connecter alors je me connecte', async () => {
       // GIVEN
-      vi.spyOn(authentification, 'isConnected').mockImplementationOnce(vi.fn())
+      vi.spyOn(authentification, 'checkIfConnected').mockImplementationOnce(vi.fn())
       // @ts-expect-error
       vi.spyOn(nextAuthReact, 'getProviders').mockResolvedValueOnce({
         pasrel: {

@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { getProviders } from 'next-auth/react'
 import { ReactElement } from 'react'
 
-import { isConnected } from '../../../authentification'
+import { checkIfConnected } from '../../../authentification'
 import Connexion from '../../../components/Connexion/Connexion'
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 }
 
 export default async function PageConnexion(): Promise<ReactElement> {
-  await isConnected()
+  await checkIfConnected()
 
   const providers = await getProviders()
 
