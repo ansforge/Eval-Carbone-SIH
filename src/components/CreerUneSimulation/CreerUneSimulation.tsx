@@ -3,6 +3,9 @@
 import { ReactElement } from 'react'
 
 import styles from './CreerUneSimulation.module.css'
+import DureeDeVie from './DureeDeVie'
+import HeureUtilisation from './HeureUtilisation'
+import NombreEquipement from './NombreEquipement'
 import { useCreerUneSimulation } from './useCreerUneSimulation'
 import { formaterLeNomEtablissement } from '../../presenters/sharedPresenter'
 import InfoBulle from '../commun/Infobulle'
@@ -15,15 +18,9 @@ type CreerUneSimulationProps = Readonly<{
 export default function CreerUneSimulation({ ancienNomInventaire, nomEtablissement }: CreerUneSimulationProps): ReactElement {
   const {
     creerUneSimulation,
-    dureeDeVie,
-    heureUtilisation,
     isDisabled,
     isInvalid,
-    modifierDureeDeVie,
-    modifierHeureUtilisation,
-    modifierNombreEquipement,
     modifierNouveauNomInventaire,
-    nombreEquipement,
     nouveauNomInventaire,
   } = useCreerUneSimulation(ancienNomInventaire)
 
@@ -92,48 +89,9 @@ export default function CreerUneSimulation({ ancienNomInventaire, nomEtablisseme
             <p>
               Ces variations, positives ou négatives, seront appliquées à l’ensemble de votre inventaire initial.
             </p>
-            <label htmlFor="nombreEquipement">
-              Nombre d’équipements en %
-            </label>
-            <InfoBulle label="Par exemple, en inscrivant le chiffre 10, chaque équipement verra son nombre augmenter de 10 %." />
-            <input
-              className={'form-control'}
-              id="nombreEquipement"
-              max={100}
-              min={-100}
-              name="nombreEquipement"
-              onChange={modifierNombreEquipement}
-              type="number"
-              value={nombreEquipement}
-            />
-            <label htmlFor="dureeDeVie">
-              Durée de vie en années
-            </label>
-            <InfoBulle label="Par exemple, en inscrivant le chiffre 2, la durée de vie souhaitée de chaque équipement augmentera de 2 ans." />
-            <input
-              className={'form-control'}
-              id="dureeDeVie"
-              max={20}
-              min={-20}
-              name="dureeDeVie"
-              onChange={modifierDureeDeVie}
-              type="number"
-              value={dureeDeVie}
-            />
-            <label htmlFor="heureUtilisation">
-              Heures d’utilisation par jour
-            </label>
-            <InfoBulle label="Par exemple, en inscrivant le chiffre -5, le nombre d'heures d'utilisation par équipement sera réduit de 5 heures." />
-            <input
-              className={'form-control'}
-              id="heureUtilisation"
-              max={24}
-              min={-24}
-              name="heureUtilisation"
-              onChange={modifierHeureUtilisation}
-              type="number"
-              value={heureUtilisation}
-            />
+            <NombreEquipement />
+            <DureeDeVie />
+            <HeureUtilisation />
           </div>
           <button
             className="btn btn--plain btn--primary"

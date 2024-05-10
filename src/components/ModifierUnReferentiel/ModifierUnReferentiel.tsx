@@ -3,7 +3,7 @@
 import { ReactElement } from 'react'
 
 import SoumettreUnReferentiel from './SoumettreUnReferentiel'
-import { useReferentiel } from './useReferentiel'
+import { useModifierUnReferentiel } from './useModifierUnReferentiel'
 import AlerteErreur from '../commun/AlerteErreur'
 import AlerteSucces from '../commun/AlerteSucces'
 
@@ -15,7 +15,7 @@ export default function ModifierUnReferentiel(): ReactElement {
     modifierUnReferentiel,
     selectionnerFichierReferentiel,
     validerLeformulaire,
-  } = useReferentiel()
+  } = useModifierUnReferentiel()
 
   return (
     <div className="row justify-content-center">

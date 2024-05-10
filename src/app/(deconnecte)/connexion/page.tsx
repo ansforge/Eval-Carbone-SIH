@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
-import { getProviders } from 'next-auth/react'
+import { BuiltInProviderType } from 'next-auth/providers'
+import { ClientSafeProvider, LiteralUnion, getProviders } from 'next-auth/react'
 import { ReactElement } from 'react'
 
 import { checkIfConnected } from '../../../authentification'
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 export default async function PageConnexion(): Promise<ReactElement> {
   await checkIfConnected()
 
-  const providers = await getProviders()
+  const providers = await getProviders() as Record<LiteralUnion<BuiltInProviderType>, ClientSafeProvider>
 
   return (
     <Connexion

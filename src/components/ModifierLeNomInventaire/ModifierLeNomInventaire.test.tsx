@@ -1,12 +1,11 @@
-import { inventaireModel } from '@prisma/client'
-import { fireEvent, screen } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import * as navigation from 'next/navigation'
 
 import PageModifierLeNomInventaire from '../../app/(connecte)/modifier-le-nom-inventaire/page'
-import * as repository from '../../gateways/inventairesRepository'
-import { jeSuisUnUtilisateur, renderComponent } from '../../testShared'
+import * as repositoryInventaires from '../../gateways/inventairesRepository'
+import { inventaireModelFactory, jeSuisUnAdmin, jeSuisUnUtilisateur, nomEtablissementFake, renderComponent, spyNextNavigation } from '../../testShared'
 
-describe('page modifier le nom de linventaire', () => {
+describe('page modifier le nom de l’inventaire', () => {
   describe('en tant qu’utilisateur', () => {
     it('quand j’affiche la page alors j’ai le nom de l’inventaire prérempli et je ne peux pas valider le formulaire', () => {
       // GIVEN
@@ -26,10 +25,11 @@ describe('page modifier le nom de linventaire', () => {
     it('quand j’écris un nom d’inventaire inférieur à 4 caractères alors je ne peux pas créer la simulation', () => {
       // GIVEN
       jeSuisUnUtilisateur()
+
       renderComponent(PageModifierLeNomInventaire(queryParams()))
-      const champNomInventaire = screen.getByLabelText('Nom de l’inventaire (minimum 4 caractères)')
 
       // WHEN
+      const champNomInventaire = screen.getByLabelText('Nom de l’inventaire (minimum 4 caractères)')
       fireEvent.change(champNomInventaire, { target: { value: '???' } })
 
       // THEN
@@ -39,14 +39,17 @@ describe('page modifier le nom de linventaire', () => {
 
     it('quand je valide le formulaire avec un nom d’inventaire qui existe déjà alors j’ai un message d’erreur', async () => {
       // GIVEN
-      vi.spyOn(repository, 'recupererUnInventaireRepository').mockResolvedValueOnce({} as inventaireModel)
       jeSuisUnUtilisateur()
+
+      vi.spyOn(repositoryInventaires, 'recupererUnInventaireRepository').mockResolvedValueOnce(inventaireModelFactory())
+
       renderComponent(PageModifierLeNomInventaire(queryParams()))
+
       const champNomInventaire = screen.getByLabelText('Nom de l’inventaire (minimum 4 caractères)')
       fireEvent.change(champNomInventaire, { target: { value: 'nom inventaire dejà exitant' } })
-      const boutonModifier = screen.getByRole('button', { name: 'Modifier' })
 
       // WHEN
+      const boutonModifier = screen.getByRole('button', { name: 'Modifier' })
       fireEvent.click(boutonModifier)
 
       // THEN
@@ -56,25 +59,88 @@ describe('page modifier le nom de linventaire', () => {
 
       const textErreur = await screen.findByText('Cet inventaire existe déjà. Modifiez le nom de l’inventaire pour continuer.', { selector: 'p' })
       expect(textErreur).toBeInTheDocument()
+
+      expect(repositoryInventaires.recupererUnInventaireRepository).toHaveBeenCalledWith('Hopital de Paris$$00000001K', 'nom inventaire dejà exitant')
     })
 
-    it('quand je valide le formulaire avec un nom d’inventaire qui n’existe pas alors je reviens en arrière', () => {
+    it('quand je valide le formulaire avec un nom d’inventaire qui n’existe pas alors je reviens en arrière', async () => {
       // GIVEN
-      vi.spyOn(repository, 'recupererUnInventaireRepository').mockResolvedValueOnce(null)
-      vi.spyOn(repository, 'modifierLeNomInventaireRepository').mockResolvedValueOnce()
       jeSuisUnUtilisateur()
+
+      vi.spyOn(navigation, 'useRouter')
+        .mockReturnValueOnce(spyNextNavigation.useRouter)
+        .mockReturnValueOnce(spyNextNavigation.useRouter)
+      vi.spyOn(repositoryInventaires, 'recupererUnInventaireRepository').mockResolvedValueOnce(null)
+      vi.spyOn(repositoryInventaires, 'modifierLeNomInventaireRepository').mockResolvedValueOnce()
+
       renderComponent(PageModifierLeNomInventaire(queryParams()))
 
       const champNomInventaire = screen.getByLabelText('Nom de l’inventaire (minimum 4 caractères)')
       fireEvent.change(champNomInventaire, { target: { value: 'nom inventaire correct' } })
-      const boutonModifier = screen.getByRole('button', { name: 'Modifier' })
 
       // WHEN
+      const boutonModifier = screen.getByRole('button', { name: 'Modifier' })
       fireEvent.click(boutonModifier)
 
       // THEN
-      expect(navigation.useRouter).toHaveBeenCalledWith()
-      // expect(navigation.useRouter.back).toHaveBeenCalledWith()
+      await waitFor(() => {
+        expect(repositoryInventaires.modifierLeNomInventaireRepository).toHaveBeenCalledWith('Hopital de Paris$$00000001K', 'Centre hospitalier', 'nom inventaire correct')
+      })
+      expect(spyNextNavigation.useRouter.push).toHaveBeenCalledWith('http://localhost:3000/indicateurs-cles?nomEtablissement=Hopital+de+Paris%24%2400000001K&nomInventaire=nom+inventaire+correct')
+    })
+  })
+
+  describe('en tant qu’admin', () => {
+    it('quand je valide le formulaire avec un nom d’inventaire qui existe déjà alors j’ai un message d’erreur', async () => {
+      // GIVEN
+      jeSuisUnAdmin()
+
+      vi.spyOn(repositoryInventaires, 'recupererUnInventaireRepository').mockResolvedValueOnce(inventaireModelFactory())
+
+      renderComponent(PageModifierLeNomInventaire(queryParams()))
+
+      const champNomInventaire = screen.getByLabelText('Nom de l’inventaire (minimum 4 caractères)')
+      fireEvent.change(champNomInventaire, { target: { value: 'nom inventaire dejà exitant' } })
+
+      // WHEN
+      const boutonModifier = screen.getByRole('button', { name: 'Modifier' })
+      fireEvent.click(boutonModifier)
+
+      // THEN
+      const champNomInventaireMaj = await screen.findByLabelText('Nom de l’inventaire (minimum 4 caractères)')
+      expect(champNomInventaireMaj).toHaveAttribute('aria-describedby', 'formInputError-error')
+      expect(champNomInventaireMaj).toHaveAttribute('aria-invalid', 'true')
+
+      const textErreur = await screen.findByText('Cet inventaire existe déjà. Modifiez le nom de l’inventaire pour continuer.', { selector: 'p' })
+      expect(textErreur).toBeInTheDocument()
+
+      expect(repositoryInventaires.recupererUnInventaireRepository).toHaveBeenCalledWith('Hopital de Paris$$00000001K', 'nom inventaire dejà exitant')
+    })
+
+    it('quand je valide le formulaire avec un nom d’inventaire qui n’existe pas alors je reviens en arrière', async () => {
+      // GIVEN
+      jeSuisUnAdmin()
+
+      vi.spyOn(navigation, 'useRouter')
+        .mockReturnValueOnce(spyNextNavigation.useRouter)
+        .mockReturnValueOnce(spyNextNavigation.useRouter)
+      vi.spyOn(repositoryInventaires, 'recupererUnInventaireRepository').mockResolvedValueOnce(null)
+      vi.spyOn(repositoryInventaires, 'modifierLeNomInventaireRepository').mockResolvedValueOnce()
+
+      renderComponent(PageModifierLeNomInventaire(queryParams()))
+
+      const champNomInventaire = screen.getByLabelText('Nom de l’inventaire (minimum 4 caractères)')
+      fireEvent.change(champNomInventaire, { target: { value: 'nom inventaire correct' } })
+
+      // WHEN
+      const boutonModifier = screen.getByRole('button', { name: 'Modifier' })
+      fireEvent.click(boutonModifier)
+
+      // THEN
+      await waitFor(() => {
+        expect(repositoryInventaires.modifierLeNomInventaireRepository).toHaveBeenCalledWith('Hopital de Paris$$00000001K', 'Centre hospitalier', 'nom inventaire correct')
+      })
+      expect(spyNextNavigation.useRouter.push).toHaveBeenCalledWith('http://localhost:3000/indicateurs-cles?nomEtablissement=Hopital+de+Paris%24%2400000001K&nomInventaire=nom+inventaire+correct')
     })
   })
 
@@ -90,10 +156,10 @@ describe('page modifier le nom de linventaire', () => {
   })
 })
 
-export function queryParams(): { searchParams: { nomEtablissement: string; nomInventaire: string } } {
+function queryParams(): { searchParams: { nomEtablissement: string; nomInventaire: string } } {
   return {
     searchParams: {
-      nomEtablissement: 'Hopital 1K',
+      nomEtablissement: `${nomEtablissementFake}$$00000001K`,
       nomInventaire: 'Centre hospitalier',
     },
   }

@@ -58,7 +58,7 @@ export default function Inventaires({ inventaires }: InventairesProps): ReactEle
                     {inventaire.statut}
                   </span>
                 </td>
-                <ActionSupprimer inventairePresenter={inventaire} />
+                <ActionSupprimer inventaire={inventaire} />
               </tr>
             )
           })

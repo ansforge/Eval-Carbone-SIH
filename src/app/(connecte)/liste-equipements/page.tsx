@@ -15,14 +15,14 @@ export const metadata: Metadata = {
 }
 
 type PageProps = Readonly<{
-  searchParams: Readonly<{
+  searchParams?: Readonly<{
     nomEtablissement?: string
     nomInventaire?: string
   }>
 }>
 
-export default async function Page({ searchParams }: PageProps): Promise<ReactElement> {
-  if (searchParams.nomEtablissement === undefined || searchParams.nomInventaire === undefined) {
+export default async function PageListeEquipements({ searchParams }: PageProps): Promise<ReactElement> {
+  if (searchParams?.nomEtablissement === undefined || searchParams.nomInventaire === undefined) {
     notFound()
   }
 

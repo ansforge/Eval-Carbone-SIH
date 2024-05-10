@@ -51,7 +51,7 @@ export default function Actions({ dateInventaire, nomEtablissement, nomInventair
           onClick={ouvrirLaModale}
           type="button"
         >
-          {'Supprimer l’inventaire'}
+          Supprimer l’inventaire
         </button>
         <Link
           className={`btn btn--plain btn--primary ${styles.middle}`}

@@ -31,10 +31,11 @@ describe('en-tête', () => {
       it('quand je clique sur se déconnecter alors je me déconnecte', () => {
         // GIVEN
         vi.spyOn(nextAuth, 'signOut').mockResolvedValueOnce({ url: '' })
+
         renderComponent(<EnTete profil={jeSuisUnUtilisateur()} />)
-        const boutonSeDeconnecter = screen.getByRole('button', { name: 'Se déconnecter' })
 
         // WHEN
+        const boutonSeDeconnecter = screen.getByRole('button', { name: 'Se déconnecter' })
         fireEvent.click(boutonSeDeconnecter)
 
         // THEN

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title,
 }
 
-export default async function Page(): Promise<ReactElement> {
+export default async function PageCreerUnInventaire(): Promise<ReactElement> {
   const profil = await getProfilAtih()
 
   if (profil.isAdmin) {

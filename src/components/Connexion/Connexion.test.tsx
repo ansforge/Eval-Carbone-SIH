@@ -37,10 +37,11 @@ describe('page de connexion', () => {
         },
       })
       vi.spyOn(nextAuthReact, 'signIn').mockImplementationOnce(vi.fn())
+
       renderComponent(await PageConnexion())
-      const boutonSeConnecter = screen.getByRole('button', { name: 'Se connecter avec Plage' })
 
       // WHEN
+      const boutonSeConnecter = screen.getByRole('button', { name: 'Se connecter avec Plage' })
       fireEvent.click(boutonSeConnecter)
 
       // THEN

@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react'
 
 import { modifierUnReferentielAction } from './action'
+import { tempsAlerte } from '../../configuration'
 
 type State = Readonly<{
   isDisabled: boolean
@@ -16,7 +17,7 @@ type UseReferentiel = Readonly<{
   validerLeformulaire: () => void
 }>
 
-export function useReferentiel(): UseReferentiel {
+export function useModifierUnReferentiel(): UseReferentiel {
   const [state, setState] = useState<State>({
     isDisabled: true,
     isFichierReferentielVide: true,
@@ -35,22 +36,22 @@ export function useReferentiel(): UseReferentiel {
   }
 
   async function modifierUnReferentiel(event: FormEvent<HTMLFormElement>) {
-    try {
-      event.preventDefault()
+    event.preventDefault()
 
+    try {
       await modifierUnReferentielAction(new FormData(event.currentTarget))
 
       setIsReferentielModifieSucces(true)
       // istanbul ignore next @preserve
       setTimeout(() => {
         setIsReferentielModifieSucces(false)
-      }, 5000)
+      }, tempsAlerte)
     } catch (error) {
       setIsReferentielModifieErreur((error as Error).message)
       // istanbul ignore next @preserve
       setTimeout(() => {
         setIsReferentielModifieErreur('')
-      }, 5000)
+      }, tempsAlerte)
     }
   }
 

@@ -11,7 +11,7 @@ type CreerUnInventaireProps = Readonly<{
 }>
 
 export default function CreerUnInventaire({ nomEtablissement }: CreerUnInventaireProps): ReactElement {
-  const { creerInventaire, isDisabled, isInvalid, nomInventaire, modifierNomInventaire } = useCreerUnInventaire()
+  const { creerInventaire, isDisabled, isInvalid, nouveauNomInventaire, modifierNouveauNomInventaire } = useCreerUnInventaire()
 
   return (
     <div className="row justify-content-center">
@@ -35,18 +35,18 @@ export default function CreerUnInventaire({ nomEtablissement }: CreerUnInventair
           <div className={`form-group text-left${isInvalid ? ' is-invalid' : ''}`}>
             <label htmlFor="nomInventaire">
               Nom de l’inventaire (minimum 4 caractères)
-              <InfoBulle label="Le nom de l’inventaire permet de différencier facilement les différents inventaires au sein d’une organisation et peut être composé de plusieurs éléments (nom de l’entité, référence temporelle)." />
             </label>
+            <InfoBulle label="Le nom de l’inventaire permet de différencier facilement les différents inventaires au sein d’une organisation et peut être composé de plusieurs éléments (nom de l’entité, référence temporelle)." />
             <input
               aria-describedby={isInvalid ? 'formInputError-error' : ''}
               aria-invalid={isInvalid}
               className={`form-control${isInvalid ? ' is-invalid' : ''}`}
               id="nomInventaire"
               name="nomInventaire"
-              onChange={modifierNomInventaire}
+              onChange={modifierNouveauNomInventaire}
               required
               type="text"
-              value={nomInventaire}
+              value={nouveauNomInventaire}
             />
             {
               isInvalid ? (

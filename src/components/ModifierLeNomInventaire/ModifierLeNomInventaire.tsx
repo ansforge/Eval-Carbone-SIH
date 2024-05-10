@@ -12,7 +12,7 @@ type ModifierLeNomInventaireProps = Readonly<{
 }>
 
 export default function ModifierLeNomInventaire({ nomEtablissement, nomInventaire }: ModifierLeNomInventaireProps): ReactElement {
-  const { creerUneSimulation, isDisabled, isInvalid, modifierNouveauNomInventaire, nouveauNomInventaire } = useModifierLeNomInventaire(nomInventaire)
+  const { isDisabled, isInvalid, modifierLeNomInventaire, modifierNouveauNomInventaire, nouveauNomInventaire } = useModifierLeNomInventaire(nomInventaire)
 
   return (
     <div className="row justify-content-center">
@@ -28,7 +28,7 @@ export default function ModifierLeNomInventaire({ nomEtablissement, nomInventair
         <form
           action="/inventaire"
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onSubmit={creerUneSimulation}
+          onSubmit={modifierLeNomInventaire}
         >
           <div className={`form-group text-left${isInvalid ? ' is-invalid' : ''}`}>
             <label htmlFor="nouveauNomInventaire">

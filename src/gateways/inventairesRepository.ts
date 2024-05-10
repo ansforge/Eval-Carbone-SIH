@@ -3,9 +3,10 @@ import { inventaireModel } from '@prisma/client'
 import prisma from './database'
 import { supprimerLesIndicateursImpactsEquipementsRepository } from './indicateursRepository'
 import { Modele, calculerEmpreinteRepository, enregistrerLesModelesRepository, supprimerLesModelesRepository } from './modelesRepository'
+import { separator } from '../configuration'
 
 export async function recupererLesInventairesRepository(nomEtablissement: string): Promise<Array<inventaireModel>> {
-  const nomOrganisation = nomEtablissement.endsWith('$$admin') ? { startsWith: '%' } : nomEtablissement
+  const nomOrganisation = nomEtablissement.endsWith(`${separator}admin`) ? { startsWith: '%' } : nomEtablissement
 
   return prisma.inventaireModel.findMany({ orderBy: { dateInventaire: 'desc' }, where: { nomEtablissement: nomOrganisation } })
 }

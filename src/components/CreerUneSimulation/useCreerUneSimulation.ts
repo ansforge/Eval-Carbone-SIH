@@ -1,52 +1,22 @@
 import { useRouter } from 'next/navigation'
-import { FormEvent, useState } from 'react'
+import { FormEvent } from 'react'
 
-import { estCeQueLeNomInventaireExisteAction } from './action'
 import { StatutsInventaire } from '../../presenters/sharedPresenter'
-
-type State = Readonly<{
-  isDisabled: boolean
-  isInvalid: boolean
-  nouveauNomInventaire: string
-}>
+import { isLeNomInventaireExisteAction } from '../commun/action'
+import { useModifierNouveauNomInventaire } from '../commun/useModifierNouveauNomInventaire'
 
 type UseCreerUneSimulation = Readonly<{
   creerUneSimulation: (event: FormEvent<HTMLFormElement>) => Promise<void>
-  dureeDeVie: string
-  heureUtilisation: string
   isDisabled: boolean
   isInvalid: boolean
-  modifierDureeDeVie: (event: FormEvent<HTMLInputElement>) => void
-  modifierHeureUtilisation: (event: FormEvent<HTMLInputElement>) => void
-  modifierNombreEquipement: (event: FormEvent<HTMLInputElement>) => void
   modifierNouveauNomInventaire: (event: FormEvent<HTMLInputElement>) => void
-  nombreEquipement: string
   nouveauNomInventaire: string
 }>
 
 export function useCreerUneSimulation(ancienNomInventaire: string): UseCreerUneSimulation {
   const date = new Date()
   const router = useRouter()
-  const [state, setState] = useState<State>({
-    isDisabled: false,
-    isInvalid: false,
-    nouveauNomInventaire: `${ancienNomInventaire} - simulation ${date.toLocaleString()}`,
-  })
-  const [nombreEquipement, setNombreEquipement] = useState('0')
-  const [dureeDeVie, setDureeDeVie] = useState('0')
-  const [heureUtilisation, setHeureUtilisation] = useState('0')
-
-  const modifierNombreEquipement = (event: FormEvent<HTMLInputElement>) => {
-    setNombreEquipement(event.currentTarget.value)
-  }
-
-  const modifierDureeDeVie = (event: FormEvent<HTMLInputElement>) => {
-    setDureeDeVie(event.currentTarget.value)
-  }
-
-  const modifierHeureUtilisation = (event: FormEvent<HTMLInputElement>) => {
-    setHeureUtilisation(event.currentTarget.value)
-  }
+  const { modifierNouveauNomInventaire, setState, state } = useModifierNouveauNomInventaire(`${ancienNomInventaire} - simulation ${date.toLocaleString()}`, false)
 
   const creerUneSimulation = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -58,7 +28,7 @@ export function useCreerUneSimulation(ancienNomInventaire: string): UseCreerUneS
     const dureeDeVie = formData.get('dureeDeVie') as string
     const heureUtilisation = formData.get('heureUtilisation') as string
 
-    const nomInventaireExiste = await estCeQueLeNomInventaireExisteAction(nouveauNomInventaire)
+    const nomInventaireExiste = await isLeNomInventaireExisteAction(nouveauNomInventaire)
 
     if (!nomInventaireExiste) {
       const url = new URL('/inventaire', document.location.href)
@@ -80,27 +50,11 @@ export function useCreerUneSimulation(ancienNomInventaire: string): UseCreerUneS
     }
   }
 
-  const modifierNouveauNomInventaire = (event: FormEvent<HTMLInputElement>) => {
-    const caracteresMinimumPourUnNomInventaire = 4
-
-    setState({
-      isDisabled: event.currentTarget.value.length >= caracteresMinimumPourUnNomInventaire ? false : true,
-      isInvalid: false,
-      nouveauNomInventaire: event.currentTarget.value,
-    })
-  }
-
   return {
     creerUneSimulation,
-    dureeDeVie,
-    heureUtilisation,
     isDisabled: state.isDisabled,
     isInvalid: state.isInvalid,
-    modifierDureeDeVie,
-    modifierHeureUtilisation,
-    modifierNombreEquipement,
     modifierNouveauNomInventaire,
-    nombreEquipement,
     nouveauNomInventaire: state.nouveauNomInventaire,
   }
 }

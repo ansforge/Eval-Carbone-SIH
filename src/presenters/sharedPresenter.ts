@@ -1,3 +1,5 @@
+import { separator } from '../configuration'
+
 export enum StatutsInventaire {
   EN_ATTENTE = 'NON CALCULÉ',
   TRAITE = 'CALCULÉ',
@@ -19,6 +21,10 @@ export function formaterLaDateEnFrancais(date: Readonly<Date>): string {
   return date.toLocaleDateString('fr-FR')
 }
 
+export function formaterEnIdentifiant(text: string): string {
+  return text.replaceAll(' ', '-')
+}
+
 export function formaterDeuxChiffresApresLaVirgule(chiffre: number): string {
   return Number(chiffre.toFixed(2)).toLocaleString()
 }
@@ -28,5 +34,5 @@ export function genererUnIdentifiantUnique(): string {
 }
 
 export function formaterLeNomEtablissement(nomEtablissement: string): string {
-  return nomEtablissement.split('$$')[0]
+  return nomEtablissement.split(separator)[0]
 }

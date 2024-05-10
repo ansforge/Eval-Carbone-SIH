@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction, SyntheticEvent, useEffect, useState } from 'r
 
 import { creerUnInventaireAction, enregistrerUnInventaireNonCalculeAction } from './action'
 import { modelesSelectionnes } from './modele'
+import { tempsAlerte } from '../../configuration'
 
 type UseInventaire = Readonly<{
   enregistrerUnInventaire: (event: SyntheticEvent<HTMLFormElement, SubmitEvent>) => Promise<void>
@@ -22,7 +23,7 @@ export function useInventaire(nomEtablissement: string, nomInventaire: string): 
     setIsInventaireEnregistre(true)
     setTimeout(() => {
       setIsInventaireEnregistre(false)
-    }, 5000)
+    }, tempsAlerte)
     router.refresh()
   }
 

@@ -1,29 +1,20 @@
 import { useRouter } from 'next/navigation'
-import { FormEvent, useState } from 'react'
+import { FormEvent } from 'react'
 
-import { estCeQueLeNomInventaireExisteAction } from './action'
-
-type State = Readonly<{
-  isDisabled: boolean
-  isInvalid: boolean
-  nomInventaire: string
-}>
+import { isLeNomInventaireExisteAction } from '../commun/action'
+import { useModifierNouveauNomInventaire } from '../commun/useModifierNouveauNomInventaire'
 
 type UseCreerUnInventaire = Readonly<{
   creerInventaire: (event: FormEvent<HTMLFormElement>) => Promise<void>
   isDisabled: boolean
   isInvalid: boolean
-  modifierNomInventaire: (event: FormEvent<HTMLInputElement>) => void
-  nomInventaire: string
+  modifierNouveauNomInventaire: (event: FormEvent<HTMLInputElement>) => void
+  nouveauNomInventaire: string
 }>
 
 export function useCreerUnInventaire(): UseCreerUnInventaire {
   const router = useRouter()
-  const [state, setState] = useState<State>({
-    isDisabled: true,
-    isInvalid: false,
-    nomInventaire: '',
-  })
+  const { modifierNouveauNomInventaire, setState, state } = useModifierNouveauNomInventaire('')
 
   const creerInventaire = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -32,7 +23,7 @@ export function useCreerUnInventaire(): UseCreerUnInventaire {
     const nomInventaire = formData.get('nomInventaire') as string
     const nomEtablissement = formData.get('nomEtablissement') as string
 
-    const nomInventaireExiste = await estCeQueLeNomInventaireExisteAction(nomInventaire)
+    const nomInventaireExiste = await isLeNomInventaireExisteAction(nomInventaire)
 
     if (!nomInventaireExiste) {
       const url = new URL('/inventaire', document.location.href)
@@ -44,27 +35,17 @@ export function useCreerUnInventaire(): UseCreerUnInventaire {
       setState({
         isDisabled: true,
         isInvalid: true,
-        nomInventaire: state.nomInventaire,
+        nouveauNomInventaire: state.nouveauNomInventaire,
       })
     }
-  }
-
-  const modifierNomInventaire = (event: FormEvent<HTMLInputElement>) => {
-    const caracteresMinimumPourUnNomInventaire = 4
-
-    setState({
-      isDisabled: event.currentTarget.value.length >= caracteresMinimumPourUnNomInventaire ? false : true,
-      isInvalid: false,
-      nomInventaire: event.currentTarget.value,
-    })
   }
 
   return {
     creerInventaire,
     isDisabled: state.isDisabled,
     isInvalid: state.isInvalid,
-    modifierNomInventaire,
-    nomInventaire: state.nomInventaire,
+    modifierNouveauNomInventaire,
+    nouveauNomInventaire: state.nouveauNomInventaire,
   }
 }
 

@@ -1,7 +1,7 @@
 import { modeleModel } from '@prisma/client'
 
 import { StatutsInventaire, calculerLaDureeDeVie, convertirLeTauxUtilisationEnHeureUtilisation, formaterLaDateEnFrancais, genererUnIdentifiantUnique } from './sharedPresenter'
-import { PageProps } from '../app/(connecte)/inventaire/page'
+import { SearchParams } from '../app/(connecte)/inventaire/page'
 import { ModeleReducer } from '../components/Inventaire/useEquipement'
 import { ReferentielTypeEquipementModel } from '../gateways/typesEquipementsRepository'
 
@@ -19,7 +19,7 @@ export type InventairePresenter = Readonly<{
 export function inventairePresenter(
   referentielsTypesEquipementsModel: ReadonlyArray<ReferentielTypeEquipementModel>,
   modelesModel: ReadonlyArray<modeleModel>,
-  searchParams: PageProps['searchParams']
+  searchParams: SearchParams
 ): InventairePresenter {
   const dateInventaire = modelesModel.length === 0 || searchParams.nouveauNomInventaire !== undefined ? new Date() : modelesModel[0].dateInventaire
 

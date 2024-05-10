@@ -1,8 +1,13 @@
+import { indicateurImpactEquipementModel, inventaireModel, modeleModel } from '@prisma/client'
 import { RenderResult, render } from '@testing-library/react'
 import { UserEvent, userEvent } from '@testing-library/user-event'
 import { ReactElement } from 'react'
 
 import * as authentification from './authentification'
+import { separator } from './configuration'
+import { IndicateurImpactEquipementSommeModel } from './gateways/indicateursRepository'
+import { ReferentielTypeEquipementModel } from './gateways/typesEquipementsRepository'
+import { EtapesAcv } from './presenters/indicateursClesPresenter'
 
 export function renderComponent(component: ReactElement): RenderResult & { user: UserEvent } {
   return {
@@ -15,10 +20,10 @@ export const textMatch = (wording: string) => (_: string, element?: Element | nu
   return element?.textContent === wording
 }
 
-export const nomEtablissementFake = 'Centre Hospitalier de test'
+export const nomEtablissementFake = 'Hopital de Paris'
 
 export function jeSuisUnAdmin(): string {
-  const nomEtablissement = `${nomEtablissementFake}$$admin`
+  const nomEtablissement = `${nomEtablissementFake}${separator}admin`
 
   stubProfil(true, nomEtablissement)
 
@@ -26,7 +31,7 @@ export function jeSuisUnAdmin(): string {
 }
 
 export function jeSuisUnUtilisateur(): string {
-  const nomEtablissement = `${nomEtablissementFake}$$fakeNumeroFiness`
+  const nomEtablissement = `${nomEtablissementFake}${separator}00000001K`
 
   stubProfil(false, nomEtablissement)
 
@@ -39,4 +44,95 @@ function stubProfil(isAdmin: boolean, nomEtablissement: string): void {
     isConnected: true,
     nomEtablissement,
   })
+}
+
+export class FrozenDate extends Date {
+  constructor() {
+    super('1996-04-15T03:24:00')
+  }
+}
+
+export const spyNextNavigation = {
+  useRouter: {
+    back: vi.fn(),
+    forward: vi.fn(),
+    prefetch: vi.fn(),
+    push: vi.fn(),
+    refresh: vi.fn(),
+    replace: vi.fn(),
+  },
+}
+
+export function inventaireModelFactory(override?: Partial<inventaireModel>): inventaireModel {
+  const date = new Date()
+
+  return {
+    dateCreation: date,
+    dateInventaire: date,
+    dateMiseAJour: date,
+    id: 1,
+    nomEtablissement: `${nomEtablissementFake}${separator}00000001K`,
+    nomInventaire: 'mon super inventaire',
+    statut: 'TRAITE',
+    ...override,
+  }
+}
+
+export function modeleModelFactory(override?: Partial<modeleModel>): modeleModel {
+  const date = new Date()
+
+  return {
+    dateAchat: date,
+    dateInventaire: date,
+    id: 1,
+    nom: 'Standard - bureautique - 13 pouces',
+    nomEtablissement: 'Hopital de Bordeaux$$00000001J',
+    nomInventaire: 'Centre hospitalier',
+    quantite: 1,
+    tauxUtilisation: 1,
+    type: 'Ordinateur portable',
+    ...override,
+  }
+}
+
+export function referentielTypeEquipementModelFactory(override?: Partial<ReferentielTypeEquipementModel>): ReferentielTypeEquipementModel {
+  return {
+    dureeDeVie: 5,
+    modeles: [
+      {
+        relationModeles: {
+          nom: 'Standard - bureautique - 13 pouces',
+        },
+      },
+    ],
+    type: 'Ordinateur portable',
+    ...override,
+  }
+}
+
+export function indicateurImpactEquipementModelFactory(override?: Partial<indicateurImpactEquipementModel>): indicateurImpactEquipementModel {
+  const date = new Date()
+
+  return {
+    critere: 'Climate change',
+    dateInventaire: date,
+    etapeAcv: EtapesAcv.distribution,
+    impactUnitaire: 646.886,
+    nomEtablissement: 'Hopital de Bordeaux$$00000001J',
+    nomInventaire: 'Centre hospitalier',
+    statutIndicateur: 'OK',
+    typeEquipement: 'Ordinateur portable',
+    ...override,
+  }
+}
+
+export function indicateurImpactEquipementSommeModelFactory(override?: Partial<IndicateurImpactEquipementSommeModel>): IndicateurImpactEquipementSommeModel {
+  return {
+    _sum: {
+      impactUnitaire: 646.886,
+    },
+    etapeAcv: EtapesAcv.distribution,
+    typeEquipement: 'Ordinateur portable',
+    ...override,
+  }
 }

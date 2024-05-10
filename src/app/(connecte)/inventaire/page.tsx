@@ -15,20 +15,22 @@ export const metadata: Metadata = {
   title,
 }
 
-export type PageProps = Readonly<{
-  searchParams: Readonly<{
-    dureeDeVie?: string
-    heureUtilisation?: string
-    nombreEquipement?: string
-    nomEtablissement?: string
-    nomInventaire?: string
-    nouveauNomInventaire?: string
-    statut?: StatutsInventaire
-  }>
+export type SearchParams = Readonly<{
+  dureeDeVie?: string
+  heureUtilisation?: string
+  nombreEquipement?: string
+  nomEtablissement?: string
+  nomInventaire?: string
+  nouveauNomInventaire?: string
+  statut?: StatutsInventaire
+}>
+
+type PageProps = Readonly<{
+  searchParams?: SearchParams
 }>
 
 export default async function Page({ searchParams }: PageProps): Promise<ReactElement> {
-  if (searchParams.nomEtablissement === undefined || searchParams.nomInventaire === undefined) {
+  if (searchParams?.nomEtablissement === undefined || searchParams.nomInventaire === undefined) {
     notFound()
   }
 

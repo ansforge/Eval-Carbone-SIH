@@ -2,7 +2,7 @@ import { fireEvent, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 
 import PageModifierUnReferentiel from '../../app/(connecte)/modifier-un-referentiel/page'
-import * as repository from '../../gateways/referentielsRepository'
+import * as repositoryReferentiels from '../../gateways/referentielsRepository'
 import { renderComponent, jeSuisUnAdmin, jeSuisUnUtilisateur, textMatch } from '../../testShared'
 
 describe('page modifier un référentiel', () => {
@@ -37,7 +37,8 @@ describe('page modifier un référentiel', () => {
     it('quand je valide le formulaire avec un fichier CSV alors une alerte de succes apparaît', async () => {
       // GIVEN
       jeSuisUnAdmin()
-      vi.spyOn(repository, 'modifierUnReferentielRepository').mockResolvedValueOnce()
+
+      vi.spyOn(repositoryReferentiels, 'modifierUnReferentielRepository').mockResolvedValueOnce()
 
       const { user } = renderComponent(await PageModifierUnReferentiel())
 
@@ -55,19 +56,20 @@ describe('page modifier un référentiel', () => {
       const alerteTitreSucces = await screen.findByText('Référentiel mis à jour avec succès', { selector: 'h2' })
       expect(alerteTitreSucces).toBeInTheDocument()
 
-      const alerteMessageSucces = await screen.findByText('L’ancien référentiel a été mis à jour. Assurez-vous que d’autres référentiels ne nécessitent pas de mise à jour et que le parcours est fonctionnel.', { selector: 'p' })
+      const alerteMessageSucces = screen.getByText('L’ancien référentiel a été mis à jour. Assurez-vous que d’autres référentiels ne nécessitent pas de mise à jour et que le parcours est fonctionnel.', { selector: 'p' })
       expect(alerteMessageSucces).toBeInTheDocument()
 
       const formData = new FormData()
       formData.append('fichierReferentiel', fichierReferentiel)
-      expect(repository.modifierUnReferentielRepository).toHaveBeenCalledWith(formData)
+      expect(repositoryReferentiels.modifierUnReferentielRepository).toHaveBeenCalledWith(formData)
     })
 
     it('quand je valide le formulaire avec un mauvais fichier CSV alors une alerte d’erreur apparaît', async () => {
       // GIVEN
       jeSuisUnAdmin()
+
       const messageErreur = 'message d’erreur'
-      vi.spyOn(repository, 'modifierUnReferentielRepository').mockRejectedValueOnce(new Error(messageErreur))
+      vi.spyOn(repositoryReferentiels, 'modifierUnReferentielRepository').mockRejectedValueOnce(new Error(messageErreur))
 
       renderComponent(await PageModifierUnReferentiel())
 
@@ -80,10 +82,15 @@ describe('page modifier un référentiel', () => {
       fireEvent.submit(boutonModifier)
 
       // THEN
+      // const titre = screen.getByRole('heading', { level: 1, name: 'Modifier un référentiel' })
+      // expect(titre).toBeInTheDocument()
+      // const bouttonModifier = screen.getByRole('button', { name: 'Modifier un référentiel' })
+      // fireEvent.click(bouttonModifier)
+
       const alerteTitreErreur = await screen.findByText('Une erreur est survenue', { selector: 'h2' })
       expect(alerteTitreErreur).toBeInTheDocument()
 
-      const alerteMessageErreur = await screen.findByText(messageErreur, { selector: 'pre' })
+      const alerteMessageErreur = screen.getByText(messageErreur, { selector: 'pre' })
       expect(alerteMessageErreur).toBeInTheDocument()
     })
   })

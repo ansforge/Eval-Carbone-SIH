@@ -14,10 +14,16 @@ export default function Modale({ children, fermerLaModale, isOpen, titre, valide
       isOpen={isOpen}
       onDismiss={fermerLaModale}
     >
-      <DialogContent className="modal-dialog modal-dialog-centered">
+      <DialogContent
+        aria-labelledby="dialog-title"
+        className="modal-dialog modal-dialog-centered"
+      >
         <div className="modal-content">
           <div className="modal-header">
-            <h1 className="modal-title">
+            <h1
+              className="modal-title"
+              id="dialog-title"
+            >
               <svg
                 aria-hidden
                 className="svg-icon"

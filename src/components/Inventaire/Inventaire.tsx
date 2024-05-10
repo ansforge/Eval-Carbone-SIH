@@ -6,7 +6,7 @@ import Actions from './Actions'
 import Equipement from './Equipement'
 import { useInventaire } from './useInventaire'
 import { InventairePresenter } from '../../presenters/inventairePresenter'
-import { formaterLeNomEtablissement } from '../../presenters/sharedPresenter'
+import { formaterEnIdentifiant, formaterLeNomEtablissement } from '../../presenters/sharedPresenter'
 import AlerteSucces from '../commun/AlerteSucces'
 
 type InventaireProps = Readonly<{
@@ -66,15 +66,19 @@ export default function Inventaire({ nomEtablissement, nomInventaire, presenter 
         Pour calculer l’empreinte environnementale de l’inventaire, vous devez renseigner au moins un modèle d’équipement.
       </p>
       {
-        presenter.equipementsAvecSesModeles.map((equipementAvecSesModeles): ReactElement => (
-          <Equipement
-            equipementAvecSesModeles={equipementAvecSesModeles}
-            idAccordion={equipementAvecSesModeles.type}
-            idFieldset={'id-' + equipementAvecSesModeles.type}
-            key={equipementAvecSesModeles.type}
-            setQuantiteGlobale={setQuantiteGlobale}
-          />
-        ))
+        presenter.equipementsAvecSesModeles.map((equipementAvecSesModeles): ReactElement => {
+          const id = formaterEnIdentifiant(equipementAvecSesModeles.type)
+
+          return (
+            <Equipement
+              equipementAvecSesModeles={equipementAvecSesModeles}
+              idAccordion={id}
+              idFieldset={'id-' + id}
+              key={id}
+              setQuantiteGlobale={setQuantiteGlobale}
+            />
+          )
+        })
       }
       <div className="text-center">
         <Actions

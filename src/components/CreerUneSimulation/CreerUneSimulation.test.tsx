@@ -1,23 +1,23 @@
-import { inventaireModel } from '@prisma/client'
-import { fireEvent, screen } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import * as navigation from 'next/navigation'
 
 import PageCreerUneSimulation from '../../app/(connecte)/creer-une-simulation/page'
-import * as repository from '../../gateways/inventairesRepository'
-import { jeSuisUnAdmin, jeSuisUnUtilisateur, renderComponent } from '../../testShared'
+import * as repositoryInventaires from '../../gateways/inventairesRepository'
+import { FrozenDate, inventaireModelFactory, jeSuisUnAdmin, jeSuisUnUtilisateur, renderComponent, spyNextNavigation } from '../../testShared'
 
 describe('page créer une simulation', () => {
   describe('en tant qu’utilisateur', () => {
     it('quand j’affiche la page alors j’ai le nom de l’inventaire prérempli avec comme suffixe le mot simulation et la date', async () => {
       // GIVEN
       jeSuisUnUtilisateur()
+      vi.stubGlobal('Date', FrozenDate)
 
       // WHEN
       renderComponent(await PageCreerUneSimulation(queryParams()))
 
       // THEN
       const champNomInventaire = screen.getByLabelText('Nom de l’inventaire * (minimum 4 caractères)')
-      expect(champNomInventaire).toHaveValue('Centre hospitalier - simulation 17/12/1995 03:24:00')
+      expect(champNomInventaire).toHaveValue('Centre hospitalier - simulation 15/04/1996 03:24:00')
 
       const boutonContinuer = screen.getByRole('button', { name: 'Continuer' })
       expect(boutonContinuer).toBeEnabled()
@@ -71,10 +71,11 @@ describe('page créer une simulation', () => {
     it('quand j’écris un nom d’inventaire inférieur à 4 caractères alors je ne peux pas créer la simulation', async () => {
       // GIVEN
       jeSuisUnUtilisateur()
+
       renderComponent(await PageCreerUneSimulation(queryParams()))
-      const champNomInventaire = screen.getByLabelText('Nom de l’inventaire * (minimum 4 caractères)')
 
       // WHEN
+      const champNomInventaire = screen.getByLabelText('Nom de l’inventaire * (minimum 4 caractères)')
       fireEvent.change(champNomInventaire, { target: { value: '???' } })
 
       // THEN
@@ -84,14 +85,17 @@ describe('page créer une simulation', () => {
 
     it('quand je valide le formulaire avec un nom d’inventaire qui existe déjà alors j’ai un message d’erreur', async () => {
       // GIVEN
-      vi.spyOn(repository, 'recupererUnInventaireRepository').mockResolvedValueOnce({} as inventaireModel)
       jeSuisUnUtilisateur()
+
+      vi.spyOn(repositoryInventaires, 'recupererUnInventaireRepository').mockResolvedValueOnce(inventaireModelFactory())
+
       renderComponent(await PageCreerUneSimulation(queryParams()))
+
       const champNomInventaire = screen.getByLabelText('Nom de l’inventaire * (minimum 4 caractères)')
       fireEvent.change(champNomInventaire, { target: { value: 'nom inventaire dejà exitant' } })
-      const boutonContinuer = screen.getByRole('button', { name: 'Continuer' })
 
       // WHEN
+      const boutonContinuer = screen.getByRole('button', { name: 'Continuer' })
       fireEvent.click(boutonContinuer)
 
       // THEN
@@ -101,12 +105,19 @@ describe('page créer une simulation', () => {
 
       const textErreur = await screen.findByText('Cet inventaire existe déjà. Modifiez le nom de l’inventaire pour continuer.', { selector: 'p' })
       expect(textErreur).toBeInTheDocument()
+
+      expect(repositoryInventaires.recupererUnInventaireRepository).toHaveBeenCalledWith('Hopital de Paris$$00000001K', 'nom inventaire dejà exitant')
     })
 
     it('quand je valide le formulaire avec un nom d’inventaire qui n’existe pas alors je vais à la suite', async () => {
       // GIVEN
-      vi.spyOn(repository, 'recupererUnInventaireRepository').mockResolvedValueOnce(null)
       jeSuisUnUtilisateur()
+
+      vi.spyOn(navigation, 'useRouter')
+        .mockReturnValueOnce(spyNextNavigation.useRouter)
+        .mockReturnValueOnce(spyNextNavigation.useRouter)
+      vi.spyOn(repositoryInventaires, 'recupererUnInventaireRepository').mockResolvedValueOnce(null)
+
       renderComponent(await PageCreerUneSimulation(queryParams()))
 
       const champNomInventaire = screen.getByLabelText('Nom de l’inventaire * (minimum 4 caractères)')
@@ -123,8 +134,9 @@ describe('page créer une simulation', () => {
       fireEvent.click(boutonContinuer)
 
       // THEN
-      expect(navigation.useRouter).toHaveBeenCalledWith()
-      // expect(navigation.useRouter.push).toHaveBeenCalledWith('')
+      await waitFor(() => {
+        expect(spyNextNavigation.useRouter.push).toHaveBeenCalledWith('http://localhost:3000/inventaire?nomEtablissement=Hopital+de+Paris%24%2400000001K&nomInventaire=Centre+hospitalier&nouveauNomInventaire=nom+inventaire+correct&nombreEquipement=10&dureeDeVie=10&heureUtilisation=10&statut=CALCUL%C3%89')
+      })
     })
   })
 

@@ -2,6 +2,7 @@ import { ReactElement } from 'react'
 
 import Equipement from './Equipement'
 import { ListeEquipementsPresenter } from '../../presenters/listeEquipementsPresenter'
+import { formaterEnIdentifiant } from '../../presenters/sharedPresenter'
 import Accordeon from '../commun/Accordeon'
 import Actions from '../commun/Actions'
 import Onglets from '../commun/Onglets'
@@ -29,12 +30,13 @@ export default function ListeEquipements({ nomEtablissement, nomInventaire, pres
         Object.keys(presenter.equipements).map((equipement): ReactElement => {
           const quantite = presenter.equipements[equipement]
             .reduce((quantiteAccumulee, modele): number => quantiteAccumulee + modele.quantite, 0)
+          const id = formaterEnIdentifiant(presenter.equipements[equipement][0].type)
 
           return (
             <Accordeon
-              idAccordion={presenter.equipements[equipement][0].type}
-              idSection={'id-' + presenter.equipements[equipement][0].type}
-              key={presenter.equipements[equipement][0].type}
+              idAccordion={id}
+              idSection={'id-' + id}
+              key={id}
               label={`${presenter.equipements[equipement][0].type} (${quantite})`}
             >
               <Equipement

@@ -5,6 +5,8 @@ import NextAuth, { NextAuthOptions, Session, getServerSession } from 'next-auth'
 import { JWT } from 'next-auth/jwt'
 import { OAuthConfig } from 'next-auth/providers'
 
+import { separator } from './configuration'
+
 type Profil = Readonly<{
   profile_atih: string
   sub: string
@@ -91,7 +93,7 @@ export async function getProfilAtih(): Promise<ProfilAtih> {
   return {
     isAdmin: profilsAtih.niveau === niveauAdmin,
     isConnected: true,
-    nomEtablissement: profilsAtih.entite.libelle + '$$' + numeroFiness,
+    nomEtablissement: profilsAtih.entite.libelle + separator + numeroFiness,
   }
 }
 

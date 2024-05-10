@@ -1,0 +1,30 @@
+import { FormEvent, ReactElement, useState } from 'react'
+
+import InfoBulle from '../commun/Infobulle'
+
+export default function DureeDeVie(): ReactElement {
+  const [dureeDeVie, setDureeDeVie] = useState('0')
+
+  const modifierDureeDeVie = (event: FormEvent<HTMLInputElement>) => {
+    setDureeDeVie(event.currentTarget.value)
+  }
+
+  return (
+    <>
+      <label htmlFor="dureeDeVie">
+        Durée de vie en années
+      </label>
+      <InfoBulle label="Par exemple, en inscrivant le chiffre 2, la durée de vie souhaitée de chaque équipement augmentera de 2 ans." />
+      <input
+        className={'form-control'}
+        id="dureeDeVie"
+        max={20}
+        min={-20}
+        name="dureeDeVie"
+        onChange={modifierDureeDeVie}
+        type="number"
+        value={dureeDeVie}
+      />
+    </>
+  )
+}
