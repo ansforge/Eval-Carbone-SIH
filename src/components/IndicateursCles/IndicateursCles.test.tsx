@@ -58,7 +58,7 @@ describe('page des indicateurs clés', () => {
       const simulezVosReductions = screen.getByRole('heading', { level: 2, name: 'Simulez vos réductions d’empreinte' })
       expect(simulezVosReductions).toBeInTheDocument()
       const lienCreerUneSimulation = screen.getByRole('link', { name: 'Créer une simulation' })
-      expect(lienCreerUneSimulation).toBeInTheDocument()
+      expect(lienCreerUneSimulation).toHaveAttribute('href', '/creer-une-simulation?nomInventaire=Centre%20hospitalier')
     })
   })
 

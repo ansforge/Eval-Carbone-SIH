@@ -7,7 +7,8 @@ export type InventairePresenter = Readonly<{
   className: string
   dateInventaire: string
   id: number
-  link: string
+  lienDupliquer: string
+  lienIndicateursCles: string
   nomInventaire: string
   nomEtablissement: string
   statut: StatutsInventaire
@@ -23,12 +24,14 @@ export function inventairesPresenter(inventairesModel: ReadonlyArray<inventaireM
     const statut = StatutsInventaire[inventaireModel.statut as keyof typeof StatutsInventaire]
     const path = statut === StatutsInventaire.EN_ATTENTE ? '/inventaire' : '/indicateurs-cles'
     const statusParam = statut === StatutsInventaire.EN_ATTENTE ? `&statut=${StatutsInventaire.EN_ATTENTE}` : ''
+    const lienDupliquer = profil.isAdmin ? '' : encodeURI(`/dupliquer-un-inventaire?nomInventaire=${inventaireModel.nomInventaire}`)
 
     return {
-      className: statut.toLowerCase().replace(' ', '_'),
+      className: statut.toLowerCase().replace(' ', '_'),
       dateInventaire: formaterLaDateEnFrancais(inventaireModel.dateInventaire),
       id: inventaireModel.id,
-      link: encodeURI(`${path}?nomEtablissement=${inventaireModel.nomEtablissement}&nomInventaire=${inventaireModel.nomInventaire}${statusParam}`),
+      lienDupliquer,
+      lienIndicateursCles: encodeURI(`${path}?nomEtablissement=${inventaireModel.nomEtablissement}&nomInventaire=${inventaireModel.nomInventaire}${statusParam}`),
       nomEtablissement: inventaireModel.nomEtablissement,
       nomInventaire: inventaireModel.nomInventaire,
       statut,

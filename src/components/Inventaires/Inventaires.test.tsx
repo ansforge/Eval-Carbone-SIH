@@ -62,18 +62,22 @@ describe('page inventaires', () => {
         expect(cellsRow1[1]).toHaveTextContent('Hopital de Paris')
         expect(cellsRow1[2]).toHaveTextContent('15/04/1996')
         expect(cellsRow1[3]).toHaveTextContent('CALCULÉ')
+        const lienDupliquer = within(cellsRow1[4]).getByRole('link', { name: 'Dupliquer l’inventaire' })
+        expect(lienDupliquer).toHaveAttribute('href', '/dupliquer-un-inventaire?nomInventaire=mon%20inventaire%20trait%C3%A9')
         expect(cellsRow1[4]).toHaveTextContent('Supprimer l’inventaire')
 
         const cellsRow2 = within(tbodyRows[1]).getAllByRole('cell')
         const lien2 = within(cellsRow2[0]).getByRole('link', { name: 'mon inventaire non calculé' })
-        expect(lien2).toHaveAttribute('href', '/inventaire?nomEtablissement=Hopital%20de%20Paris$$00000001K&nomInventaire=mon%20inventaire%20non%20calcul%C3%A9&statut=NON%20CALCUL%C3%89')
+        expect(lien2).toHaveAttribute('href', '/inventaire?nomEtablissement=Hopital%20de%20Paris$$00000001K&nomInventaire=mon%20inventaire%20non%20calcul%C3%A9&statut=NON%C2%A0CALCUL%C3%89')
         expect(cellsRow2[1]).toHaveTextContent('Hopital de Paris')
         expect(cellsRow2[2]).toHaveTextContent('15/04/1996')
         expect(cellsRow2[3]).toHaveTextContent('NON CALCULÉ')
+        const lienDupliquer2 = within(cellsRow2[4]).getByRole('link', { name: 'Dupliquer l’inventaire' })
+        expect(lienDupliquer2).toHaveAttribute('href', '/dupliquer-un-inventaire?nomInventaire=mon%20inventaire%20non%20calcul%C3%A9')
         expect(cellsRow2[4]).toHaveTextContent('Supprimer l’inventaire')
       })
 
-      it('quand je clique sur la poubelle alors l’inventaire est supprimé et ne s’affiche plus', async () => {
+      it('quand je clique pour supprimer un inventaire alors l’inventaire est supprimé et ne s’affiche plus', async () => {
         // GIVEN
         jeSuisUnUtilisateur()
 
@@ -160,6 +164,31 @@ describe('page inventaires', () => {
         const lien2 = within(cellsRow2[0]).getByRole('link', { name: 'mon inventaire B' })
         expect(lien2).toHaveAttribute('href', '/indicateurs-cles?nomEtablissement=Hopital%20B$$00000001J&nomInventaire=mon%20inventaire%20B')
         expect(cellsRow2[1]).toHaveTextContent('Hopital B')
+      })
+
+      it('quand j’affiche la page alors je n’ai pas accès à la duplication', async () => {
+        // GIVEN
+        jeSuisUnAdmin()
+
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([
+          inventaireModelFactory({
+            id: 1,
+            nomEtablissement: 'Hopital A$$00000001K',
+            nomInventaire: 'mon inventaire A',
+          }),
+        ])
+
+        // WHEN
+        renderComponent(await PageInventaires())
+
+        // THEN
+        const listeInventaires = screen.getByRole('table')
+        const rowgroup = within(listeInventaires).getAllByRole('rowgroup')
+        const tbodyRows = within(rowgroup[1]).getAllByRole('row')
+
+        const cellsRow1 = within(tbodyRows[0]).getAllByRole('cell')
+        const lienDupliquer = within(cellsRow1[4]).queryByRole('link', { name: 'Dupliquer l’inventaire' })
+        expect(lienDupliquer).not.toBeInTheDocument()
       })
     })
   })

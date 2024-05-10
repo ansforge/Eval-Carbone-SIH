@@ -43,7 +43,7 @@ export default function Inventaires({ inventaires }: InventairesProps): ReactEle
             return (
               <tr key={inventaire.id}>
                 <td>
-                  <Link href={inventaire.link}>
+                  <Link href={inventaire.lienIndicateursCles}>
                     {inventaire.nomInventaire}
                   </Link>
                 </td>
@@ -58,7 +58,28 @@ export default function Inventaires({ inventaires }: InventairesProps): ReactEle
                     {inventaire.statut}
                   </span>
                 </td>
-                <ActionSupprimer inventaire={inventaire} />
+                <td>
+                  {
+                    inventaire.lienDupliquer !== '' ? (
+                      <Link
+                        className="text-default mr-2"
+                        href={inventaire.lienDupliquer}
+                      >
+                        <svg
+                          aria-hidden
+                          className="svg-icon"
+                          focusable="false"
+                        >
+                          <use xlinkHref="/svg-icons/icon-sprite.svg#duplicate" />
+                        </svg>
+                        <span className="sr-only">
+                          Dupliquer l’inventaire
+                        </span>
+                      </Link>
+                    ) : null
+                  }
+                  <ActionSupprimer inventaire={inventaire} />
+                </td>
               </tr>
             )
           })

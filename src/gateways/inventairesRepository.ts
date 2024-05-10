@@ -2,8 +2,9 @@ import { inventaireModel } from '@prisma/client'
 
 import prisma from './database'
 import { supprimerLesIndicateursImpactsEquipementsRepository } from './indicateursRepository'
-import { Modele, calculerEmpreinteRepository, enregistrerLesModelesRepository, supprimerLesModelesRepository } from './modelesRepository'
+import { Modele, calculerEmpreinteRepository, enregistrerLesModelesRepository, recupererLesModelesRepository, supprimerLesModelesRepository } from './modelesRepository'
 import { separator } from '../configuration'
+import { calculerLaDureeDeVie, convertirLeTauxUtilisationEnHeureUtilisation } from '../presenters/sharedPresenter'
 
 export async function recupererLesInventairesRepository(nomEtablissement: string): Promise<Array<inventaireModel>> {
   const nomOrganisation = nomEtablissement.endsWith(`${separator}admin`) ? { startsWith: '%' } : nomEtablissement
@@ -33,6 +34,25 @@ export async function creerUnInventaireRepository(nomEtablissement: string, nomI
   if (isAjouter) {
     await calculerEmpreinteRepository(nomEtablissement, nomInventaire)
   }
+}
+
+export async function dupliquerUnInventaireRepository(
+  nomEtablissement: string,
+  ancienNomInventaire: string,
+  nouveauNomInventaire: string
+): Promise<void> {
+  const modeles = await recupererLesModelesRepository(nomEtablissement, ancienNomInventaire)
+  const modelesDupliques = modeles.map((modele): Modele => {
+    return {
+      dureeDeVie: calculerLaDureeDeVie(modele.dateAchat),
+      heureUtilisation: convertirLeTauxUtilisationEnHeureUtilisation(modele.tauxUtilisation),
+      modele: modele.nom,
+      quantite: modele.quantite,
+      type: modele.type,
+    }
+  })
+
+  await creerUnInventaireRepository(nomEtablissement, nouveauNomInventaire, modelesDupliques)
 }
 
 export async function passerATraiteUnInventaireRepository(nomEtablissement: string, nomInventaire: string): Promise<void> {

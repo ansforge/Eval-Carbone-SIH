@@ -1,7 +1,7 @@
 import { separator } from '../configuration'
 
 export enum StatutsInventaire {
-  EN_ATTENTE = 'NON CALCULÉ',
+  EN_ATTENTE = 'NON CALCULÉ',
   TRAITE = 'CALCULÉ',
 }
 

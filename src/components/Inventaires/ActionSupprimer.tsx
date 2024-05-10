@@ -14,7 +14,7 @@ export default function ActionSupprimer({ inventaire }: InventairesProps): React
   const { fermerLaModale, isOpen, ouvrirLaModale } = useModale()
 
   return (
-    <td>
+    <>
       <button
         onClick={ouvrirLaModale}
         type="button"
@@ -36,6 +36,6 @@ export default function ActionSupprimer({ inventaire }: InventairesProps): React
         nomEtablissement={inventaire.nomEtablissement}
         nomInventaire={inventaire.nomInventaire}
       />
-    </td>
+    </>
   )
 }
