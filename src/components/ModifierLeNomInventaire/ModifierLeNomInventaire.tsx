@@ -4,7 +4,7 @@ import { ReactElement } from 'react'
 
 import { useModifierLeNomInventaire } from './useModifierLeNomInventaire'
 import { formaterLeNomEtablissement } from '../../presenters/sharedPresenter'
-import InfoBulle from '../commun/Infobulle'
+import InfoBulle from '../sharedComponents/Infobulle'
 
 type ModifierLeNomInventaireProps = Readonly<{
   nomEtablissement: string

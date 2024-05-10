@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ReactElement } from 'react'
 
-import Breadcrumb from '../../../components/commun/Breadcrumb'
 import ModifierLeNomInventaire from '../../../components/ModifierLeNomInventaire/ModifierLeNomInventaire'
+import Breadcrumb from '../../../components/sharedComponents/Breadcrumb'
 
 const title = 'Modifier le nom de l’inventaire'
 export const metadata: Metadata = {

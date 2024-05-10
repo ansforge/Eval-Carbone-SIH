@@ -1,6 +1,6 @@
 import { FormEvent, ReactElement, useState } from 'react'
 
-import InfoBulle from '../commun/Infobulle'
+import InfoBulle from '../sharedComponents/Infobulle'
 
 export default function NombreEquipement(): ReactElement {
   const [nombreEquipement, setNombreEquipement] = useState('0')

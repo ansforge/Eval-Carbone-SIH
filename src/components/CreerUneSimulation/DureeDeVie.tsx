@@ -1,6 +1,6 @@
 import { FormEvent, ReactElement, useState } from 'react'
 
-import InfoBulle from '../commun/Infobulle'
+import InfoBulle from '../sharedComponents/Infobulle'
 
 export default function DureeDeVie(): ReactElement {
   const [dureeDeVie, setDureeDeVie] = useState('0')

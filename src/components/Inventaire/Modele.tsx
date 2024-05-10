@@ -1,7 +1,7 @@
 import { FormEvent, ReactElement } from 'react'
 
 import { ModeleReducer } from './useEquipement'
-import InfoBulle from '../commun/Infobulle'
+import InfoBulle from '../sharedComponents/Infobulle'
 
 type ModeleProps = Readonly<{
   id: string

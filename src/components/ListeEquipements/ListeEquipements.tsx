@@ -3,9 +3,9 @@ import { ReactElement } from 'react'
 import Equipement from './Equipement'
 import { ListeEquipementsPresenter } from '../../presenters/listeEquipementsPresenter'
 import { formaterEnIdentifiant } from '../../presenters/sharedPresenter'
-import Accordeon from '../commun/Accordeon'
-import Actions from '../commun/Actions'
-import Onglets from '../commun/Onglets'
+import Accordeon from '../sharedComponents/Accordeon'
+import Actions from '../sharedComponents/Actions'
+import Onglets from '../sharedComponents/Onglets'
 
 type ListeEquipementsProps = Readonly<{
   nomEtablissement: string

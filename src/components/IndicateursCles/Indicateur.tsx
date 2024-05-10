@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
 
-import InfoBulle from '../commun/Infobulle'
+import InfoBulle from '../sharedComponents/Infobulle'
 
 type IndicateurProps = Readonly<{
   coin: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right'

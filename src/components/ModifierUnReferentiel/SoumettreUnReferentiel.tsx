@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react'
 
-import Modale from '../commun/Modale'
-import { useModale } from '../commun/useModale'
+import Modale from '../sharedComponents/Modale'
+import { useModale } from '../sharedComponents/useModale'
 
 type ModaleModifierUnReferentielProps = Readonly<{
   isDisabled: boolean

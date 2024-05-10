@@ -8,7 +8,7 @@ import HeureUtilisation from './HeureUtilisation'
 import NombreEquipement from './NombreEquipement'
 import { useCreerUneSimulation } from './useCreerUneSimulation'
 import { formaterLeNomEtablissement } from '../../presenters/sharedPresenter'
-import InfoBulle from '../commun/Infobulle'
+import InfoBulle from '../sharedComponents/Infobulle'
 
 type CreerUneSimulationProps = Readonly<{
   ancienNomInventaire: string

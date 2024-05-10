@@ -2,8 +2,8 @@ import { useRouter } from 'next/navigation'
 import { FormEvent } from 'react'
 
 import { StatutsInventaire } from '../../presenters/sharedPresenter'
-import { isLeNomInventaireExisteAction } from '../commun/action'
-import { useModifierNouveauNomInventaire } from '../commun/useModifierNouveauNomInventaire'
+import { isLeNomInventaireExisteAction } from '../sharedComponents/action'
+import { useModifierNouveauNomInventaire } from '../sharedComponents/useModifierNouveauNomInventaire'
 
 type UseCreerUneSimulation = Readonly<{
   creerUneSimulation: (event: FormEvent<HTMLFormElement>) => Promise<void>

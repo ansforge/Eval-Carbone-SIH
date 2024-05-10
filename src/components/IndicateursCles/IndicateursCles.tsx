@@ -9,10 +9,10 @@ import { donneesParCycleDeVie, donneesParTypeEquipement, donneesRepartitionParTy
 import Indicateur from './Indicateur'
 import Transcription from './Transcription'
 import { EtapesAcv, IndicateursClesPresenter } from '../../presenters/indicateursClesPresenter'
-import Accordeon from '../commun/Accordeon'
-import Actions from '../commun/Actions'
-import InfoBulle from '../commun/Infobulle'
-import Onglets from '../commun/Onglets'
+import Accordeon from '../sharedComponents/Accordeon'
+import Actions from '../sharedComponents/Actions'
+import InfoBulle from '../sharedComponents/Infobulle'
+import Onglets from '../sharedComponents/Onglets'
 
 type IndicateursClesProps = Readonly<{
   nomEtablissement: string

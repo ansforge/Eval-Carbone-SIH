@@ -7,7 +7,7 @@ import Equipement from './Equipement'
 import { useInventaire } from './useInventaire'
 import { InventairePresenter } from '../../presenters/inventairePresenter'
 import { formaterEnIdentifiant, formaterLeNomEtablissement } from '../../presenters/sharedPresenter'
-import AlerteSucces from '../commun/AlerteSucces'
+import AlerteSucces from '../sharedComponents/AlerteSucces'
 
 type InventaireProps = Readonly<{
   nomEtablissement: string

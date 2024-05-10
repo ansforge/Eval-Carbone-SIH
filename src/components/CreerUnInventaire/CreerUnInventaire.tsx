@@ -4,7 +4,7 @@ import { ReactElement } from 'react'
 
 import { useCreerUnInventaire } from './useCreerUnInventaire'
 import { formaterLeNomEtablissement } from '../../presenters/sharedPresenter'
-import InfoBulle from '../commun/Infobulle'
+import InfoBulle from '../sharedComponents/Infobulle'
 
 type CreerUnInventaireProps = Readonly<{
   nomEtablissement: string

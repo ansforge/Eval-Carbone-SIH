@@ -3,8 +3,8 @@
 import { useRouter } from 'next/navigation'
 import React, { ReactElement } from 'react'
 
-import { supprimerInventaireAction } from '../commun/action'
-import Modale from '../commun/Modale'
+import { supprimerInventaireAction } from '../sharedComponents/action'
+import Modale from '../sharedComponents/Modale'
 
 type SupprimerUnInventaireProps = Readonly<{
   fermerLaModale: () => void

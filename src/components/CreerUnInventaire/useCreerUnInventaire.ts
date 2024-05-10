@@ -1,8 +1,8 @@
 import { useRouter } from 'next/navigation'
 import { FormEvent } from 'react'
 
-import { isLeNomInventaireExisteAction } from '../commun/action'
-import { useModifierNouveauNomInventaire } from '../commun/useModifierNouveauNomInventaire'
+import { isLeNomInventaireExisteAction } from '../sharedComponents/action'
+import { useModifierNouveauNomInventaire } from '../sharedComponents/useModifierNouveauNomInventaire'
 
 type UseCreerUnInventaire = Readonly<{
   creerInventaire: (event: FormEvent<HTMLFormElement>) => Promise<void>

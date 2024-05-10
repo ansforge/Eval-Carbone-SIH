@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
 
-import Accordeon from '../commun/Accordeon'
+import Accordeon from '../sharedComponents/Accordeon'
 
 export default function Faq(): ReactElement {
   return (

@@ -4,7 +4,7 @@ import { ReactElement } from 'react'
 import Inventaires from './Inventaires'
 import InventairesVide from './InventairesVide'
 import { InventairesPresenter } from '../../presenters/inventairesPresenter'
-import InfoBulle from '../commun/Infobulle'
+import InfoBulle from '../sharedComponents/Infobulle'
 
 type InventairesLayoutProps = Readonly<{
   presenter: InventairesPresenter

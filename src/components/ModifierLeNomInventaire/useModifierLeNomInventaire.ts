@@ -2,8 +2,8 @@ import { useRouter } from 'next/navigation'
 import { FormEvent } from 'react'
 
 import { modifierLeNomInventaireAction } from './action'
-import { isLeNomInventaireExisteAction } from '../commun/action'
-import { useModifierNouveauNomInventaire } from '../commun/useModifierNouveauNomInventaire'
+import { isLeNomInventaireExisteAction } from '../sharedComponents/action'
+import { useModifierNouveauNomInventaire } from '../sharedComponents/useModifierNouveauNomInventaire'
 
 type UseModifierLeNomInventaire = Readonly<{
   isDisabled: boolean

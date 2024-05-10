@@ -4,8 +4,8 @@ import { ReactElement } from 'react'
 
 import SoumettreUnReferentiel from './SoumettreUnReferentiel'
 import { useModifierUnReferentiel } from './useModifierUnReferentiel'
-import AlerteErreur from '../commun/AlerteErreur'
-import AlerteSucces from '../commun/AlerteSucces'
+import AlerteErreur from '../sharedComponents/AlerteErreur'
+import AlerteSucces from '../sharedComponents/AlerteSucces'
 
 export default function ModifierUnReferentiel(): ReactElement {
   const {

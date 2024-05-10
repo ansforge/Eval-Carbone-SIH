@@ -3,8 +3,8 @@
 import React, { ReactElement } from 'react'
 
 import { InventairePresenter } from '../../presenters/inventairesPresenter'
-import SupprimerUnInventaire from '../commun/SupprimerUnInventaire'
-import { useModale } from '../commun/useModale'
+import SupprimerUnInventaire from '../sharedComponents/SupprimerUnInventaire'
+import { useModale } from '../sharedComponents/useModale'
 
 type InventairesProps = Readonly<{
   inventaire: InventairePresenter
