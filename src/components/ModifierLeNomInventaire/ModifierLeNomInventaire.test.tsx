@@ -2,7 +2,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/react'
 import * as navigation from 'next/navigation'
 
 import PageModifierLeNomInventaire from '../../app/(connecte)/(both)/modifier-le-nom-inventaire/page'
-import * as repositoryInventaires from '../../gateways/inventairesRepository'
+import * as repositoryInventaires from '../../repositories/inventairesRepository'
 import { inventaireModelFactory, jeSuisUnAdmin, jeSuisUnUtilisateur, nomEtablissementFake, renderComponent, spyNextNavigation } from '../../testShared'
 
 describe('page modifier le nom de l’inventaire', () => {

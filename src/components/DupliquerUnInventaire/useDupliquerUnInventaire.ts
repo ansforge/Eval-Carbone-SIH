@@ -31,6 +31,7 @@ export function useDupliquerUnInventaire(ancienNomInventaire: string): UseCreerU
       await dupliquerUnInventaireAction(nomEtablissement, ancienNomInventaire, nouveauNomInventaire)
 
       router.push('/')
+      router.refresh()
     } else {
       setState({
         isDisabled: true,

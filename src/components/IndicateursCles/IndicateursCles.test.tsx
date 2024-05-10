@@ -2,9 +2,9 @@ import { fireEvent, screen, waitFor, within } from '@testing-library/react'
 import * as navigation from 'next/navigation'
 
 import PageIndicateursCles from '../../app/(connecte)/(both)/indicateurs-cles/page'
-import * as repositoryIndicateurs from '../../gateways/indicateursRepository'
-import * as repositoryInventaires from '../../gateways/inventairesRepository'
-import * as repositoryTypesEquipements from '../../gateways/typesEquipementsRepository'
+import * as repositoryIndicateurs from '../../repositories/indicateursRepository'
+import * as repositoryInventaires from '../../repositories/inventairesRepository'
+import * as repositoryTypesEquipements from '../../repositories/typesEquipementsRepository'
 import { indicateurImpactEquipementModelFactory, indicateurImpactEquipementSommeModelFactory, jeSuisUnAdmin, jeSuisUnUtilisateur, referentielTypeEquipementModelFactory, renderComponent, spyNextNavigation } from '../../testShared'
 
 describe('page des indicateurs clés', () => {

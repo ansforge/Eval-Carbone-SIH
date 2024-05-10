@@ -2,7 +2,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/react'
 import * as navigation from 'next/navigation'
 
 import PageCreerUnInventaire from '../../app/(connecte)/(utilisateur)/creer-un-inventaire/page'
-import * as repositoryInventaires from '../../gateways/inventairesRepository'
+import * as repositoryInventaires from '../../repositories/inventairesRepository'
 import { inventaireModelFactory, jeSuisUnAdmin, jeSuisUnUtilisateur, renderComponent, spyNextNavigation } from '../../testShared'
 
 describe('page modifier le nom de l’inventaire', () => {

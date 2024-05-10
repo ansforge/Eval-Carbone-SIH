@@ -5,9 +5,9 @@ import { ReactElement } from 'react'
 import { getProfilAtih } from '../../../../authentification'
 import ListeEquipements from '../../../../components/ListeEquipements/ListeEquipements'
 import Breadcrumb from '../../../../components/sharedComponents/Breadcrumb'
-import { recupererLesModelesRepository } from '../../../../gateways/modelesRepository'
-import { recupererLesReferentielsTypesEquipementsRepository } from '../../../../gateways/typesEquipementsRepository'
 import { listeEquipementsPresenter } from '../../../../presenters/listeEquipementsPresenter'
+import { recupererLesModelesRepository } from '../../../../repositories/modelesRepository'
+import { recupererLesReferentielsTypesEquipementsRepository } from '../../../../repositories/typesEquipementsRepository'
 
 const title = 'Liste d’équipements'
 export const metadata: Metadata = {

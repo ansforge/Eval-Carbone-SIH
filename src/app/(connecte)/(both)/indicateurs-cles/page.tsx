@@ -5,9 +5,9 @@ import { ReactElement } from 'react'
 import { getProfilAtih } from '../../../../authentification'
 import IndicateursCles from '../../../../components/IndicateursCles/IndicateursCles'
 import Breadcrumb from '../../../../components/sharedComponents/Breadcrumb'
-import { recupererLesIndicateursImpactsEquipementsRepository, recupererLesIndicateursImpactsEquipementsSommesRepository } from '../../../../gateways/indicateursRepository'
-import { recupererLesReferentielsTypesEquipementsRepository } from '../../../../gateways/typesEquipementsRepository'
 import { indicateursClesPresenter } from '../../../../presenters/indicateursClesPresenter'
+import { recupererLesIndicateursImpactsEquipementsRepository, recupererLesIndicateursImpactsEquipementsSommesRepository } from '../../../../repositories/indicateursRepository'
+import { recupererLesReferentielsTypesEquipementsRepository } from '../../../../repositories/typesEquipementsRepository'
 
 const title = 'Indicateurs clés'
 export const metadata: Metadata = {

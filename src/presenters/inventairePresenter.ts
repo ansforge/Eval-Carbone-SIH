@@ -3,7 +3,7 @@ import { modeleModel } from '@prisma/client'
 import { StatutsInventaire, calculerLaDureeDeVie, convertirLeTauxUtilisationEnHeureUtilisation, formaterLaDateEnFrancais, genererUnIdentifiantUnique } from './sharedPresenter'
 import { SearchParams } from '../app/(connecte)/(both)/inventaire/page'
 import { ModeleReducer } from '../components/Inventaire/useEquipement'
-import { ReferentielTypeEquipementModel } from '../gateways/typesEquipementsRepository'
+import { ReferentielTypeEquipementModel } from '../repositories/typesEquipementsRepository'
 
 export type EquipementAvecSesModelesPresenter = Readonly<{
   modeles: Array<ModeleReducer>

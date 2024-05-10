@@ -2,7 +2,7 @@ import { fireEvent, screen, waitFor, within } from '@testing-library/react'
 import * as navigation from 'next/navigation'
 
 import PageInventaires from '../../app/(connecte)/page'
-import * as repositoryInventaires from '../../gateways/inventairesRepository'
+import * as repositoryInventaires from '../../repositories/inventairesRepository'
 import { FrozenDate, inventaireModelFactory, jeSuisUnAdmin, jeSuisUnUtilisateur, renderComponent, spyNextNavigation } from '../../testShared'
 
 describe('page inventaires', () => {

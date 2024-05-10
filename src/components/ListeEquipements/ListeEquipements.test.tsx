@@ -2,9 +2,9 @@ import { fireEvent, screen, waitFor, within } from '@testing-library/react'
 import * as navigation from 'next/navigation'
 
 import PageListeEquipements from '../../app/(connecte)/(both)/liste-equipements/page'
-import * as repositoryInventaires from '../../gateways/inventairesRepository'
-import * as repositoryModeles from '../../gateways/modelesRepository'
-import * as repositoryTypesEquipements from '../../gateways/typesEquipementsRepository'
+import * as repositoryInventaires from '../../repositories/inventairesRepository'
+import * as repositoryModeles from '../../repositories/modelesRepository'
+import * as repositoryTypesEquipements from '../../repositories/typesEquipementsRepository'
 import { jeSuisUnAdmin, jeSuisUnUtilisateur, modeleModelFactory, referentielTypeEquipementModelFactory, renderComponent, spyNextNavigation } from '../../testShared'
 
 describe('page liste d’équipements', () => {

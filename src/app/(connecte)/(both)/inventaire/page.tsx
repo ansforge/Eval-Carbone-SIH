@@ -5,10 +5,10 @@ import { ReactElement } from 'react'
 import { getProfilAtih } from '../../../../authentification'
 import Inventaire from '../../../../components/Inventaire/Inventaire'
 import Breadcrumb from '../../../../components/sharedComponents/Breadcrumb'
-import { recupererLesModelesRepository } from '../../../../gateways/modelesRepository'
-import { recupererLesReferentielsTypesEquipementsRepository } from '../../../../gateways/typesEquipementsRepository'
 import { inventairePresenter } from '../../../../presenters/inventairePresenter'
 import { StatutsInventaire } from '../../../../presenters/sharedPresenter'
+import { recupererLesModelesRepository } from '../../../../repositories/modelesRepository'
+import { recupererLesReferentielsTypesEquipementsRepository } from '../../../../repositories/typesEquipementsRepository'
 
 const title = 'Renseigner les équipements'
 export const metadata: Metadata = {

@@ -2,7 +2,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/react'
 import * as navigation from 'next/navigation'
 
 import PageCreerUneSimulation from '../../app/(connecte)/(utilisateur)/creer-une-simulation/page'
-import * as repositoryInventaires from '../../gateways/inventairesRepository'
+import * as repositoryInventaires from '../../repositories/inventairesRepository'
 import { FrozenDate, inventaireModelFactory, jeSuisUnAdmin, jeSuisUnUtilisateur, renderComponent, spyNextNavigation } from '../../testShared'
 
 describe('page créer une simulation', () => {

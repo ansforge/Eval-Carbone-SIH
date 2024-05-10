@@ -2,7 +2,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/react'
 import * as navigation from 'next/navigation'
 
 import PageDupliquerUnInventaire from '../../app/(connecte)/(utilisateur)/dupliquer-un-inventaire/page'
-import * as repositoryInventaires from '../../gateways/inventairesRepository'
+import * as repositoryInventaires from '../../repositories/inventairesRepository'
 import { FrozenDate, inventaireModelFactory, jeSuisUnAdmin, jeSuisUnUtilisateur, renderComponent, spyNextNavigation } from '../../testShared'
 
 describe('page créer une simulation', () => {
@@ -88,6 +88,7 @@ describe('page créer une simulation', () => {
         expect(repositoryInventaires.dupliquerUnInventaireRepository).toHaveBeenCalledWith('Hopital de Paris$$00000001K', 'Centre hospitalier', 'nom inventaire correct')
       })
       expect(spyNextNavigation.useRouter.push).toHaveBeenCalledWith('/')
+      expect(spyNextNavigation.useRouter.refresh).toHaveBeenCalledWith()
     })
   })
 

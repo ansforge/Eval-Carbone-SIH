@@ -2,8 +2,8 @@ import { indicateurImpactEquipementModel } from '@prisma/client'
 
 import { formaterDeuxChiffresApresLaVirgule, formaterLaDateEnFrancais } from './sharedPresenter'
 import { ProfilAtih } from '../authentification'
-import { IndicateurImpactEquipementSommeModel } from '../gateways/indicateursRepository'
-import { ReferentielTypeEquipementModel } from '../gateways/typesEquipementsRepository'
+import { IndicateurImpactEquipementSommeModel } from '../repositories/indicateursRepository'
+import { ReferentielTypeEquipementModel } from '../repositories/typesEquipementsRepository'
 
 type IndicateursImpactsEquipements = Readonly<{
   acidification: string

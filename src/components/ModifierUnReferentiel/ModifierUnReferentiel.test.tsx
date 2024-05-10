@@ -2,7 +2,7 @@ import { fireEvent, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 
 import PageModifierUnReferentiel from '../../app/(connecte)/(admin)/modifier-un-referentiel/page'
-import * as repositoryReferentiels from '../../gateways/referentielsRepository'
+import * as repositoryReferentiels from '../../repositories/referentielsRepository'
 import { renderComponent, jeSuisUnAdmin, jeSuisUnUtilisateur, textMatch } from '../../testShared'
 
 describe('page modifier un référentiel', () => {

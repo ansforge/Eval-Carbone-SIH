@@ -5,9 +5,9 @@ import { ReactElement } from 'react'
 
 import * as authentification from './authentification'
 import { separator } from './configuration'
-import { IndicateurImpactEquipementSommeModel } from './gateways/indicateursRepository'
-import { ReferentielTypeEquipementModel } from './gateways/typesEquipementsRepository'
 import { EtapesAcv } from './presenters/indicateursClesPresenter'
+import { IndicateurImpactEquipementSommeModel } from './repositories/indicateursRepository'
+import { ReferentielTypeEquipementModel } from './repositories/typesEquipementsRepository'
 
 export function renderComponent(component: ReactElement): RenderResult & { user: UserEvent } {
   return {
