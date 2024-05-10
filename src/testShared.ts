@@ -114,14 +114,29 @@ export function indicateurImpactEquipementModelFactory(override?: Partial<indica
   const date = new Date()
 
   return {
+    conso_elec_moyenne: 1,
     critere: 'Climate change',
     dateInventaire: date,
+    date_calcul: date,
+    date_lot_discriminator: date,
     etapeAcv: EtapesAcv.distribution,
     impactUnitaire: 646.886,
     nomEtablissement: 'Hopital de Bordeaux$$00000001J',
     nomInventaire: 'Centre hospitalier',
+    nom_entite: 'String',
+    nom_entite_discriminator: 'String',
+    nom_equipement: 'String',
+    nom_organisation_discriminator: 'String',
+    nom_source_donnee: 'String',
+    nom_source_donnee_discriminator: 'String',
+    quantite: 1,
+    source: 'String',
     statutIndicateur: 'OK',
+    statut_equipement_physique: 'String',
+    trace: 'String',
     typeEquipement: 'Ordinateur portable',
+    unite: 'String',
+    version_calcul: 'String',
     ...override,
   }
 }

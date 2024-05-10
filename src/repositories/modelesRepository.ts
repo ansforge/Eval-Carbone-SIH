@@ -35,10 +35,10 @@ export async function enregistrerLesModelesRepository(
 
     data.push(`;${modele.modele};${modele.quantite};;${dateAchat.toISOString().split('T')[0]};${dateRetrait};${modele.type};;France;;;;;;365;;;${modele.heureUtilisation / 24}`)
   }
-  const csvFile = new File([data.join('\n')], 'EquipementPhysique.csv', { type: 'text/csv' })
+  const fichierCsv = new File([data.join('\n')], 'EquipementPhysique.csv', { type: 'text/csv' })
 
   const formData = new FormData()
-  formData.append('csvEquipementPhysique', csvFile)
+  formData.append('csvEquipementPhysique', fichierCsv)
 
   const responseEntrees = await fetch(urlEntrees, {
     body: formData,

@@ -43,6 +43,23 @@ model indicateurImpactEquipementModel {
   typeEquipement String @map("type_equipement")
   nomEtablissement String @map("nom_organisation")
 
+  // Utiliser que pour l'export CSV
+  date_calcul DateTime?
+  source String?
+  trace String?
+  version_calcul String?
+  conso_elec_moyenne Float?
+  quantite Int?
+  statut_equipement_physique String?
+  unite String?
+  nom_entite String?
+  nom_source_donnee String?
+  nom_equipement String?
+  date_lot_discriminator DateTime?
+  nom_organisation_discriminator String?
+  nom_entite_discriminator String?
+  nom_source_donnee_discriminator String?
+
   @@map("ind_indicateur_impact_equipement_physique")
 }
 

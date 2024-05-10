@@ -16,7 +16,7 @@ type UseCreerUneSimulation = Readonly<{
 export function useCreerUneSimulation(ancienNomInventaire: string): UseCreerUneSimulation {
   const date = new Date()
   const router = useRouter()
-  const { modifierNouveauNomInventaire, setState, state } = useModifierNouveauNomInventaire(`${ancienNomInventaire} - simulation ${date.toLocaleString()}`, false)
+  const { modifierNouveauNomInventaire, setState, state } = useModifierNouveauNomInventaire(`${ancienNomInventaire} - simulation ${date.toLocaleString('fr-FR')}`, false)
 
   const creerUneSimulation = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()

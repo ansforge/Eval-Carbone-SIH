@@ -77,6 +77,26 @@ describe('page inventaires', () => {
         expect(cellsRow2[4]).toHaveTextContent('Supprimer l’inventaire')
       })
 
+      it('quand j’affiche la page alors je ne peux pas télécharger l’export CSV', async () => {
+        // GIVEN
+        jeSuisUnUtilisateur()
+
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([
+          inventaireModelFactory({
+            id: 1,
+            nomEtablissement: 'Hopital A$$00000001K',
+            nomInventaire: 'mon inventaire A',
+          }),
+        ])
+
+        // WHEN
+        renderComponent(await PageInventaires())
+
+        // THEN
+        const lienExporterLesInventaires = screen.queryByRole('link', { name: 'Exporter les inventaires' })
+        expect(lienExporterLesInventaires).not.toBeInTheDocument()
+      })
+
       it('quand je clique pour supprimer un inventaire alors l’inventaire est supprimé et ne s’affiche plus', async () => {
         // GIVEN
         jeSuisUnUtilisateur()
@@ -189,6 +209,26 @@ describe('page inventaires', () => {
         const cellsRow1 = within(tbodyRows[0]).getAllByRole('cell')
         const lienDupliquer = within(cellsRow1[4]).queryByRole('link', { name: 'Dupliquer l’inventaire' })
         expect(lienDupliquer).not.toBeInTheDocument()
+      })
+
+      it('quand j’affiche la page alors je télécharge l’export CSV', async () => {
+        // GIVEN
+        jeSuisUnAdmin()
+
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([
+          inventaireModelFactory({
+            id: 1,
+            nomEtablissement: 'Hopital A$$00000001K',
+            nomInventaire: 'mon inventaire A',
+          }),
+        ])
+
+        // WHEN
+        renderComponent(await PageInventaires())
+
+        // THEN
+        const lienExporterLesInventaires = screen.getByRole('link', { name: 'Exporter les inventaires' })
+        expect(lienExporterLesInventaires).toHaveAttribute('href', '/api/exporter-les-inventaires')
       })
     })
   })

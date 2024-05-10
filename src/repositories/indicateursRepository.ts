@@ -10,6 +10,10 @@ export type IndicateurImpactEquipementSommeModel = Readonly<{
   typeEquipement: string
 }>
 
+export async function recupererTousLesIndicateursImpactsEquipementsRepository(): Promise<Array<indicateurImpactEquipementModel>> {
+  return prisma.indicateurImpactEquipementModel.findMany()
+}
+
 export async function recupererLesIndicateursImpactsEquipementsRepository(
   nomEtablissement: string,
   nomInventaire: string

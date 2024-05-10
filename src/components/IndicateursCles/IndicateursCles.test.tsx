@@ -7,6 +7,8 @@ import * as repositoryInventaires from '../../repositories/inventairesRepository
 import * as repositoryTypesEquipements from '../../repositories/typesEquipementsRepository'
 import { indicateurImpactEquipementModelFactory, indicateurImpactEquipementSommeModelFactory, jeSuisUnAdmin, jeSuisUnUtilisateur, referentielTypeEquipementModelFactory, renderComponent, spyNextNavigation } from '../../testShared'
 
+vi.mock('react-chartjs-2', () => ({ Bar: () => null, Pie: () => null }))
+
 describe('page des indicateurs clés', () => {
   describe('en tant qu’utilisateur', () => {
     it('quand le nom d’établissement n’est pas le même que le mien dans l’URL alors je n’y ai pas accès', async () => {
