@@ -1,7 +1,7 @@
 import { fireEvent, screen, waitFor, within } from '@testing-library/react'
 import * as navigation from 'next/navigation'
 
-import PageListeEquipements from '../../app/(connecte)/liste-equipements/page'
+import PageListeEquipements from '../../app/(connecte)/(both)/liste-equipements/page'
 import * as repositoryInventaires from '../../gateways/inventairesRepository'
 import * as repositoryModeles from '../../gateways/modelesRepository'
 import * as repositoryTypesEquipements from '../../gateways/typesEquipementsRepository'

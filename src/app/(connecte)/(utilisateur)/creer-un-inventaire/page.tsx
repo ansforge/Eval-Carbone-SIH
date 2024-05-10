@@ -2,9 +2,9 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ReactElement } from 'react'
 
-import { getProfilAtih } from '../../../authentification'
-import CreerUnInventaire from '../../../components/CreerUnInventaire/CreerUnInventaire'
-import Breadcrumb from '../../../components/sharedComponents/Breadcrumb'
+import { getProfilAtih } from '../../../../authentification'
+import CreerUnInventaire from '../../../../components/CreerUnInventaire/CreerUnInventaire'
+import Breadcrumb from '../../../../components/sharedComponents/Breadcrumb'
 
 const title = 'Créer un inventaire'
 export const metadata: Metadata = {

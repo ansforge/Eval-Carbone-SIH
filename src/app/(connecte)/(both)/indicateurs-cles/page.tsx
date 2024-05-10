@@ -2,12 +2,12 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ReactElement } from 'react'
 
-import { getProfilAtih } from '../../../authentification'
-import IndicateursCles from '../../../components/IndicateursCles/IndicateursCles'
-import Breadcrumb from '../../../components/sharedComponents/Breadcrumb'
-import { recupererLesIndicateursImpactsEquipementsRepository, recupererLesIndicateursImpactsEquipementsSommesRepository } from '../../../gateways/indicateursRepository'
-import { recupererLesReferentielsTypesEquipementsRepository } from '../../../gateways/typesEquipementsRepository'
-import { indicateursClesPresenter } from '../../../presenters/indicateursClesPresenter'
+import { getProfilAtih } from '../../../../authentification'
+import IndicateursCles from '../../../../components/IndicateursCles/IndicateursCles'
+import Breadcrumb from '../../../../components/sharedComponents/Breadcrumb'
+import { recupererLesIndicateursImpactsEquipementsRepository, recupererLesIndicateursImpactsEquipementsSommesRepository } from '../../../../gateways/indicateursRepository'
+import { recupererLesReferentielsTypesEquipementsRepository } from '../../../../gateways/typesEquipementsRepository'
+import { indicateursClesPresenter } from '../../../../presenters/indicateursClesPresenter'
 
 const title = 'Indicateurs clés'
 export const metadata: Metadata = {

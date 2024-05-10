@@ -2,9 +2,9 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ReactElement } from 'react'
 
-import { getProfilAtih } from '../../../authentification'
-import CreerUneSimulation from '../../../components/CreerUneSimulation/CreerUneSimulation'
-import Breadcrumb from '../../../components/sharedComponents/Breadcrumb'
+import { getProfilAtih } from '../../../../authentification'
+import CreerUneSimulation from '../../../../components/CreerUneSimulation/CreerUneSimulation'
+import Breadcrumb from '../../../../components/sharedComponents/Breadcrumb'
 
 const title = 'Créer une simulation'
 export const metadata: Metadata = {

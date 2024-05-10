@@ -1,7 +1,7 @@
 import { fireEvent, screen, waitFor, within } from '@testing-library/react'
 import * as navigation from 'next/navigation'
 
-import PageIndicateursCles from '../../app/(connecte)/indicateurs-cles/page'
+import PageIndicateursCles from '../../app/(connecte)/(both)/indicateurs-cles/page'
 import * as repositoryIndicateurs from '../../gateways/indicateursRepository'
 import * as repositoryInventaires from '../../gateways/inventairesRepository'
 import * as repositoryTypesEquipements from '../../gateways/typesEquipementsRepository'
