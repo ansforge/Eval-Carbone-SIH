@@ -21,6 +21,7 @@ type IndicateursImpactsEquipements = Readonly<{
 export type IndicateurImpactEquipementSomme = Readonly<{
   etapeAcv: `${EtapesAcv}`
   impact: number
+  quantite: number
   typeEquipement: string
 }>
 
@@ -134,6 +135,7 @@ function indicateursImpactsEquipementsSommesPresenter(
       return {
         etapeAcv: indicateurImpactEquipementSommeModel.etapeAcv as `${EtapesAcv}`,
         impact: indicateurImpactEquipementSommeModel._sum.impactUnitaire,
+        quantite: indicateurImpactEquipementSommeModel._sum.quantite,
         typeEquipement: indicateurImpactEquipementSommeModel.typeEquipement,
       }
     })

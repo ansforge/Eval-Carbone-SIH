@@ -81,7 +81,7 @@ const cumulerParImpact = (impactAccumule: Array<number>, indicateurImpactEquipem
 export function donneesParTypeEquipement(indicateursImpactsEquipementsSommes: ReadonlyArray<IndicateurImpactEquipementSomme>): ChartData<'bar'> {
   const nomTypesEquipement = indicateursImpactsEquipementsSommes.reduce(
     (quantiteAccumulee, indicateurImpactEquipementSomme): Set<string> => {
-      return quantiteAccumulee.add(indicateurImpactEquipementSomme.typeEquipement)
+      return quantiteAccumulee.add(indicateurImpactEquipementSomme.typeEquipement + ` (${indicateurImpactEquipementSomme.quantite})`)
     },
     new Set<string>()
   )
@@ -112,12 +112,14 @@ export function donneesParCycleDeVie(indicateursImpactsEquipementsSommes: Readon
 
   const impactsParTypeEquipement = referentielsTypesEquipements
     .map((referentielTypeEquipement, index): ChartDataset<'bar', Array<number | [number, number] | null>> => {
+      const quantite = indicateursImpactsEquipementsSommes.find((indicateurs): boolean => indicateurs.typeEquipement === referentielTypeEquipement)?.quantite
+
       return {
         backgroundColor: colors[index],
         data: indicateursImpactsEquipementsSommes
           .filter(filtrerParTypeEquipement(referentielTypeEquipement))
           .reduce(cumulerParImpact, Array<number>()),
-        label: referentielTypeEquipement,
+        label: referentielTypeEquipement + ` (${quantite})`,
       }
     })
     .filter((data): boolean => data.data.length !== 0)
@@ -135,7 +137,7 @@ export function donneesRepartitionParTypeEquipement(
 ): ChartData<'pie'> {
   const nomTypesEquipement = indicateursImpactsEquipementsSommes.reduce(
     (quantiteAccumulee, indicateurImpactEquipementSomme): Set<string> => {
-      return quantiteAccumulee.add(indicateurImpactEquipementSomme.typeEquipement)
+      return quantiteAccumulee.add(indicateurImpactEquipementSomme.typeEquipement + ` (${indicateurImpactEquipementSomme.quantite})`)
     },
     new Set<string>()
   )

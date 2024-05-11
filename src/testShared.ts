@@ -145,6 +145,7 @@ export function indicateurImpactEquipementSommeModelFactory(override?: Partial<I
   return {
     _sum: {
       impactUnitaire: 646.886,
+      quantite: 8,
     },
     etapeAcv: EtapesAcv.distribution,
     typeEquipement: 'Ordinateur portable',
