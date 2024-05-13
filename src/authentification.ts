@@ -97,18 +97,10 @@ export async function getProfilAtih(): Promise<ProfilAtih> {
   }
 }
 
-export async function checkIfConnected(): Promise<void> {
-  const session = await getServerSession(authOptions)
-
-  if (session) {
-    redirect('/')
-  }
-}
-
 export async function checkIfNotConnected(): Promise<void> {
   const session = await getServerSession(authOptions)
 
   if (!session) {
-    redirect('/connexion')
+    redirect('/')
   }
 }

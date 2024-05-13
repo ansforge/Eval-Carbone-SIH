@@ -2,13 +2,16 @@
 
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { ClientSafeProvider } from 'next-auth/react'
 import { ReactElement, ReactNode } from 'react'
 
 import Deconnexion from './Deconnexion'
 import { ProfilAtih } from '../../authentification'
+import Connexion from '../Connexion/Connexion'
 
 type EnTeteProps = Readonly<{
   profil: ProfilAtih
+  providers?: Readonly<Record<'pasrel', ClientSafeProvider>>
 }>
 
 type Menu = Readonly<{
@@ -17,7 +20,7 @@ type Menu = Readonly<{
   path: string
 }>
 
-export default function EnTete({ profil }: EnTeteProps): ReactElement {
+export default function EnTete({ profil, providers }: EnTeteProps): ReactElement {
   const pathname = usePathname()
   const menu: ReadonlyArray<Menu> = [
     {
@@ -39,11 +42,6 @@ export default function EnTete({ profil }: EnTeteProps): ReactElement {
       isDisplayed: profil.isAdmin,
       label: 'Référentiels',
       path: '/modifier-un-referentiel',
-    },
-    {
-      isDisplayed: !profil.isConnected,
-      label: 'Se connecter',
-      path: '/connexion',
     },
   ]
 
@@ -121,8 +119,18 @@ export default function EnTete({ profil }: EnTeteProps): ReactElement {
                     })
                   }
                   {
+                    !profil.isConnected && providers ? (
+                      <li className="nav-item">
+                        <Connexion
+                          providers={providers}
+                          styleDuBouton="lien"
+                        />
+                      </li>
+                    ) : null
+                  }
+                  {
                     profil.isConnected ? (
-                      <li className="nav-item common-nav-item">
+                      <li className="nav-item">
                         <Deconnexion />
                       </li>
                     ) : null

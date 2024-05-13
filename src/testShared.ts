@@ -1,6 +1,7 @@
 import { indicateurImpactEquipementModel, inventaireModel, modeleModel } from '@prisma/client'
 import { RenderResult, render } from '@testing-library/react'
 import { UserEvent, userEvent } from '@testing-library/user-event'
+import { ClientSafeProvider } from 'next-auth/react'
 import { ReactElement } from 'react'
 
 import * as authentification from './authentification'
@@ -62,6 +63,16 @@ export const spyNextNavigation = {
     replace: vi.fn(),
   },
 }
+
+export const spyPasrel = {
+  pasrel: {
+    callbackUrl: 'http://localhost:3000/api/auth/callback/pasrel',
+    id: 'pasrel',
+    name: 'Pasrel',
+    signinUrl: 'http://localhost:3000/api/auth/signin/pasrel',
+    type: 'oauth',
+  },
+} as Record<'pasrel', ClientSafeProvider>
 
 export function inventaireModelFactory(override?: Partial<inventaireModel>): inventaireModel {
   const date = new Date()

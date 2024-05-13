@@ -1,3 +1,4 @@
+import { ClientSafeProvider, getProviders } from 'next-auth/react'
 import { PropsWithChildren, ReactElement } from 'react'
 
 import { getProfilAtih } from '../../authentification'
@@ -9,7 +10,10 @@ export default async function Layout({ children }: PropsWithChildren): Promise<R
   return (
     <>
       <AccesRapide />
-      <EnTete profil={await getProfilAtih()} />
+      <EnTete
+        profil={await getProfilAtih()}
+        providers={await getProviders() as Record<'pasrel', ClientSafeProvider>}
+      />
       <main
         className="main pt-4"
         id="main"

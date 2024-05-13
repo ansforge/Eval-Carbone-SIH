@@ -3,7 +3,7 @@ import * as nextAuth from 'next-auth/react'
 
 import EnTete from './EnTete'
 import { ProfilAtih } from '../../authentification'
-import { renderComponent } from '../../testShared'
+import { renderComponent, spyPasrel } from '../../testShared'
 
 describe('en-tête', () => {
   describe('en étant connecté', () => {
@@ -64,21 +64,35 @@ describe('en-tête', () => {
   })
 
   describe('en étant déconnecté', () => {
-    it('quand j’affiche une page quelconque alors j’ai accès au lien de connexion', () => {
+    it('quand j’affiche une page quelconque alors je peux m’authentifier', () => {
+      // GIVEN
+      vi.spyOn(nextAuth, 'signIn').mockImplementationOnce(vi.fn())
+
+      renderComponent(
+        <EnTete
+          profil={jeSuiDeconnecte()}
+          providers={spyPasrel}
+        />
+      )
+      const menuItems = screen.getAllByRole('listitem')
+      const boutonSeConnecter = within(menuItems[2]).getByRole('button', { name: 'Se connecter' })
+
       // WHEN
-      renderComponent(<EnTete profil={jeSuiDeconnecte()} />)
+      fireEvent.click(boutonSeConnecter)
 
       // THEN
-      const menuItems = screen.getAllByRole('listitem')
       expect(menuItems).toHaveLength(3)
-
-      const lienSeConnecter = within(menuItems[2]).getByRole('link', { name: 'Se connecter' })
-      expect(lienSeConnecter).toHaveAttribute('href', '/connexion')
+      expect(nextAuth.signIn).toHaveBeenCalledWith('pasrel')
     })
 
     it('quand j’affiche une page quelconque alors je n’ai pas accès à la déconnexion', () => {
       // WHEN
-      renderComponent(<EnTete profil={jeSuiDeconnecte()} />)
+      renderComponent(
+        <EnTete
+          profil={jeSuiDeconnecte()}
+          providers={spyPasrel}
+        />
+      )
 
       // THEN
       const boutonSeDeconnecter = screen.queryByRole('button', { name: 'Se déconnecter' })
@@ -87,7 +101,12 @@ describe('en-tête', () => {
 
     it('quand j’affiche une page quelconque alors je n’ai pas accès au lien de mes inventaires', () => {
       // WHEN
-      renderComponent(<EnTete profil={jeSuiDeconnecte()} />)
+      renderComponent(
+        <EnTete
+          profil={jeSuiDeconnecte()}
+          providers={spyPasrel}
+        />
+      )
 
       // THEN
       const lienInventaires = screen.queryByRole('link', { name: 'Inventaires' })

@@ -1,12 +1,16 @@
 import Link from 'next/link'
+import { ClientSafeProvider } from 'next-auth/react'
 import { ReactElement } from 'react'
+
+import Connexion from '../Connexion/Connexion'
 
 type AccueilProps = Readonly<{
   isAdmin: boolean
   isConnected: boolean
+  providers?: Readonly<Record<'pasrel', ClientSafeProvider>>
 }>
 
-export default function Accueil({ isAdmin, isConnected }: AccueilProps): ReactElement {
+export default function Accueil({ isAdmin, isConnected, providers }: AccueilProps): ReactElement {
   return (
     <div className="o-banner o-banner--has-breadcrumb">
       <div className="container">
@@ -57,16 +61,12 @@ export default function Accueil({ isAdmin, isConnected }: AccueilProps): ReactEl
               ) : null
             }
             {
-              !isConnected && (
-                <div>
-                  <Link
-                    className="btn btn--plain btn--primary"
-                    href="connexion"
-                  >
-                    Se connecter
-                  </Link>
-                </div>
-              )
+              !isConnected && providers ? (
+                <Connexion
+                  providers={providers}
+                  styleDuBouton="bouton"
+                />
+              ) : null
             }
           </div>
           <div className="col-md-5">

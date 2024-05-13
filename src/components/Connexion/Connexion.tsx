@@ -1,29 +1,23 @@
 'use client'
 
-import { BuiltInProviderType } from 'next-auth/providers'
-import { ClientSafeProvider, LiteralUnion, signIn } from 'next-auth/react'
+import { ClientSafeProvider, signIn } from 'next-auth/react'
 import { ReactElement } from 'react'
 
 type ConnexionProps = Readonly<{
-  providers: Readonly<Record<LiteralUnion<BuiltInProviderType>, ClientSafeProvider>>
+  providers: Readonly<Record<'pasrel', ClientSafeProvider>>
+  styleDuBouton: 'bouton' | 'lien'
 }>
 
-export default function Connexion({ providers }: ConnexionProps): ReactElement {
+export default function Connexion({ providers, styleDuBouton }: ConnexionProps): ReactElement {
+  const classe = styleDuBouton === 'bouton' ? 'btn btn--plain btn--primary' : 'nav-link'
+
   return (
-    <div className="text-center">
-      {
-        Object.values(providers).map((provider): ReactElement => (
-          <div key={provider.name}>
-            <button
-              className="btn btn--plain btn--primary"
-              onClick={async () => signIn(provider.id)}
-              type="button"
-            >
-              Se connecter avec Plage
-            </button>
-          </div>
-        ))
-      }
-    </div>
+    <button
+      className={classe}
+      onClick={async () => signIn(providers.pasrel.id)}
+      type="button"
+    >
+      Se connecter
+    </button>
   )
 }
