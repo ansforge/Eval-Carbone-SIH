@@ -75,7 +75,7 @@ export default function Faq(): ReactElement {
         label="Comment sont calculés les indicateurs d’empreinte environnementale ?"
       >
         <p>
-          EvalCarboneSIH utilise l’outil NumEcoEval du Ministère de la Transition Ecologique (MTE) comme moteur de calcul afin d’avoir un outil
+          EvalCarbone SIH utilise l’outil NumEcoEval du Ministère de la Transition Ecologique (MTE) comme moteur de calcul afin d’avoir un outil
           évolutif et en accord avec les travaux nation du MTE et de l’ADEME sur les
           {' '}
           <a
@@ -89,7 +89,7 @@ export default function Faq(): ReactElement {
           </a>
           {' '}
           dédiés aux services numériques.
-          Ce moteur utilise les données d’inventaires saisies par les utilisateurs de EvalCarboneSIH
+          Ce moteur utilise les données d’inventaires saisies par les utilisateurs de EvalCarbone SIH
           et assure le calcul des indicateurs en se basant sur des facteurs d’impacts liés aux différentes du cycle de vie des matériels.
           <br />
           <br />

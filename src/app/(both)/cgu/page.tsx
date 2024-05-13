@@ -1,15 +1,15 @@
 import { Metadata } from 'next'
 import { ReactElement } from 'react'
 
-import DonneesPersonnelles from '../../../components/DonneesPersonnelles/DonneesPersonnelles'
+import Cgu from '../../../components/Cgu/Cgu'
 
-const title = 'Données personnelles'
+const title = 'Conditions générales d’utilisation'
 export const metadata: Metadata = {
   title,
 }
 
 export default function Page(): ReactElement {
   return (
-    <DonneesPersonnelles />
+    <Cgu />
   )
 }

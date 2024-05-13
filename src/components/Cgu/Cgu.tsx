@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
 
-export default function DonneesPersonnelles(): ReactElement {
+export default function Cgu(): ReactElement {
   return (
     <h1>
       A rédiger

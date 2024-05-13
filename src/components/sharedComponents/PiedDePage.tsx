@@ -24,8 +24,8 @@ export default function PiedDePage(): ReactElement {
                 </Link>
               </li>
               <li className="footer-list__item">
-                <Link href="/donnees-personnelles">
-                  Données personnelles
+                <Link href="/cgu">
+                  CGU
                 </Link>
               </li>
               <li className="footer-list__item">

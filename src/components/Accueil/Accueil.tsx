@@ -16,13 +16,13 @@ export default function Accueil({ isAdmin, isConnected }: AccueilProps): ReactEl
               POUR COMMENCER
             </p>
             <h1 className="fw-bold">
-              Bienvenue sur EvalCarboneSIH
+              Bienvenue sur EvalCarbone SIH
             </h1>
             <p>
               Fruit de la collaboration entre la DNS, l’ANS et le MTE,
               {' '}
               <span className="fw-bold">
-                EvalCarboneSIH vise à soutenir les établissements de santé à optimiser leur empreinte environnementale
+                EvalCarbone SIH vise à soutenir les établissements de santé à optimiser leur empreinte environnementale
               </span>
               .
               <br />

@@ -7,7 +7,7 @@ import { checkIfConnected } from '../../../authentification'
 import Connexion from '../../../components/Connexion/Connexion'
 
 export const metadata: Metadata = {
-  title: 'Se connecter à EvalCarboneSIH',
+  title: 'Se connecter à EvalCarbone SIH',
 }
 
 export default async function PageConnexion(): Promise<ReactElement> {

@@ -16,6 +16,7 @@ export default function NombreEquipement(): ReactElement {
       </label>
       <InfoBulle label="Par exemple, en inscrivant le chiffre 10, chaque équipement verra son nombre augmenter de 10 %." />
       <input
+        aria-describedby="nombreEquipementDescription"
         className="form-control"
         id="nombreEquipement"
         max={100}
@@ -25,6 +26,12 @@ export default function NombreEquipement(): ReactElement {
         type="number"
         value={nombreEquipement}
       />
+      <p
+        className="description mb-2"
+        id="nombreEquipementDescription"
+      >
+        Valeur limitée de -100 % à 100 %
+      </p>
     </>
   )
 }

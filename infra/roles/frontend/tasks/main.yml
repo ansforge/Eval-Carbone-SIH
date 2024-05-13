@@ -8,7 +8,7 @@
     src: .env.version.j2
     dest: .env.version
 
-- name: Start EvalCarboneSIH
+- name: Start EvalCarbone SIH
   community.docker.docker_compose_v2:
     env_files:
       - .env.prod

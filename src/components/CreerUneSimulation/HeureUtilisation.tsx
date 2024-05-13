@@ -16,6 +16,7 @@ export default function HeureUtilisation(): ReactElement {
       </label>
       <InfoBulle label="Par exemple, en inscrivant le chiffre -5, le nombre d'heures d'utilisation par équipement sera réduit de 5 heures." />
       <input
+        aria-describedby="heureUtilisationDescription"
         className="form-control"
         id="heureUtilisation"
         max={24}
@@ -25,6 +26,12 @@ export default function HeureUtilisation(): ReactElement {
         type="number"
         value={heureUtilisation}
       />
+      <p
+        className="description"
+        id="heureUtilisationDescription"
+      >
+        Valeur limitée de -23 heures à 24 heures
+      </p>
     </>
   )
 }

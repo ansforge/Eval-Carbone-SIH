@@ -18,9 +18,13 @@ describe('en-tête', () => {
         const menu = within(navigation).getByRole('list')
         const menuItems = within(menu).getAllByRole('listitem')
         expect(menuItems).toHaveLength(4)
-        expect(menuItems[0]).toHaveTextContent('Accueil')
-        expect(menuItems[1]).toHaveTextContent('Inventaires')
-        expect(menuItems[2]).toHaveTextContent('FAQ')
+
+        const lienAccueil = within(menuItems[0]).getByRole('link', { name: 'Accueil' })
+        expect(lienAccueil).toHaveAttribute('href', '/')
+        const lienInventaires = within(menuItems[1]).getByRole('link', { name: 'Inventaires' })
+        expect(lienInventaires).toHaveAttribute('href', '/inventaires')
+        const lienFaq = within(menuItems[2]).getByRole('link', { name: 'FAQ' })
+        expect(lienFaq).toHaveAttribute('href', '/faq')
 
         const boutonSeDeconnecter = within(menuItems[3]).getByRole('button', { name: 'Se déconnecter' })
         expect(boutonSeDeconnecter).toBeInTheDocument()
@@ -50,9 +54,11 @@ describe('en-tête', () => {
         renderComponent(<EnTete profil={jeSuisAdmin()} />)
 
         // THEN
-        const listItems = screen.getAllByRole('listitem')
-        expect(listItems).toHaveLength(5)
-        expect(listItems[3]).toHaveTextContent('Référentiels')
+        const menuItems = screen.getAllByRole('listitem')
+        expect(menuItems).toHaveLength(5)
+
+        const lienReferentiels = within(menuItems[3]).getByRole('link', { name: 'Référentiels' })
+        expect(lienReferentiels).toHaveAttribute('href', '/modifier-un-referentiel')
       })
     })
   })

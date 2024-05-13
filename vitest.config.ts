@@ -9,7 +9,7 @@ export default defineConfig({
         'src/app/(connecte)/layout.tsx',
         'src/app/(deconnecte)/layout.tsx',
         'src/components/Accessibilite',
-        'src/components/DonneesPersonnelles',
+        'src/components/Cgu',
         'src/components/EcoConception',
         'src/components/Faq',
         'src/components/MentionsLegales',

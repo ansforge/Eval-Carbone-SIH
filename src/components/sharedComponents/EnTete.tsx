@@ -85,7 +85,7 @@ export default function EnTete({ profil }: EnTeteProps): ReactElement {
             </div>
           </div>
           <div className="header__title fw-bold">
-            EvalCarboneSIH
+            EvalCarbone SIH
           </div>
         </div>
         <div className="header-principal-right">

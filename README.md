@@ -1,4 +1,4 @@
-# EvalCarboneSIH
+# EvalCarbone SIH
 
 ## Prérequis
 
@@ -44,7 +44,7 @@ Puis :
 
 ```mermaid
 C4Context
-title EvalCarboneSIH
+title EvalCarbone SIH
 
 Person(dsi, "DSI hospitalier")
 
@@ -53,7 +53,7 @@ Boundary(ovh, "VM OVH") {
     Container(reverse-proxy, "Reverse proxy", "Nginx")
   }
 
-  Boundary(eval-carbone-sih, "EvalCarboneSIH") {
+  Boundary(eval-carbone-sih, "EvalCarbone SIH") {
     Container(front, "Frontend", "NextJs")
   }
 

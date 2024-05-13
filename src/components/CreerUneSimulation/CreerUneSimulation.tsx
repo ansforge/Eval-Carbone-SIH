@@ -51,7 +51,7 @@ export default function CreerUneSimulation({ ancienNomInventaire, nomEtablisseme
             nomEtablissement={nomEtablissement}
             nouveauNomInventaire={nouveauNomInventaire}
           />
-          <div className={`border text-left rounded-sm top-left-radius-0 p-3 mb-4 ${styles.astuce}`}>
+          <div className={`border text-left rounded-sm top-left-radius-0 p-3 mt-4 mb-4 ${styles.astuce}`}>
             <p className="h3 fw-bold text-left">
               Variation d’opportunités de réduction
             </p>
