@@ -75,18 +75,34 @@ export default function Faq(): ReactElement {
         label="Comment sont calculés les indicateurs d’empreinte environnementale ?"
       >
         <p>
-          Les indicateurs d’empreinte environnementale sont toujours calculées à l’aide de la formule suivante :
+          EvalCarboneSIH utilise l’outil NumEcoEval du Ministère de la Transition Ecologique (MTE) comme moteur de calcul afin d’avoir un outil
+          évolutif et en accord avec les travaux nation du MTE et de l’ADEME sur les
+          {' '}
+          <a
+            className="external-link"
+            href="https://codde.fr/evenement/ademe-publication-du-pcr-services-numeriques"
+            rel="external noopener noreferrer"
+            target="_blank"
+            title="PCR (Product Category Rules) (nouvelle fenêtre)"
+          >
+            PCR (Product Category Rules)
+          </a>
+          {' '}
+          dédiés aux services numériques.
+          Ce moteur utilise les données d’inventaires saisies par les utilisateurs de EvalCarboneSIH
+          et assure le calcul des indicateurs en se basant sur des facteurs d’impacts liés aux différentes du cycle de vie des matériels.
           <br />
           <br />
-          Impact unitaire (unité de l’impact = kg CO2 ea, kg U235 eq ...) =
-          Activité (unité de l’activité = km, kWh...) x Facteur d’impact (unité d’impact / unité de l’activité).
+          La formule générale est la suivante :
           <br />
           <br />
-          Les facteurs d’impact se trouvent dans les base d’impact (NegaOctet, Base Empreinte, EcoInvent…)
-          et leurs méthodes de calcul sont différentes en fonction de la source.
+          Impact unitaire (unité de l’impact = kg CO2 eq, kg U235 eq ...) = Activité (unité de l’activité = km, kWh...)
+          x Facteur d’impact (unité d’impact / unité de l’activité).
           <br />
-          D’autres données peuvent affiner le calcul de l’impact unitaire, principalement pour l’utilisation :
-          le taux d’utilisation, la durée de vie, la localisation du mix electrique utilisé, etc.
+          <br />
+          Les facteurs d’impacts utilisés sont ceux mis à disposition par le MTE, sous licence creative commons de la base Resilio,
+          avec un scope qui vise à s’élargir sur d’autres matériels que ceux actuellement proposés. Les catégories
+          et items de l’inventaire proposé seront donc amenés à évoluer avec l’enrichissement de ce référentiel.
         </p>
       </Accordeon>
     </>
