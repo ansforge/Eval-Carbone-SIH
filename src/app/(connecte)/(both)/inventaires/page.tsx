@@ -1,13 +1,13 @@
 import { Metadata } from 'next'
 import { ReactElement } from 'react'
 
-import { getProfilAtih } from '../../authentification'
-import InventairesLayout from '../../components/Inventaires/InventairesLayout'
-import { inventairesPresenter } from '../../presenters/inventairesPresenter'
-import { recupererLesInventairesRepository } from '../../repositories/inventairesRepository'
+import { getProfilAtih } from '../../../../authentification'
+import InventairesLayout from '../../../../components/Inventaires/InventairesLayout'
+import { inventairesPresenter } from '../../../../presenters/inventairesPresenter'
+import { recupererLesInventairesRepository } from '../../../../repositories/inventairesRepository'
 
 export const metadata: Metadata = {
-  title: 'Accueil',
+  title: 'Inventaires',
 }
 
 export default async function PageInventaires(): Promise<ReactElement> {

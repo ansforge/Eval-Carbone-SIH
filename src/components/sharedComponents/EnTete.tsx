@@ -21,9 +21,14 @@ export default function EnTete({ profil }: EnTeteProps): ReactElement {
   const pathname = usePathname()
   const menu: ReadonlyArray<Menu> = [
     {
+      isDisplayed: true,
+      label: 'Accueil',
+      path: '/',
+    },
+    {
       isDisplayed: profil.isConnected,
       label: 'Inventaires',
-      path: '/',
+      path: '/inventaires',
     },
     {
       isDisplayed: true,

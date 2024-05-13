@@ -17,11 +17,12 @@ describe('en-tête', () => {
         const navigation = within(header).getByRole('navigation', { name: 'Menu principal' })
         const menu = within(navigation).getByRole('list')
         const menuItems = within(menu).getAllByRole('listitem')
-        expect(menuItems).toHaveLength(3)
-        expect(menuItems[0]).toHaveTextContent('Inventaires')
-        expect(menuItems[1]).toHaveTextContent('FAQ')
+        expect(menuItems).toHaveLength(4)
+        expect(menuItems[0]).toHaveTextContent('Accueil')
+        expect(menuItems[1]).toHaveTextContent('Inventaires')
+        expect(menuItems[2]).toHaveTextContent('FAQ')
 
-        const boutonSeDeconnecter = within(menuItems[2]).getByRole('button', { name: 'Se déconnecter' })
+        const boutonSeDeconnecter = within(menuItems[3]).getByRole('button', { name: 'Se déconnecter' })
         expect(boutonSeDeconnecter).toBeInTheDocument()
 
         const lienSeConnecter = within(menu).queryByRole('link', { name: 'Se connecter' })
@@ -50,8 +51,8 @@ describe('en-tête', () => {
 
         // THEN
         const listItems = screen.getAllByRole('listitem')
-        expect(listItems).toHaveLength(4)
-        expect(listItems[2]).toHaveTextContent('Référentiels')
+        expect(listItems).toHaveLength(5)
+        expect(listItems[3]).toHaveTextContent('Référentiels')
       })
     })
   })
@@ -63,9 +64,9 @@ describe('en-tête', () => {
 
       // THEN
       const menuItems = screen.getAllByRole('listitem')
-      expect(menuItems).toHaveLength(2)
+      expect(menuItems).toHaveLength(3)
 
-      const lienSeConnecter = within(menuItems[1]).getByRole('link', { name: 'Se connecter' })
+      const lienSeConnecter = within(menuItems[2]).getByRole('link', { name: 'Se connecter' })
       expect(lienSeConnecter).toHaveAttribute('href', '/connexion')
     })
 
