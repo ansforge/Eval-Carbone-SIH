@@ -29,7 +29,10 @@ export default function PiedDePage(): ReactElement {
                 </Link>
               </li>
               <li className="footer-list__item">
-                <Link href="/nous-contacter">
+                <Link
+                  className="external-link"
+                  href="mailto:nathalie.baudiniere@esante.gouv.fr"
+                >
                   Nous contacter
                 </Link>
               </li>

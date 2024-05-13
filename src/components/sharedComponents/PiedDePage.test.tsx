@@ -23,6 +23,6 @@ describe('composant pied de page', () => {
     const lienDonneesPersonnelles = within(menuItems[3]).getByRole('link', { name: 'Données personnelles' })
     expect(lienDonneesPersonnelles).toHaveAttribute('href', '/donnees-personnelles')
     const lienNousContacter = within(menuItems[4]).getByRole('link', { name: 'Nous contacter' })
-    expect(lienNousContacter).toHaveAttribute('href', '/nous-contacter')
+    expect(lienNousContacter).toHaveAttribute('href', 'mailto:nathalie.baudiniere@esante.gouv.fr')
   })
 })
