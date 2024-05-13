@@ -20,8 +20,8 @@ export function useCreerUnInventaire(): UseCreerUnInventaire {
     event.preventDefault()
 
     const formData = new FormData(event.currentTarget)
-    const nomInventaire = formData.get('nomInventaire') as string
     const nomEtablissement = formData.get('nomEtablissement') as string
+    const nomInventaire = formData.get('nouveauNomInventaire') as string
 
     const nomInventaireExiste = await isLeNomInventaireExisteAction(nomInventaire)
 

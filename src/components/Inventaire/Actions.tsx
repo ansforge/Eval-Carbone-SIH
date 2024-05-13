@@ -23,7 +23,7 @@ export default function Actions({ isNonCalcule, quantiteGlobale }: ModaleProps):
       }
       <button
         className="btn btn--plain btn--primary"
-        disabled={quantiteGlobale > 0 ? false : true}
+        disabled={quantiteGlobale <= 0}
         name="calculer"
         type="submit"
       >

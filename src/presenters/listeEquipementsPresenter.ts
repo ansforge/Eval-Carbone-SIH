@@ -21,11 +21,11 @@ export type ListeEquipementsPresenter = Readonly<{
 
 export function listeEquipementsPresenter(
   referentielsTypesEquipementsModel: ReadonlyArray<ReferentielTypeEquipementModel>,
-  modelesModel: Array<modeleModel>
+  modelesModel: ReadonlyArray<modeleModel>
 ): ListeEquipementsPresenter {
   const equipements: ListeEquipementsPresenter['equipements'] = {}
 
-  for (const modeleModel of modelesModel.sort(trierParTypeEquipementEtEtapeAcv(referentielsTypesEquipementsModel))) {
+  for (const modeleModel of modelesModel.toSorted(trierParTypeEquipement(referentielsTypesEquipementsModel))) {
     const ancienModeleModel = equipements[modeleModel.type] ?? []
 
     equipements[modeleModel.type] = [
@@ -52,29 +52,25 @@ export function listeEquipementsPresenter(
   }
 }
 
-function trierParTypeEquipementEtEtapeAcv(referentielsTypesEquipementsModel: ReadonlyArray<ReferentielTypeEquipementModel>) {
+function trierParTypeEquipement(referentielsTypesEquipementsModel: ReadonlyArray<ReferentielTypeEquipementModel>) {
   return (a: modeleModel, b: modeleModel) => {
-    let etapeAcvA = 0
-    let etapeAcvB = 0
+    let typeEquipementA = 0
+    let typeEquipementB = 0
 
     for (let poids = 0; poids < referentielsTypesEquipementsModel.length; poids++) {
       if (a.type === referentielsTypesEquipementsModel[poids].type) {
-        etapeAcvA = poids
+        typeEquipementA = poids
       }
 
       if (b.type === referentielsTypesEquipementsModel[poids].type) {
-        etapeAcvB = poids
+        typeEquipementB = poids
       }
     }
 
-    if (etapeAcvA > etapeAcvB) {
+    if (typeEquipementA > typeEquipementB) {
       return 1
     }
 
-    if (etapeAcvA < etapeAcvB) {
-      return -1
-    }
-
-    return 0
+    return -1
   }
 }

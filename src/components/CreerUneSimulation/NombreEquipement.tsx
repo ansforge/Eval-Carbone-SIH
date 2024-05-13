@@ -16,7 +16,7 @@ export default function NombreEquipement(): ReactElement {
       </label>
       <InfoBulle label="Par exemple, en inscrivant le chiffre 10, chaque équipement verra son nombre augmenter de 10 %." />
       <input
-        className={'form-control'}
+        className="form-control"
         id="nombreEquipement"
         max={100}
         min={-100}

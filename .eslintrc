@@ -92,6 +92,7 @@
       }
     ],
     "react/forbid-component-props": "off",
+    "react/jsx-boolean-value": ["error", "always", { "never": ["aria-hidden"] }],
     "react/jsx-curly-brace-presence": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
     "react/jsx-indent": [2, 2],
@@ -110,6 +111,7 @@
     "@typescript-eslint/naming-convention": "off",
     "@typescript-eslint/max-params": "off",
     "@typescript-eslint/no-magic-numbers": "off",
+    "@typescript-eslint/no-misused-promises": ["error", { "checksVoidReturn": false }],
     "@typescript-eslint/no-shadow": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/prefer-destructuring": "off",

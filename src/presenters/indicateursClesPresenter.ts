@@ -128,8 +128,8 @@ function indicateursImpactsEquipementsPresenter(
 
 function indicateursImpactsEquipementsSommesPresenter(
   indicateursImpactsEquipementsSommesModel: ReadonlyArray<IndicateurImpactEquipementSommeModel>,
-  referentielsEquipements: Array<string>
-): Array<IndicateurImpactEquipementSomme> {
+  referentielsEquipements: ReadonlyArray<string>
+): ReadonlyArray<IndicateurImpactEquipementSomme> {
   return indicateursImpactsEquipementsSommesModel
     .map((indicateurImpactEquipementSommeModel): IndicateurImpactEquipementSomme => {
       return {
@@ -139,14 +139,14 @@ function indicateursImpactsEquipementsSommesPresenter(
         typeEquipement: indicateurImpactEquipementSommeModel.typeEquipement,
       }
     })
-    .sort(sortByTypeEquipementAndEtapeAcv(referentielsEquipements))
+    .toSorted(trierParTypeEquipementEtEtapeAcv(referentielsEquipements))
 }
 
-function referentielsTypesEquipementsPresenter(referentielsTypesEquipementsModel: ReadonlyArray<ReferentielTypeEquipementModel>): Array<string> {
+function referentielsTypesEquipementsPresenter(referentielsTypesEquipementsModel: ReadonlyArray<ReferentielTypeEquipementModel>): ReadonlyArray<string> {
   return referentielsTypesEquipementsModel.map((referentielTypeEquipementModel): string => referentielTypeEquipementModel.type)
 }
 
-function sortByTypeEquipementAndEtapeAcv(referentielsEquipements: Array<string>) {
+function trierParTypeEquipementEtEtapeAcv(referentielsEquipements: ReadonlyArray<string>) {
   return (a: IndicateurImpactEquipementSomme, b: IndicateurImpactEquipementSomme) => {
     let etapeAcvA = '0'
     let etapeAcvB = '0'
@@ -182,10 +182,6 @@ function sortByTypeEquipementAndEtapeAcv(referentielsEquipements: Array<string>)
       return 1
     }
 
-    if (etapeAcvA < etapeAcvB) {
-      return -1
-    }
-
-    return 0
+    return -1
   }
 }

@@ -51,18 +51,11 @@ type ActionReducer = Readonly<{
 }>
 
 function modelesReducer(modeles: ReadonlyArray<ModeleReducer>, action: ActionReducer): Array<ModeleReducer> {
-  switch (action.type) {
-    case 'changed': {
-      return modeles.map((modele: ModeleReducer): ModeleReducer => {
-        if (modele.id === action.id) {
-          return action.modele
-        } else {
-          return modele
-        }
-      })
-    }
-    default: {
-      throw Error('Unknown action: ' + action.type)
-    }
+  if (action.type === 'changed') {
+    return modeles.map((modele: ModeleReducer): ModeleReducer => {
+      return (modele.id === action.id) ? action.modele : modele
+    })
+  } else {
+    throw Error('Unknown action: ' + action.type)
   }
 }

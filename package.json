@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "amibroken": "yarn dedupe --check && yarn lint:css && yarn typecheck && yarn lint:typescript && yarn test",
+    "amibroken": "yarn dedupe --check && yarn lint:css && yarn typecheck && yarn lint:typescript && yarn test:coverage",
     "build": "yarn prisma:generate && next build",
     "deadcode": "knip",
     "depcheck": "depcheck",
@@ -23,6 +23,7 @@
     "start:db": "docker compose down && docker compose up -d",
     "test": "vitest --run",
     "test:coverage": "yarn test --coverage",
+    "test:mutation": "npx stryker run stryker.conf.json",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -42,6 +43,9 @@
     "typescript": "^5.4.5"
   },
   "devDependencies": {
+    "@stryker-mutator/core": "^8.2.6",
+    "@stryker-mutator/typescript-checker": "^8.2.6",
+    "@stryker-mutator/vitest-runner": "^8.2.6",
     "@testing-library/react": "^15.0.6",
     "@testing-library/user-event": "^14.5.2",
     "@types/react-dom": "^18.3.0",

@@ -12,7 +12,7 @@ export type Modele = Readonly<{
   type: string
 }>
 
-export async function recupererLesModelesRepository(nomEtablissement: string, nomInventaire: string): Promise<Array<modeleModel>> {
+export async function recupererLesModelesRepository(nomEtablissement: string, nomInventaire: string): Promise<ReadonlyArray<modeleModel>> {
   return prisma.modeleModel.findMany({ where: { nomEtablissement, nomInventaire } })
 }
 

@@ -6,7 +6,7 @@ import { Modele, calculerEmpreinteRepository, enregistrerLesModelesRepository, r
 import { separator } from '../configuration'
 import { calculerLaDureeDeVie, convertirLeTauxUtilisationEnHeureUtilisation } from '../presenters/sharedPresenter'
 
-export async function recupererLesInventairesRepository(nomEtablissement: string): Promise<Array<inventaireModel>> {
+export async function recupererLesInventairesRepository(nomEtablissement: string): Promise<ReadonlyArray<inventaireModel>> {
   const nomOrganisation = nomEtablissement.endsWith(`${separator}admin`) ? { startsWith: '%' } : nomEtablissement
 
   return prisma.inventaireModel.findMany({ orderBy: { dateInventaire: 'desc' }, where: { nomEtablissement: nomOrganisation } })

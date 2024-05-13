@@ -13,6 +13,8 @@ describe('page liste d’équipements', () => {
       // GIVEN
       jeSuisUnUtilisateur()
 
+      vi.spyOn(repositoryModeles, 'recupererLesModelesRepository').mockResolvedValueOnce([modeleModelFactory()])
+
       const queryParams = {
         searchParams: {
           nomEtablissement: 'Hopital de Bordeaux$$00000001J',
@@ -31,8 +33,16 @@ describe('page liste d’équipements', () => {
       // GIVEN
       jeSuisUnUtilisateur()
 
-      vi.spyOn(repositoryModeles, 'recupererLesModelesRepository').mockResolvedValueOnce([modeleModelFactory()])
-      vi.spyOn(repositoryTypesEquipements, 'recupererLesReferentielsTypesEquipementsRepository').mockResolvedValueOnce([referentielTypeEquipementModelFactory()])
+      vi.spyOn(repositoryModeles, 'recupererLesModelesRepository').mockResolvedValueOnce([
+        modeleModelFactory({ type: 'Baie NAS' }),
+        modeleModelFactory({ type: 'Ordinateur portable' }),
+        modeleModelFactory({ type: 'Écran' }),
+      ])
+      vi.spyOn(repositoryTypesEquipements, 'recupererLesReferentielsTypesEquipementsRepository').mockResolvedValueOnce([
+        referentielTypeEquipementModelFactory({ type: 'Ordinateur portable' }),
+        referentielTypeEquipementModelFactory({ type: 'Écran' }),
+        referentielTypeEquipementModelFactory({ type: 'Baie NAS' }),
+      ])
 
       // WHEN
       renderComponent(await PageListeEquipements(queryParams()))
@@ -49,12 +59,17 @@ describe('page liste d’équipements', () => {
 
       const lienIndicateursCles = screen.getByRole('link', { name: 'Indicateurs clés' })
       expect(lienIndicateursCles).toHaveAttribute('href', 'indicateurs-cles?nomEtablissement=Hopital%20de%20Paris$$00000001K&nomInventaire=Centre%20hospitalier')
+      expect(lienIndicateursCles).toHaveAttribute('aria-selected', 'false')
 
       const lienListeEquipements = screen.getByRole('link', { name: 'Liste d’équipements' })
       expect(lienListeEquipements).toHaveAttribute('href', 'liste-equipements?nomEtablissement=Hopital%20de%20Paris$$00000001K&nomInventaire=Centre%20hospitalier')
+      expect(lienListeEquipements).toHaveAttribute('aria-selected', 'true')
 
-      const boutonOrdinateurPortable = screen.getByRole('tab', { name: 'Ordinateur portable (1)' })
-      expect(boutonOrdinateurPortable).toBeInTheDocument()
+      const listeTypesEquipements = screen.getAllByRole('tab')
+
+      expect(listeTypesEquipements[0]).toHaveTextContent('Ordinateur portable (1)')
+      expect(listeTypesEquipements[1]).toHaveTextContent('Écran (1)')
+      expect(listeTypesEquipements[2]).toHaveTextContent('Baie NAS (1)')
     })
 
     it('quand je clique sur un type d’équipement alors j’affiche la liste de modèles', async () => {

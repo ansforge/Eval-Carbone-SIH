@@ -11,14 +11,14 @@ export type IndicateurImpactEquipementSommeModel = Readonly<{
   typeEquipement: string
 }>
 
-export async function recupererTousLesIndicateursImpactsEquipementsRepository(): Promise<Array<indicateurImpactEquipementModel>> {
+export async function recupererTousLesIndicateursImpactsEquipementsRepository(): Promise<ReadonlyArray<indicateurImpactEquipementModel>> {
   return prisma.indicateurImpactEquipementModel.findMany()
 }
 
 export async function recupererLesIndicateursImpactsEquipementsRepository(
   nomEtablissement: string,
   nomInventaire: string
-): Promise<Array<indicateurImpactEquipementModel>> {
+): Promise<ReadonlyArray<indicateurImpactEquipementModel>> {
   return prisma.indicateurImpactEquipementModel.findMany({
     where: {
       nomEtablissement,
@@ -31,7 +31,7 @@ export async function recupererLesIndicateursImpactsEquipementsRepository(
 export async function recupererLesIndicateursImpactsEquipementsSommesRepository(
   nomEtablissement: string,
   nomInventaire: string
-): Promise<Array<IndicateurImpactEquipementSommeModel>> {
+): Promise<ReadonlyArray<IndicateurImpactEquipementSommeModel>> {
   // @ts-expect-error
   return prisma.indicateurImpactEquipementModel.groupBy({
     _sum: {

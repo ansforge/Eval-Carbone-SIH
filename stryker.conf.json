@@ -1,0 +1,20 @@
+{
+  "checkers": ["typescript"],
+  "disableTypeChecks": true,
+  "htmlReporter": { "fileName": "reports/mutation/frontend.html" },
+  "ignorePatterns": [".*", "coverage", "infra", "public", "reports", "yarn.lock"],
+  "ignoreStatic": true,
+  "logLevel": "info",
+  "mutate": [
+    "src/**/*.tsx",
+    "!src/**/*.test.tsx",
+    "!src/app/(both)/**/*.tsx",
+    "!src/app/not-found.tsx",
+    "!src/app/global-error.tsx",
+    "!src/**/layout.tsx",
+    "!src/repositories/**/*.ts"
+  ],
+  "packageManager": "yarn",
+  "reporters": ["html"],
+  "testRunner": "vitest"
+}

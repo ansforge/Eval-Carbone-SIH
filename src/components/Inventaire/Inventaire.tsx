@@ -23,7 +23,6 @@ export default function Inventaire({ nomEtablissement, nomInventaire, presenter 
       action="indicateurs-cles"
       className="inventaire"
       method="post"
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={enregistrerUnInventaire}
     >
       <div className="d-flex justify-content-between">

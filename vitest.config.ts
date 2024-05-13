@@ -19,6 +19,7 @@ export default defineConfig({
         'src/app/(connecte)/**/*',
         'src/app/(deconnecte)/**/*',
         'src/components/**/*',
+        'src/presenters/**/*',
       ],
       provider: 'istanbul',
       skipFull: true,

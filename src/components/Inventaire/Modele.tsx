@@ -43,7 +43,7 @@ export default function Modele({ id, ligneModele, modifierUnModele, nomEquipemen
         <InfoBulle label="La quantité correspond au nombre d’unités de chaque modèle d’équipement. Par exemple, renseignez 15 pour la ligne Dell XPS, si votre établissement possède 15 portables Dell XPS." />
         <input
           className="form-control"
-          data-quantite
+          data-quantite={true}
           id={`quantite-${id}`}
           min={0}
           name={`quantite-${id}`}
@@ -59,7 +59,7 @@ export default function Modele({ id, ligneModele, modifierUnModele, nomEquipemen
         <InfoBulle label="La durée de vie correspond à la période souhaitée pendant laquelle un équipement devrait être opérationnel et fonctionner de manière satisfaisante, exprimée en années." />
         <input
           className="form-control"
-          data-duree-de-vie
+          data-duree-de-vie={true}
           id={`duree-de-vie-${id}`}
           min={1}
           name={`duree-de-vie-${id}`}
@@ -75,7 +75,7 @@ export default function Modele({ id, ligneModele, modifierUnModele, nomEquipemen
         <InfoBulle label="Le nombre d’heures d’utilisation quotidienne d’un équipement représente le temps moyen passé à utiliser cet appareil sur 24h, exprimé en heures." />
         <input
           className="form-control"
-          data-heure-utilisation
+          data-heure-utilisation={true}
           id={`heure-${id}`}
           max={24}
           min={1}

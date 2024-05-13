@@ -9,7 +9,7 @@ export default function AlerteErreur({ children, marge }: AlerteErreurProps): Re
   return (
     <Alert>
       <div className="row justify-content-center">
-        <div
+        <output
           className={`o-alert o-alert--error col-md-${marge}`}
           role="alert"
         >
@@ -23,7 +23,7 @@ export default function AlerteErreur({ children, marge }: AlerteErreurProps): Re
             </svg>
           </div>
           {children}
-        </div>
+        </output>
       </div>
     </Alert>
   )

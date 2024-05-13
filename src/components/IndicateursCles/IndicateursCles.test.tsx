@@ -7,13 +7,15 @@ import * as repositoryInventaires from '../../repositories/inventairesRepository
 import * as repositoryTypesEquipements from '../../repositories/typesEquipementsRepository'
 import { indicateurImpactEquipementModelFactory, indicateurImpactEquipementSommeModelFactory, jeSuisUnAdmin, jeSuisUnUtilisateur, referentielTypeEquipementModelFactory, renderComponent, spyNextNavigation } from '../../testShared'
 
-vi.mock('react-chartjs-2', () => ({ Bar: () => null, Pie: () => null }))
+vi.mock('react-chartjs-2')
 
 describe('page des indicateurs clés', () => {
   describe('en tant qu’utilisateur', () => {
     it('quand le nom d’établissement n’est pas le même que le mien dans l’URL alors je n’y ai pas accès', async () => {
       // GIVEN
       jeSuisUnUtilisateur()
+
+      vi.spyOn(repositoryIndicateurs, 'recupererLesIndicateursImpactsEquipementsRepository').mockResolvedValueOnce([indicateurImpactEquipementModelFactory()])
 
       const queryParams = {
         searchParams: {
@@ -35,8 +37,16 @@ describe('page des indicateurs clés', () => {
 
       vi.spyOn(navigation, 'usePathname').mockReturnValueOnce('/indicateurs-cles')
       vi.spyOn(repositoryIndicateurs, 'recupererLesIndicateursImpactsEquipementsRepository').mockResolvedValueOnce([indicateurImpactEquipementModelFactory()])
-      vi.spyOn(repositoryIndicateurs, 'recupererLesIndicateursImpactsEquipementsSommesRepository').mockResolvedValueOnce([indicateurImpactEquipementSommeModelFactory()])
-      vi.spyOn(repositoryTypesEquipements, 'recupererLesReferentielsTypesEquipementsRepository').mockResolvedValueOnce([referentielTypeEquipementModelFactory()])
+      vi.spyOn(repositoryIndicateurs, 'recupererLesIndicateursImpactsEquipementsSommesRepository').mockResolvedValueOnce([
+        indicateurImpactEquipementSommeModelFactory({ typeEquipement: 'Baie NAS' }),
+        indicateurImpactEquipementSommeModelFactory({ typeEquipement: 'Ordinateur portable' }),
+        indicateurImpactEquipementSommeModelFactory({ typeEquipement: 'Écran' }),
+      ])
+      vi.spyOn(repositoryTypesEquipements, 'recupererLesReferentielsTypesEquipementsRepository').mockResolvedValueOnce([
+        referentielTypeEquipementModelFactory({ type: 'Ordinateur portable' }),
+        referentielTypeEquipementModelFactory({ type: 'Écran' }),
+        referentielTypeEquipementModelFactory({ type: 'Baie NAS' }),
+      ])
 
       // WHEN
       renderComponent(await PageIndicateursCles(queryParams()))
@@ -56,11 +66,13 @@ describe('page des indicateurs clés', () => {
 
       const lienListeEquipements = screen.getByRole('link', { name: 'Liste d’équipements' })
       expect(lienListeEquipements).toHaveAttribute('href', 'liste-equipements?nomEtablissement=Hopital%20de%20Paris$$00000001K&nomInventaire=Centre%20hospitalier')
+      expect(lienIndicateursCles).toHaveAttribute('aria-selected', 'true')
 
       const simulezVosReductions = screen.getByRole('heading', { level: 2, name: 'Simulez vos réductions d’empreinte' })
       expect(simulezVosReductions).toBeInTheDocument()
       const lienCreerUneSimulation = screen.getByRole('link', { name: 'Créer une simulation' })
       expect(lienCreerUneSimulation).toHaveAttribute('href', '/creer-une-simulation?nomInventaire=Centre%20hospitalier')
+      expect(lienListeEquipements).toHaveAttribute('aria-selected', 'false')
     })
   })
 

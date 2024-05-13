@@ -16,7 +16,6 @@ export default function Connexion({ providers }: ConnexionProps): ReactElement {
           <div key={provider.name}>
             <button
               className="btn btn--plain btn--primary"
-              // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={async () => signIn(provider.id)}
               type="button"
             >

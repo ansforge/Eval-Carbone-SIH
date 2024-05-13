@@ -16,10 +16,10 @@ export default function HeureUtilisation(): ReactElement {
       </label>
       <InfoBulle label="Par exemple, en inscrivant le chiffre -5, le nombre d'heures d'utilisation par équipement sera réduit de 5 heures." />
       <input
-        className={'form-control'}
+        className="form-control"
         id="heureUtilisation"
         max={24}
-        min={-24}
+        min={-23}
         name="heureUtilisation"
         onChange={modifierHeureUtilisation}
         type="number"

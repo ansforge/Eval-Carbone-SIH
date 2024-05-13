@@ -3,7 +3,7 @@ import { userEvent } from '@testing-library/user-event'
 
 import PageModifierUnReferentiel from '../../app/(connecte)/(admin)/modifier-un-referentiel/page'
 import * as repositoryReferentiels from '../../repositories/referentielsRepository'
-import { renderComponent, jeSuisUnAdmin, jeSuisUnUtilisateur, textMatch } from '../../testShared'
+import { renderComponent, jeSuisUnAdmin, jeSuisUnUtilisateur, textMatcher } from '../../testShared'
 
 describe('page modifier un référentiel', () => {
   describe('en tant qu’admin', () => {
@@ -27,8 +27,8 @@ describe('page modifier un référentiel', () => {
       renderComponent(await PageModifierUnReferentiel())
 
       // THEN
-      const fichierCsv = screen.getByText<HTMLInputElement>(textMatch('Fichier CSV'), { selector: 'label' })
-      expect(fichierCsv.files).toBeUndefined()
+      const fichierCsv = screen.getByLabelText('Fichier CSV')
+      expect(fichierCsv).toBeRequired()
 
       const boutonModifier = screen.getByRole('button', { name: 'Modifier' })
       expect(boutonModifier).toBeDisabled()
@@ -42,7 +42,7 @@ describe('page modifier un référentiel', () => {
 
       const { user } = renderComponent(await PageModifierUnReferentiel())
 
-      const champFichierCsv = screen.getByText(textMatch('Fichier CSV'), { selector: 'label' })
+      const champFichierCsv = screen.getByText(textMatcher('Fichier CSV'), { selector: 'label' })
       const fichierReferentiel = new File(['cle;source;valeur\nPUEParDefaut;SSG;1.75\ndureeVieParDefaut;SSG;2'], 'hypotheses.csv', { type: 'text/csv' })
       await user.upload(champFichierCsv, fichierReferentiel)
 
@@ -73,7 +73,7 @@ describe('page modifier un référentiel', () => {
 
       renderComponent(await PageModifierUnReferentiel())
 
-      const champFichierCsv = screen.getByText(textMatch('Fichier CSV'), { selector: 'label' })
+      const champFichierCsv = screen.getByText(textMatcher('Fichier CSV'), { selector: 'label' })
       const fichierReferentiel = new File(['QuelqueChoseDeFaux'], 'hypotheses.csv', { type: 'text/csv' })
       await userEvent.upload(champFichierCsv, fichierReferentiel)
 

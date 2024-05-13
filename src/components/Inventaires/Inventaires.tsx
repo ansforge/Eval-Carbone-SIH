@@ -60,7 +60,7 @@ export default function Inventaires({ inventaires }: InventairesProps): ReactEle
                 </td>
                 <td>
                   {
-                    inventaire.lienDupliquer !== '' ? (
+                    inventaire.lienDupliquer !== '/' ? (
                       <Link
                         className="text-default mr-2"
                         href={inventaire.lienDupliquer}

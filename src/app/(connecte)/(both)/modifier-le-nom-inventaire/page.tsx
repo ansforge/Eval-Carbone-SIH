@@ -26,8 +26,8 @@ export default function PageModifierLeNomInventaire({ searchParams }: PageProps)
     <>
       <Breadcrumb label={title} />
       <ModifierLeNomInventaire
+        ancienNomInventaire={searchParams.nomInventaire}
         nomEtablissement={searchParams.nomEtablissement}
-        nomInventaire={searchParams.nomInventaire}
       />
     </>
   )

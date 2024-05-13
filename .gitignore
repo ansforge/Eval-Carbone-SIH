@@ -2,6 +2,7 @@
 .vscode
 coverage
 node_modules
+reports
 tsconfig.tsbuildinfo
 .env.local
 .env.prod

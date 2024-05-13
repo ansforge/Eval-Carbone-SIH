@@ -31,7 +31,7 @@ const authOptions = {
       return session
     },
   },
-  debug: process.env.NODE_ENV === 'production' ? false : true,
+  debug: process.env.NODE_ENV !== 'production',
   providers: [
     {
       authorization: {

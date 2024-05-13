@@ -24,7 +24,7 @@ export function inventairesPresenter(inventairesModel: ReadonlyArray<inventaireM
     const statut = StatutsInventaire[inventaireModel.statut as keyof typeof StatutsInventaire]
     const path = statut === StatutsInventaire.EN_ATTENTE ? '/inventaire' : '/indicateurs-cles'
     const statusParam = statut === StatutsInventaire.EN_ATTENTE ? `&statut=${StatutsInventaire.EN_ATTENTE}` : ''
-    const lienDupliquer = profil.isAdmin ? '' : encodeURI(`/dupliquer-un-inventaire?nomInventaire=${inventaireModel.nomInventaire}`)
+    const lienDupliquer = profil.isAdmin ? '/' : encodeURI(`/dupliquer-un-inventaire?nomInventaire=${inventaireModel.nomInventaire}`)
 
     return {
       className: statut.toLowerCase().replace(' ', '_'),

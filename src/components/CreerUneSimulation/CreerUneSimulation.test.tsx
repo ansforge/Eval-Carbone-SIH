@@ -53,7 +53,7 @@ describe('page créer une simulation', () => {
       expect(champDureeDeVie).toHaveValue(0)
     })
 
-    it('quand j’affiche la page alors je ne peux pas dépasser -24 et 24 dans le champ Heures d’utilisation par jour', async () => {
+    it('quand j’affiche la page alors je ne peux pas dépasser -23 et 24 dans le champ Heures d’utilisation par jour', async () => {
       // GIVEN
       jeSuisUnUtilisateur()
 
@@ -63,7 +63,7 @@ describe('page créer une simulation', () => {
       // THEN
       const champHeuresUtilisation = screen.getByLabelText('Heures d’utilisation par jour')
       expect(champHeuresUtilisation).toHaveAttribute('max', '24')
-      expect(champHeuresUtilisation).toHaveAttribute('min', '-24')
+      expect(champHeuresUtilisation).toHaveAttribute('min', '-23')
       expect(champHeuresUtilisation).toHaveAttribute('type', 'number')
       expect(champHeuresUtilisation).toHaveValue(0)
     })

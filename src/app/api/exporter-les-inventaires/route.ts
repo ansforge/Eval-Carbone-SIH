@@ -25,7 +25,7 @@ export async function GET(): Promise<Response> {
   )
 }
 
-function creerLeFichierAExporter(indicateurs: Array<indicateurImpactEquipementModel>): File {
+function creerLeFichierAExporter(indicateurs: ReadonlyArray<indicateurImpactEquipementModel>): File {
   const data = ['date_calcul;date_lot;nom_lot;etapeacv;critere;source;statut_indicateur;trace;version_calcul;conso_elec_moyenne;impact_unitaire;quantite;statut_equipement_physique;type_equipement;unite;nom_entite;nom_organisation;nom_source_donnee;nom_equipement;date_lot_discriminator;nom_organisation_discriminator;nom_entite_discriminator;nom_source_donnee_discriminator']
 
   for (const indicateur of indicateurs) {

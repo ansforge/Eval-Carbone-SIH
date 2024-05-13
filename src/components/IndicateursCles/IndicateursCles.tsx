@@ -33,7 +33,7 @@ export default function IndicateursCles({
         nomInventaire={nomInventaire}
       />
       <Onglets
-        isSelected
+        isSelected={true}
         nomEtablissement={nomEtablissement}
         nomInventaire={nomInventaire}
       />
@@ -263,7 +263,7 @@ export default function IndicateursCles({
                 </li>
               </ul>
               <Link
-                className={'btn btn--plain btn--primary'}
+                className="btn btn--plain btn--primary"
                 href={encodeURI(`/creer-une-simulation?nomInventaire=${nomInventaire}`)}
               >
                 Créer une simulation

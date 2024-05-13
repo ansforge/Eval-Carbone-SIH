@@ -29,7 +29,6 @@ export default function SupprimerUnInventaire({ fermerLaModale, isOpen, nomInven
       fermerLaModale={fermerLaModale}
       isOpen={isOpen}
       titre={'Supprimer l’inventaire'}
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       validerLaModale={supprimerInventaire}
     >
       <p>

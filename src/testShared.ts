@@ -16,7 +16,7 @@ export function renderComponent(component: ReactElement): RenderResult & { user:
   }
 }
 
-export const textMatch = (wording: string) => (_: string, element?: Element | null): boolean => {
+export const textMatcher = (wording: string) => (_: string, element: Element | null): boolean => {
   return element?.textContent === wording
 }
 

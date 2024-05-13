@@ -56,20 +56,10 @@ export default function ModifierUnReferentiel(): ReactElement {
             </AlerteErreur>
           ) : null
         }
-        <form
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onSubmit={modifierUnReferentiel}
-        >
+        <form onSubmit={modifierUnReferentiel}>
           <div className="form-group text-left">
             <label htmlFor="fichierReferentiel">
-              Fichier
-              {' '}
-              <abbr
-                lang="en-GB"
-                title="Comma-separated values"
-              >
-                CSV
-              </abbr>
+              Fichier CSV
             </label>
             <input
               accept=".csv"
@@ -77,7 +67,7 @@ export default function ModifierUnReferentiel(): ReactElement {
               id="fichierReferentiel"
               name="fichierReferentiel"
               onChange={selectionnerFichierReferentiel}
-              required
+              required={true}
               type="file"
             />
           </div>

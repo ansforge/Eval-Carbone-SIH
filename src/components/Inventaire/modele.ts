@@ -1,6 +1,6 @@
 import { Modele } from '../../repositories/modelesRepository'
 
-export const modelesSelectionnes = (): Array<Modele> => {
+export const modelesSelectionnes = (): ReadonlyArray<Modele> => {
   const nomsModeles = document.querySelectorAll<HTMLInputElement>('form [data-nom-equipement]')
   const quantites = document.querySelectorAll<HTMLInputElement>('form [data-quantite]')
   const dureesDeVie = document.querySelectorAll<HTMLInputElement>('form [data-duree-de-vie]')

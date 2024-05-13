@@ -23,7 +23,7 @@ export function useModifierNouveauNomInventaire(ancienNomInventaire: string, isD
 
   const modifierNouveauNomInventaire = (event: FormEvent<HTMLInputElement>) => {
     setState({
-      isDisabled: event.currentTarget.value.length >= caracteresMinimumPourUnNomInventaire ? false : true,
+      isDisabled: event.currentTarget.value.length < caracteresMinimumPourUnNomInventaire,
       isInvalid: false,
       nouveauNomInventaire: event.currentTarget.value,
     })

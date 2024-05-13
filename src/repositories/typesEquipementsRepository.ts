@@ -10,7 +10,7 @@ export type ReferentielTypeEquipementModel = Readonly<{
   type: string
 }>
 
-export async function recupererLesReferentielsTypesEquipementsRepository(): Promise<Array<ReferentielTypeEquipementModel>> {
+export async function recupererLesReferentielsTypesEquipementsRepository(): Promise<ReadonlyArray<ReferentielTypeEquipementModel>> {
   return prisma.referentielTypeEquipementModel.findMany({
     select: {
       dureeDeVie: true,

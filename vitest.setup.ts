@@ -7,11 +7,7 @@ vi.mock('next/navigation', () => {
     },
     redirect: vi.fn(),
     usePathname: vi.fn(),
-    useRouter: () => {
-      return {
-        push: vi.fn(),
-      }
-    },
+    useRouter: vi.fn(),
   }
 })
 

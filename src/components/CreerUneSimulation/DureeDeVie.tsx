@@ -16,7 +16,7 @@ export default function DureeDeVie(): ReactElement {
       </label>
       <InfoBulle label="Par exemple, en inscrivant le chiffre 2, la durée de vie souhaitée de chaque équipement augmentera de 2 ans." />
       <input
-        className={'form-control'}
+        className="form-control"
         id="dureeDeVie"
         max={20}
         min={-20}

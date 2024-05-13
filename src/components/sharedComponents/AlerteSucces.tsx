@@ -9,10 +9,7 @@ export default function AlerteSucces({ children, marge }: AlerteSuccesProps): Re
   return (
     <Alert>
       <div className="row justify-content-center">
-        <div
-          className={`o-alert o-alert--success col-md-${marge}`}
-          role="status"
-        >
+        <output className={`o-alert o-alert--success col-md-${marge}`}>
           <div className="o-alert__icon">
             <svg
               aria-hidden
@@ -23,7 +20,7 @@ export default function AlerteSucces({ children, marge }: AlerteSuccesProps): Re
             </svg>
           </div>
           {children}
-        </div>
+        </output>
       </div>
     </Alert>
   )
