@@ -24,7 +24,7 @@ export default async function NotFound(): Promise<ReactElement> {
         <div className="container">
           <div className="row">
             <div className="col-md-8">
-              <h1>
+              <h1 className="fw-bold">
                 Page non trouvée
               </h1>
               <h2>

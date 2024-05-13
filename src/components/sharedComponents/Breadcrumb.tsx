@@ -16,7 +16,7 @@ export default function Breadcrumb({ label }: BreadcrumbProps): ReactElement {
           className="breadcrumb-item"
           key="Inventaires"
         >
-          <Link href="/">
+          <Link href="/inventaires">
             Inventaires
             <svg
               aria-hidden
