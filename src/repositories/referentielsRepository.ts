@@ -9,6 +9,8 @@ export async function modifierUnReferentielRepository(formData: FormData): Promi
   if (fichierReferentiel.name === 'correspondanceTypeEquipement.csv') {
     const correspondancesTypeEquipement = (await fichierReferentiel.text())
       .split(/\r\n|\r|\n/)
+      .slice(1)
+      .filter((correspondance): boolean => correspondance !== '')
       .map((ligne): correspondanceTypeEquipementModeleModel => {
         const splittedLigne = ligne.split(';')
 
@@ -17,7 +19,6 @@ export async function modifierUnReferentielRepository(formData: FormData): Promi
           typeEquipementId: splittedLigne[0],
         }
       })
-      .slice(1, -1)
     await enregistrerCorrespondancesTypeEquipementRepository(correspondancesTypeEquipement)
   } else {
     formData.append('file', fichierReferentiel)
