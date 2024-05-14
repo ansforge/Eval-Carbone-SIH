@@ -8,7 +8,8 @@ export async function modifierUnReferentielRepository(formData: FormData): Promi
 
   if (fichierReferentiel.name === 'correspondanceTypeEquipement.csv') {
     const correspondancesTypeEquipement = (await fichierReferentiel.text())
-      .split('\r\n').map((ligne): correspondanceTypeEquipementModeleModel => {
+      .split(/\r\n|\r|\n/)
+      .map((ligne): correspondanceTypeEquipementModeleModel => {
         const splittedLigne = ligne.split(';')
 
         return {
@@ -43,6 +44,8 @@ export async function modifierUnReferentielRepository(formData: FormData): Promi
 async function enregistrerCorrespondancesTypeEquipementRepository(
   correspondancesTypeEquipement: Array<correspondanceTypeEquipementModeleModel>
 ): Promise<void> {
+  if (correspondancesTypeEquipement.length === 0) return
+
   await prisma.$transaction(async (prisma) => {
     await supprimerCorrespondanceTypeEquipementRepository()
 
