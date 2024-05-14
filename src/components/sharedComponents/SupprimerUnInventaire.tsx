@@ -19,7 +19,7 @@ export default function SupprimerUnInventaire({ fermerLaModale, isOpen, nomInven
   const supprimerInventaire = async () => {
     await supprimerInventaireAction(nomEtablissement, nomInventaire)
 
-    router.push('/')
+    router.push('/inventaires')
     router.refresh()
     fermerLaModale()
   }

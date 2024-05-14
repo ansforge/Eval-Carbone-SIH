@@ -124,7 +124,7 @@ describe('page liste d’équipements', () => {
       await waitFor(() => {
         expect(repositoryInventaires.supprimerUnInventaireRepository).toHaveBeenCalledWith('Hopital de Paris$$00000001K', 'Centre hospitalier')
       })
-      expect(spyNextNavigation.useRouter.push).toHaveBeenCalledWith('/')
+      expect(spyNextNavigation.useRouter.push).toHaveBeenCalledWith('/inventaires')
       expect(spyNextNavigation.useRouter.refresh).toHaveBeenCalledWith()
       const titreModale = within(modale).queryByRole('heading', { level: 1, name: 'Supprimer l’inventaire' })
       expect(titreModale).not.toBeInTheDocument()
