@@ -75,8 +75,12 @@ export default function Faq(): ReactElement {
         label="Comment sont calculés les indicateurs d’empreinte environnementale ?"
       >
         <p>
-          EvalCarbone SIH utilise l’outil NumEcoEval du Ministère de la Transition Ecologique (MTE) comme moteur de calcul afin d’avoir un outil
-          évolutif et en accord avec les travaux nation du MTE et de l’ADEME sur les
+          EvalCarbone SIH utilise la solution NumEcoEval permettant de calculer l’empreinte environnementale d’un système d’information,
+          développée par le Ministère de la Transition Écologique (MTE).
+        </p>
+        <p>
+          Ce choix s’explique par la volonté de la Délégation au numérique en santé et de l’Agence du numérique en santé de s’inscrire
+          dans les travaux du MTE et de l’ADEME sur les
           {' '}
           <a
             className="external-link"
@@ -85,24 +89,31 @@ export default function Faq(): ReactElement {
             target="_blank"
             title="PCR (Product Category Rules) (nouvelle fenêtre)"
           >
-            PCR (Product Category Rules)
+            RCP
           </a>
           {' '}
-          dédiés aux services numériques.
-          Ce moteur utilise les données d’inventaires saisies par les utilisateurs de EvalCarbone SIH
-          et assure le calcul des indicateurs en se basant sur des facteurs d’impacts liés aux différentes du cycle de vie des matériels.
+          (« Règles par Catégorie de Produit » dont l’objectif est de fournir
+          une méthode précise pour évaluer des impacts environnementaux afin d’uniformiser les procédés).
+        </p>
+        <p>
+          Dans cette approche, le système d’information est défini comme l’ensemble des équipements physiques,
+          des machines virtuelles et des applications gérés par une organisation.
+        </p>
+        <p>
+          NumEcoEval utilise les données d’inventaires saisies par les utilisateurs de EvalCarbone SIH et permet le calcul
+          des indicateurs d’impact du système d’information en se basant sur les facteurs d’impacts des matériels qui le constituent,
+          rapportés aux étapes du cycle de vie de chacun des matériels.
+        </p>
+        <p>
+          La formule générale du calcul est la suivante :
           <br />
-          <br />
-          La formule générale est la suivante :
-          <br />
-          <br />
-          Impact unitaire (unité de l’impact = kg CO2 eq, kg U235 eq ...) = Activité (unité de l’activité = km, kWh...)
-          x Facteur d’impact (unité d’impact / unité de l’activité).
-          <br />
-          <br />
-          Les facteurs d’impacts utilisés sont ceux mis à disposition par le MTE, sous licence creative commons de la base Resilio,
-          avec un scope qui vise à s’élargir sur d’autres matériels que ceux actuellement proposés. Les catégories
-          et items de l’inventaire proposé seront donc amenés à évoluer avec l’enrichissement de ce référentiel.
+          Impact unitaire (avec par exemple, l’unité de l’impact exprimée en kgCO2 eq) = Activité (unité de l’activité = km, kWh...) x
+          Facteur d’impact (unité d’impact / unité de l’activité).
+        </p>
+        <p>
+          Les facteurs d’impacts utilisés pour les calculs sont ceux mis à disposition par le MTE, sous licence creative commons,
+          de la base Resilio, avec un scope qui vise à s’élargir (peu de facteurs d’impact sont actuellement disponibles).
+          Les catégories des matériels et les modèles proposés sont amenés à évoluer avec l’enrichissement de ce référentiel.
         </p>
       </Accordeon>
     </>
