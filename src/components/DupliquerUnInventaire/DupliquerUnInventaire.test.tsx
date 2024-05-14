@@ -87,7 +87,7 @@ describe('page créer une simulation', () => {
       await waitFor(() => {
         expect(repositoryInventaires.dupliquerUnInventaireRepository).toHaveBeenCalledWith('Hopital de Paris$$00000001K', 'Centre hospitalier', 'nom inventaire correct')
       })
-      expect(spyNextNavigation.useRouter.push).toHaveBeenCalledWith('/')
+      expect(spyNextNavigation.useRouter.push).toHaveBeenCalledWith('/inventaires')
       expect(spyNextNavigation.useRouter.refresh).toHaveBeenCalledWith()
     })
   })

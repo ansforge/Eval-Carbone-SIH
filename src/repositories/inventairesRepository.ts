@@ -3,13 +3,23 @@ import { inventaireModel } from '@prisma/client'
 import prisma from './database'
 import { supprimerLesIndicateursImpactsEquipementsRepository } from './indicateursRepository'
 import { Modele, calculerEmpreinteRepository, enregistrerLesModelesRepository, recupererLesModelesRepository, supprimerLesModelesRepository } from './modelesRepository'
-import { separator } from '../configuration'
+import { inventairesParPage } from '../configuration'
 import { calculerLaDureeDeVie, convertirLeTauxUtilisationEnHeureUtilisation } from '../presenters/sharedPresenter'
 
-export async function recupererLesInventairesRepository(nomEtablissement: string): Promise<ReadonlyArray<inventaireModel>> {
-  const nomOrganisation = nomEtablissement.endsWith(`${separator}admin`) ? { startsWith: '%' } : nomEtablissement
+export async function recupererLeTotalInventairesRepository(): Promise<number> {
+  return prisma.inventaireModel.count()
+}
 
-  return prisma.inventaireModel.findMany({ orderBy: { dateInventaire: 'desc' }, where: { nomEtablissement: nomOrganisation } })
+export async function recupererLesInventairesRepository(nomEtablissement: string): Promise<ReadonlyArray<inventaireModel>> {
+  return prisma.inventaireModel.findMany({ orderBy: { dateInventaire: 'desc' }, where: { nomEtablissement } })
+}
+
+export async function recupererLesInventairesPaginesRepository(pageCourante: number): Promise<ReadonlyArray<inventaireModel>> {
+  return prisma.inventaireModel.findMany({
+    orderBy: { dateInventaire: 'desc' },
+    skip: inventairesParPage * pageCourante,
+    take: inventairesParPage,
+  })
 }
 
 export async function recupererUnInventaireRepository(nomEtablissement: string, nomInventaire: string): Promise<inventaireModel | null> {

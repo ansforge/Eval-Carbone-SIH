@@ -55,7 +55,12 @@ export default function InventairesLayout({ presenter }: InventairesLayoutProps)
       <hr />
       {
         presenter.inventaires.length > 0 ? (
-          <Inventaires inventaires={presenter.inventaires} />
+          <Inventaires
+            inventaires={presenter.inventaires}
+            isAdmin={presenter.isAdmin}
+            pageCourante={presenter.pageCourante}
+            totalInventaires={presenter.totalInventaires}
+          />
         ) : (
           <InventairesVide isAdmin={presenter.isAdmin} />
         )

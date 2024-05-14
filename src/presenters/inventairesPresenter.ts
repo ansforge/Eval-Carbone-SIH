@@ -17,9 +17,16 @@ export type InventairePresenter = Readonly<{
 export type InventairesPresenter = Readonly<{
   isAdmin: boolean
   inventaires: ReadonlyArray<InventairePresenter>
+  pageCourante: number
+  totalInventaires: number
 }>
 
-export function inventairesPresenter(inventairesModel: ReadonlyArray<inventaireModel>, profil: ProfilAtih): InventairesPresenter {
+export function inventairesPresenter(
+  inventairesModel: ReadonlyArray<inventaireModel>,
+  profil: ProfilAtih,
+  pageCourante: number,
+  totalInventaires: number
+): InventairesPresenter {
   const inventaires = inventairesModel.map((inventaireModel): InventairePresenter => {
     const statut = StatutsInventaire[inventaireModel.statut as keyof typeof StatutsInventaire]
     const path = statut === StatutsInventaire.EN_ATTENTE ? '/inventaire' : '/indicateurs-cles'
@@ -41,5 +48,7 @@ export function inventairesPresenter(inventairesModel: ReadonlyArray<inventaireM
   return {
     inventaires,
     isAdmin: profil.isAdmin,
+    pageCourante,
+    totalInventaires,
   }
 }

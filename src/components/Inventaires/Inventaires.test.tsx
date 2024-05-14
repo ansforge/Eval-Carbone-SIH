@@ -15,7 +15,7 @@ describe('page inventaires', () => {
         vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([])
 
         // WHEN
-        renderComponent(await PageInventaires())
+        renderComponent(await PageInventaires({}))
 
         // THEN
         const titre = screen.getByRole('heading', { level: 1 })
@@ -48,7 +48,7 @@ describe('page inventaires', () => {
         ])
 
         // WHEN
-        renderComponent(await PageInventaires())
+        renderComponent(await PageInventaires({}))
 
         // THEN
         const tableInventaires = screen.getByRole('table')
@@ -77,6 +77,28 @@ describe('page inventaires', () => {
         expect(cellsRow2[4]).toHaveTextContent('Supprimer l’inventaire')
       })
 
+      it('quand j’affiche la page alors je n’affiche pas la pagination', async () => {
+        // GIVEN
+        const nomEtablissement = jeSuisUnUtilisateur()
+
+        vi.stubGlobal('Date', FrozenDate)
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([
+          inventaireModelFactory({
+            id: 1,
+            nomEtablissement,
+            nomInventaire: 'mon inventaire traité',
+            statut: 'TRAITE',
+          }),
+        ])
+
+        // WHEN
+        renderComponent(await PageInventaires({}))
+
+        // THEN
+        const navigation = screen.queryByRole('navigation', { name: 'Pagination' })
+        expect(navigation).not.toBeInTheDocument()
+      })
+
       it('quand j’affiche la page alors je ne peux pas télécharger l’export CSV', async () => {
         // GIVEN
         jeSuisUnUtilisateur()
@@ -90,7 +112,7 @@ describe('page inventaires', () => {
         ])
 
         // WHEN
-        renderComponent(await PageInventaires())
+        renderComponent(await PageInventaires({}))
 
         // THEN
         const lienExporterLesInventaires = screen.queryByRole('link', { name: 'Exporter les inventaires' })
@@ -107,7 +129,7 @@ describe('page inventaires', () => {
           .mockReturnValueOnce(spyNextNavigation.useRouter)
         vi.spyOn(repositoryInventaires, 'supprimerUnInventaireRepository').mockResolvedValueOnce(new Date())
 
-        renderComponent(await PageInventaires())
+        renderComponent(await PageInventaires({}))
 
         const poubelle = screen.getByRole('button', { name: 'Supprimer l’inventaire' })
         fireEvent.click(poubelle)
@@ -121,7 +143,7 @@ describe('page inventaires', () => {
         await waitFor(() => {
           expect(repositoryInventaires.supprimerUnInventaireRepository).toHaveBeenCalledWith('Hopital de Paris$$00000001K', 'mon super inventaire')
         })
-        expect(spyNextNavigation.useRouter.push).toHaveBeenCalledWith('/')
+        expect(spyNextNavigation.useRouter.push).toHaveBeenCalledWith('/inventaires')
         expect(spyNextNavigation.useRouter.refresh).toHaveBeenCalledWith()
         const titreModale = within(modale).queryByRole('heading', { level: 1, name: 'Supprimer l’inventaire' })
         expect(titreModale).not.toBeInTheDocument()
@@ -135,10 +157,10 @@ describe('page inventaires', () => {
         // GIVEN
         jeSuisUnAdmin()
 
-        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([])
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesPaginesRepository').mockResolvedValueOnce([])
 
         // WHEN
-        renderComponent(await PageInventaires())
+        renderComponent(await PageInventaires({}))
 
         // THEN
         const titre = screen.getByRole('heading', { level: 2 })
@@ -153,7 +175,7 @@ describe('page inventaires', () => {
         // GIVEN
         jeSuisUnAdmin()
 
-        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesPaginesRepository').mockResolvedValueOnce([
           inventaireModelFactory({
             id: 1,
             nomEtablissement: 'Hopital A$$00000001K',
@@ -167,7 +189,7 @@ describe('page inventaires', () => {
         ])
 
         // WHEN
-        renderComponent(await PageInventaires())
+        renderComponent(await PageInventaires({}))
 
         // THEN
         const listeInventaires = screen.getByRole('table')
@@ -186,20 +208,50 @@ describe('page inventaires', () => {
         expect(cellsRow2[1]).toHaveTextContent('Hopital B')
       })
 
-      it('quand j’affiche la page alors je n’ai pas accès à la duplication', async () => {
+      it('quand j’affiche la page alors j’affiche la pagination', async () => {
         // GIVEN
         jeSuisUnAdmin()
 
-        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesPaginesRepository').mockResolvedValueOnce([
           inventaireModelFactory({
             id: 1,
             nomEtablissement: 'Hopital A$$00000001K',
             nomInventaire: 'mon inventaire A',
           }),
         ])
+        vi.spyOn(repositoryInventaires, 'recupererLeTotalInventairesRepository').mockResolvedValueOnce(2)
 
         // WHEN
-        renderComponent(await PageInventaires())
+        renderComponent(await PageInventaires({}))
+
+        // THEN
+        const navigation = screen.getByRole('navigation', { name: 'Pagination' })
+        const menu = within(navigation).getByRole('list')
+        const menuItems = within(menu).getAllByRole('listitem')
+        expect(menuItems).toHaveLength(3)
+        const lienPagePrecedente = within(menuItems[0]).getByRole('link', { name: 'Page précédente' })
+        expect(lienPagePrecedente).toHaveAttribute('href', '/inventaires')
+        expect(menuItems[1]).toHaveTextContent('Page courante 1')
+        expect(menuItems[1]).toHaveAttribute('aria-current', 'page')
+        const lienPageSuivante = within(menuItems[2]).getByRole('link', { name: 'Page suivante' })
+        expect(lienPageSuivante).toHaveAttribute('href', '/inventaires?page=0')
+      })
+
+      it('quand j’affiche la page alors je n’ai pas accès à la duplication', async () => {
+        // GIVEN
+        jeSuisUnAdmin()
+
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesPaginesRepository').mockResolvedValueOnce([
+          inventaireModelFactory({
+            id: 1,
+            nomEtablissement: 'Hopital A$$00000001K',
+            nomInventaire: 'mon inventaire A',
+          }),
+        ])
+        vi.spyOn(repositoryInventaires, 'recupererLeTotalInventairesRepository').mockResolvedValueOnce(2)
+
+        // WHEN
+        renderComponent(await PageInventaires({}))
 
         // THEN
         const listeInventaires = screen.getByRole('table')
@@ -215,16 +267,17 @@ describe('page inventaires', () => {
         // GIVEN
         jeSuisUnAdmin()
 
-        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesPaginesRepository').mockResolvedValueOnce([
           inventaireModelFactory({
             id: 1,
             nomEtablissement: 'Hopital A$$00000001K',
             nomInventaire: 'mon inventaire A',
           }),
         ])
+        vi.spyOn(repositoryInventaires, 'recupererLeTotalInventairesRepository').mockResolvedValueOnce(2)
 
         // WHEN
-        renderComponent(await PageInventaires())
+        renderComponent(await PageInventaires({}))
 
         // THEN
         const lienExporterLesInventaires = screen.getByRole('link', { name: 'Exporter les inventaires' })

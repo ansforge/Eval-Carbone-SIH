@@ -30,7 +30,7 @@ export function useDupliquerUnInventaire(ancienNomInventaire: string): UseCreerU
     if (!nomInventaireExiste) {
       await dupliquerUnInventaireAction(nomEtablissement, ancienNomInventaire, nouveauNomInventaire)
 
-      router.push('/')
+      router.push('/inventaires')
       router.refresh()
     } else {
       setState({
