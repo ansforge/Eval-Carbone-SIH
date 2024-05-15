@@ -1,20 +1,27 @@
 import Link from 'next/link'
-import React, { ReactElement } from 'react'
+import React, { FormEvent, ReactElement } from 'react'
 
 import ActionSupprimer from './ActionSupprimer'
 import styles from './Inventaires.module.css'
 import { InventairePresenter } from '../../presenters/inventairesPresenter'
-import { formaterLeNomEtablissement } from '../../presenters/sharedPresenter'
+import { StatutsInventaire, formaterLeNomEtablissement } from '../../presenters/sharedPresenter'
 import Pagination from '../sharedComponents/Pagination/Pagination'
 
 type InventairesProps = Readonly<{
   inventaires: ReadonlyArray<InventairePresenter>
   isAdmin: boolean
+  mettreAJourNombreInventaireCoche: (event: FormEvent<HTMLInputElement>) => void
   pageCourante: number
   totalInventaires: number
 }>
 
-export default function Inventaires({ inventaires, isAdmin, pageCourante, totalInventaires }: InventairesProps): ReactElement {
+export default function Inventaires({
+  inventaires,
+  isAdmin,
+  mettreAJourNombreInventaireCoche,
+  pageCourante,
+  totalInventaires,
+}: InventairesProps): ReactElement {
   return (
     <>
       <table className="table table-bordered">
@@ -46,6 +53,25 @@ export default function Inventaires({ inventaires, isAdmin, pageCourante, totalI
               return (
                 <tr key={inventaire.id}>
                   <td>
+                    {
+                      !isAdmin && inventaire.statut === StatutsInventaire.TRAITE && (
+                        <>
+                          <input
+                            id={`comparer${inventaire.id}`}
+                            onChange={mettreAJourNombreInventaireCoche}
+                            type="checkbox"
+                            value={inventaire.nomInventaire}
+                          />
+                          <label
+                            className="hidden"
+                            htmlFor={`comparer${inventaire.id}`}
+                          >
+                            {inventaire.nomInventaire}
+                          </label>
+                          {'  '}
+                        </>
+                      )
+                    }
                     <Link href={inventaire.lienIndicateursCles}>
                       {inventaire.nomInventaire}
                     </Link>

@@ -15,8 +15,6 @@ describe('page des indicateurs clés', () => {
       // GIVEN
       jeSuisUnUtilisateur()
 
-      vi.spyOn(repositoryIndicateurs, 'recupererLesIndicateursImpactsEquipementsRepository').mockResolvedValueOnce([indicateurImpactEquipementModelFactory()])
-
       const queryParams = {
         searchParams: {
           nomEtablissement: 'Hopital de Bordeaux$$00000001J',

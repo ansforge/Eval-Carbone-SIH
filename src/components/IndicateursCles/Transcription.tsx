@@ -37,7 +37,7 @@ export default function Transcription({ indicateursImpactsEquipementsSommes }: T
                 {mettreEnBasDeCasse(indicateurImpactEquipementSomme.etapeAcv)}
               </td>
               <td>
-                {Number(indicateurImpactEquipementSomme.impact.toFixed(2)).toLocaleString()}
+                {Number(indicateurImpactEquipementSomme.impact.toFixed(2)).toLocaleString('fr-FR')}
               </td>
             </tr>
           ))

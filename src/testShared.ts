@@ -6,7 +6,7 @@ import { ReactElement } from 'react'
 
 import * as authentification from './authentification'
 import { separator } from './configuration'
-import { EtapesAcv } from './presenters/indicateursClesPresenter'
+import { EtapesAcv } from './presenters/sharedPresenter'
 import { IndicateurImpactEquipementSommeModel } from './repositories/indicateursRepository'
 import { ReferentielTypeEquipementModel } from './repositories/typesEquipementsRepository'
 

@@ -29,7 +29,7 @@ type PageProps = Readonly<{
   searchParams?: SearchParams
 }>
 
-export default async function Page({ searchParams }: PageProps): Promise<ReactElement> {
+export default async function PageInventaire({ searchParams }: PageProps): Promise<ReactElement> {
   if (searchParams?.nomEtablissement === undefined || searchParams.nomInventaire === undefined) {
     notFound()
   }

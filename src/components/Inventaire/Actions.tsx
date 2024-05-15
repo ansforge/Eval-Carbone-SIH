@@ -1,5 +1,3 @@
-'use client'
-
 import { ReactElement } from 'react'
 
 type ModaleProps = Readonly<{

@@ -119,14 +119,148 @@ describe('page inventaires', () => {
         expect(lienExporterLesInventaires).not.toBeInTheDocument()
       })
 
+      it('quand j’affiche la page alors j’ai le bouton pour comparer deux inventaires mais il est désactivé', async () => {
+        // GIVEN
+        jeSuisUnUtilisateur()
+
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([inventaireModelFactory()])
+
+        // WHEN
+        renderComponent(await PageInventaires({}))
+
+        // THEN
+        const buttonComparerDeuxInventaires = screen.getByRole('button', { name: 'Comparer deux inventaires' })
+        expect(buttonComparerDeuxInventaires).toBeDisabled()
+      })
+
+      it('quand j’affiche la page alors je peux cocher que les inventaires calculés', async () => {
+        // GIVEN
+        jeSuisUnUtilisateur()
+
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([
+          inventaireModelFactory({
+            id: 1,
+            nomInventaire: 'mon premier inventaire',
+            statut: 'TRAITE',
+          }),
+          inventaireModelFactory({
+            id: 2,
+            nomInventaire: 'mon deuxième inventaire',
+            statut: 'EN_ATTENTE',
+          }),
+        ])
+
+        // WHEN
+        renderComponent(await PageInventaires({}))
+
+        // THEN
+        const checkboxInventaire1 = screen.getByLabelText('mon premier inventaire')
+        expect(checkboxInventaire1).toBeInTheDocument()
+        const checkboxInventaire2 = screen.queryByLabelText('mon deuxième inventaire')
+        expect(checkboxInventaire2).not.toBeInTheDocument()
+      })
+
+      it('quand je sélectionne un seul inventaire calculé pour comparaison alors le bouton pour comparer deux inventaires est toujours désactivé', async () => {
+        // GIVEN
+        jeSuisUnUtilisateur()
+
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([
+          inventaireModelFactory({
+            statut: 'TRAITE',
+          }),
+        ])
+
+        renderComponent(await PageInventaires({}))
+        const checkboxInventaire1 = screen.getByLabelText('mon super inventaire')
+
+        // WHEN
+        fireEvent.click(checkboxInventaire1)
+
+        // THEN
+        const buttonComparerDeuxInventaires = screen.getByRole('button', { name: 'Comparer deux inventaires' })
+        expect(buttonComparerDeuxInventaires).toBeDisabled()
+      })
+
+      it('quand je sélectionne deux inventaires calculés pour comparaison alors le bouton pour comparer deux inventaires est activé', async () => {
+        // GIVEN
+        const nomEtablissement = jeSuisUnUtilisateur()
+
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([
+          inventaireModelFactory({
+            id: 1,
+            nomEtablissement,
+            nomInventaire: 'mon premier inventaire',
+            statut: 'TRAITE',
+          }),
+          inventaireModelFactory({
+            id: 2,
+            nomEtablissement,
+            nomInventaire: 'mon deuxième inventaire',
+            statut: 'TRAITE',
+          }),
+          inventaireModelFactory({
+            id: 3,
+            nomEtablissement,
+            nomInventaire: 'mon troisième inventaire',
+            statut: 'TRAITE',
+          }),
+        ])
+
+        renderComponent(await PageInventaires({}))
+
+        // WHEN
+        const checkboxInventaire1 = screen.getByLabelText('mon premier inventaire')
+        fireEvent.click(checkboxInventaire1)
+        const checkboxInventaire3 = screen.getByLabelText('mon troisième inventaire')
+        fireEvent.click(checkboxInventaire3)
+
+        // THEN
+        const buttonComparerDeuxInventaires = screen.getByRole('button', { name: 'Comparer deux inventaires' })
+        expect(buttonComparerDeuxInventaires).toBeEnabled()
+      })
+
+      it('quand je clique sur le bouton comparer deux inventaires alors je vais sur la page de comparaison', async () => {
+        // GIVEN
+        const nomEtablissement = jeSuisUnUtilisateur()
+
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([
+          inventaireModelFactory({
+            id: 1,
+            nomEtablissement,
+            nomInventaire: 'mon premier inventaire',
+            statut: 'TRAITE',
+          }),
+          inventaireModelFactory({
+            id: 2,
+            nomEtablissement,
+            nomInventaire: 'mon deuxième inventaire',
+            statut: 'TRAITE',
+          }),
+        ])
+        vi.spyOn(navigation, 'useRouter').mockReturnValue(spyNextNavigation.useRouter)
+
+        renderComponent(await PageInventaires({}))
+        const checkboxInventaire1 = screen.getByLabelText('mon premier inventaire')
+        fireEvent.click(checkboxInventaire1)
+        const checkboxInventaire2 = screen.getByLabelText('mon deuxième inventaire')
+        fireEvent.click(checkboxInventaire2)
+        fireEvent.click(checkboxInventaire2)
+        fireEvent.click(checkboxInventaire2)
+
+        // WHEN
+        const boutonComparerDeuxInventaires = screen.getByRole('button', { name: 'Comparer deux inventaires' })
+        fireEvent.click(boutonComparerDeuxInventaires)
+
+        // THEN
+        expect(spyNextNavigation.useRouter.push).toHaveBeenCalledWith('http://localhost:3000/tableau-comparatif?inventaireReference=mon+premier+inventaire&inventaireCompare=mon+deuxi%C3%A8me+inventaire')
+      })
+
       it('quand je clique pour supprimer un inventaire alors l’inventaire est supprimé et ne s’affiche plus', async () => {
         // GIVEN
         jeSuisUnUtilisateur()
 
         vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([inventaireModelFactory()])
-        vi.spyOn(navigation, 'useRouter')
-          .mockReturnValueOnce(spyNextNavigation.useRouter)
-          .mockReturnValueOnce(spyNextNavigation.useRouter)
+        vi.spyOn(navigation, 'useRouter').mockReturnValue(spyNextNavigation.useRouter)
         vi.spyOn(repositoryInventaires, 'supprimerUnInventaireRepository').mockResolvedValueOnce(new Date())
 
         renderComponent(await PageInventaires({}))
@@ -241,13 +375,7 @@ describe('page inventaires', () => {
         // GIVEN
         jeSuisUnAdmin()
 
-        vi.spyOn(repositoryInventaires, 'recupererLesInventairesPaginesRepository').mockResolvedValueOnce([
-          inventaireModelFactory({
-            id: 1,
-            nomEtablissement: 'Hopital A$$00000001K',
-            nomInventaire: 'mon inventaire A',
-          }),
-        ])
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesPaginesRepository').mockResolvedValueOnce([inventaireModelFactory()])
         vi.spyOn(repositoryInventaires, 'recupererLeTotalInventairesRepository').mockResolvedValueOnce(2)
 
         // WHEN
@@ -261,6 +389,22 @@ describe('page inventaires', () => {
         const cellsRow1 = within(tbodyRows[0]).getAllByRole('cell')
         const lienDupliquer = within(cellsRow1[4]).queryByRole('link', { name: 'Dupliquer l’inventaire' })
         expect(lienDupliquer).not.toBeInTheDocument()
+      })
+
+      it('quand j’affiche la page alors je n’ai pas accès à la comparaison de deux inventaires', async () => {
+        // GIVEN
+        jeSuisUnAdmin()
+
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([inventaireModelFactory()])
+
+        // WHEN
+        renderComponent(await PageInventaires({}))
+
+        // THEN
+        const buttonComparerDeuxInventaires = screen.queryByRole('button', { name: 'Comparer deux inventaires' })
+        expect(buttonComparerDeuxInventaires).not.toBeInTheDocument()
+        const checkboxInventaire1 = screen.queryByLabelText('mon super inventaire')
+        expect(checkboxInventaire1).not.toBeInTheDocument()
       })
 
       it('quand j’affiche la page alors je télécharge l’export CSV', async () => {

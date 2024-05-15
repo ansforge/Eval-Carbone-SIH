@@ -8,7 +8,8 @@ import Astuce from './Astuce'
 import { donneesParCycleDeVie, donneesParTypeEquipement, donneesRepartitionParTypeEquipement, optionsCamembert, optionsHistogramme } from './graphiques'
 import Indicateur from './Indicateur'
 import Transcription from './Transcription'
-import { EtapesAcv, IndicateursClesPresenter } from '../../presenters/indicateursClesPresenter'
+import { IndicateursClesPresenter } from '../../presenters/indicateursClesPresenter'
+import { EtapesAcv, formaterDeuxChiffresApresLaVirgule } from '../../presenters/sharedPresenter'
 import Accordeon from '../sharedComponents/Accordeon'
 import Actions from '../sharedComponents/Actions'
 import InfoBulle from '../sharedComponents/Infobulle'
@@ -45,7 +46,7 @@ export default function IndicateursCles({
               <InfoBulle label="L’empreinte carbone mesure la quantité totale de gaz à effet de serre émise, directement ou indirectement, par une activité, un produit ou un service, exprimée en équivalent de dioxyde de carbone (CO2)." />
             </h2>
             <div className="h1 fw-bold">
-              {presenter.indicateursImpactsEquipements.empreinteCarbone}
+              {formaterDeuxChiffresApresLaVirgule(presenter.indicateursImpactsEquipements.empreinteCarbone)}
             </div>
             <div>
               <abbr title="tonnes équivalent en dioxyde de carbone">
@@ -75,11 +76,9 @@ export default function IndicateursCles({
                 Fabrication
               </div>
               <div className="col-md-8 fw-semiBold text-right">
-                {presenter.indicateursImpactsEquipements.fabrication}
+                {formaterDeuxChiffresApresLaVirgule(presenter.indicateursImpactsEquipements.fabrication)}
                 {' '}
-                <abbr title="tonnes équivalent en dioxyde de carbone">
-                  tCO2 eq
-                </abbr>
+                tCO2 eq
               </div>
             </div>
             <hr />
@@ -88,11 +87,9 @@ export default function IndicateursCles({
                 Distribution
               </div>
               <div className="col-md-8 fw-semiBold text-right">
-                {presenter.indicateursImpactsEquipements.distribution}
+                {formaterDeuxChiffresApresLaVirgule(presenter.indicateursImpactsEquipements.distribution)}
                 {' '}
-                <abbr title="tonnes équivalent en dioxyde de carbone">
-                  tCO2 eq
-                </abbr>
+                tCO2 eq
               </div>
             </div>
             <hr />
@@ -101,11 +98,9 @@ export default function IndicateursCles({
                 Utilisation
               </div>
               <div className="col-md-8 fw-semiBold text-right">
-                {presenter.indicateursImpactsEquipements.utilisation}
+                {formaterDeuxChiffresApresLaVirgule(presenter.indicateursImpactsEquipements.utilisation)}
                 {' '}
-                <abbr title="tonnes équivalent en dioxyde de carbone">
-                  tCO2 eq
-                </abbr>
+                tCO2 eq
               </div>
             </div>
             <hr />
@@ -114,11 +109,9 @@ export default function IndicateursCles({
                 Fin de vie
               </div>
               <div className="col-md-8 fw-semiBold text-right">
-                {presenter.indicateursImpactsEquipements.finDeVie}
+                {formaterDeuxChiffresApresLaVirgule(presenter.indicateursImpactsEquipements.finDeVie)}
                 {' '}
-                <abbr title="tonnes équivalent en dioxyde de carbone">
-                  tCO2 eq
-                </abbr>
+                tCO2 eq
               </div>
             </div>
           </section>
@@ -128,7 +121,13 @@ export default function IndicateursCles({
             EMPREINTE CARBONE PAR TYPE D’ÉQUIPEMENT
           </p>
           <p>
-            L’empreinte est détaillée en kgCO2 équivalent par phase du cycle de vie.
+            L’empreinte est détaillée en
+            {' '}
+            <abbr title="kilogrammes en dioxyde de carbone">
+              kgCO2
+            </abbr>
+            {' '}
+            équivalent par phase du cycle de vie.
           </p>
           <hr />
           <Bar
@@ -160,7 +159,7 @@ export default function IndicateursCles({
         </div>
         <div className="border rounded-sm top-left-radius-0 p-4 mb-4">
           <p className="fw-bold">
-            RÉPARTITION DE l’EMPREINTE CARBONE PAR TYPE D’ÉQUIPEMENT
+            RÉPARTITION DE L’EMPREINTE CARBONE PAR TYPE D’ÉQUIPEMENT
           </p>
           <p>
             L’empreinte est détaillée en kgCO2 équivalent selon la fabrication.
@@ -325,7 +324,7 @@ export default function IndicateursCles({
                 kg U235 eq
               </abbr>
             }
-            valeur={presenter.indicateursImpactsEquipements.radiationIonisantes}
+            valeur={formaterDeuxChiffresApresLaVirgule(presenter.indicateursImpactsEquipements.radiationIonisantes)}
           />
           <Indicateur
             coin="bottom-left"
@@ -336,7 +335,7 @@ export default function IndicateursCles({
                 kg SB eq
               </abbr>
             }
-            valeur={presenter.indicateursImpactsEquipements.epuisementDesRessources}
+            valeur={formaterDeuxChiffresApresLaVirgule(presenter.indicateursImpactsEquipements.epuisementDesRessources)}
           />
         </div>
         <div className="row">
@@ -345,7 +344,7 @@ export default function IndicateursCles({
             texteInfoBulle="Les particules fines (PM2,5) peuvent provenir du chauffage au bois, du trafic routier et des activités de chantier. Elles sont nocives pour la santé respiratoire et cardiovasculaire."
             titre="Émissions de particules fines"
             unite="Incidence de maladies"
-            valeur={presenter.indicateursImpactsEquipements.emissionsDeParticulesFines}
+            valeur={formaterDeuxChiffresApresLaVirgule(presenter.indicateursImpactsEquipements.emissionsDeParticulesFines)}
           />
           <Indicateur
             coin="top-left"
@@ -356,7 +355,7 @@ export default function IndicateursCles({
                 mol H+ eq
               </abbr>
             }
-            valeur={presenter.indicateursImpactsEquipements.acidification}
+            valeur={formaterDeuxChiffresApresLaVirgule(presenter.indicateursImpactsEquipements.acidification)}
           />
         </div>
       </Accordeon>

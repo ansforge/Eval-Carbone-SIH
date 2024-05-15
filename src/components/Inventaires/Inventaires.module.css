@@ -12,3 +12,11 @@
 .non_calculé {
   background-color: #369AEE;
 }
+
+.middle {
+  line-height: 3.5rem;
+}
+
+.fix {
+  height: 6rem;
+}

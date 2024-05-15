@@ -13,8 +13,6 @@ describe('page liste d’équipements', () => {
       // GIVEN
       jeSuisUnUtilisateur()
 
-      vi.spyOn(repositoryModeles, 'recupererLesModelesRepository').mockResolvedValueOnce([modeleModelFactory()])
-
       const queryParams = {
         searchParams: {
           nomEtablissement: 'Hopital de Bordeaux$$00000001J',

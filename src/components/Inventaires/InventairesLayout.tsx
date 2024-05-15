@@ -1,8 +1,12 @@
+'use client'
+
 import Link from 'next/link'
 import { ReactElement } from 'react'
 
 import Inventaires from './Inventaires'
+import styles from './Inventaires.module.css'
 import InventairesVide from './InventairesVide'
+import { useInventaires } from './useInventaires'
 import { InventairesPresenter } from '../../presenters/inventairesPresenter'
 import InfoBulle from '../sharedComponents/Infobulle'
 
@@ -11,6 +15,8 @@ type InventairesLayoutProps = Readonly<{
 }>
 
 export default function InventairesLayout({ presenter }: InventairesLayoutProps): ReactElement {
+  const { comparerDeuxInventaires, isDisabled, mettreAJourNombreInventaireCoche } = useInventaires()
+
   return (
     <>
       <div className="d-flex justify-content-between">
@@ -25,9 +31,17 @@ export default function InventairesLayout({ presenter }: InventairesLayoutProps)
         </div>
         {
           !presenter.isAdmin ? (
-            <div>
+            <div className="btn-group">
+              <button
+                className={`btn btn--ghost btn--default ${styles.fix}`}
+                disabled={isDisabled}
+                onClick={comparerDeuxInventaires}
+                type="button"
+              >
+                Comparer deux inventaires
+              </button>
               <Link
-                className="btn btn--plain btn--primary"
+                className={`btn btn--plain btn--primary ${styles.middle} ${styles.fix}`}
                 href="creer-un-inventaire"
               >
                 Créer un inventaire
@@ -58,6 +72,7 @@ export default function InventairesLayout({ presenter }: InventairesLayoutProps)
           <Inventaires
             inventaires={presenter.inventaires}
             isAdmin={presenter.isAdmin}
+            mettreAJourNombreInventaireCoche={mettreAJourNombreInventaireCoche}
             pageCourante={presenter.pageCourante}
             totalInventaires={presenter.totalInventaires}
           />

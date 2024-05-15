@@ -1,22 +1,9 @@
 import { indicateurImpactEquipementModel } from '@prisma/client'
 
-import { formaterDeuxChiffresApresLaVirgule, formaterLaDateEnFrancais } from './sharedPresenter'
+import { EtapesAcv, IndicateursImpactsEquipements, formaterLaDateEnFrancais, indicateursImpactsEquipementsPresenter } from './sharedPresenter'
 import { ProfilAtih } from '../authentification'
 import { IndicateurImpactEquipementSommeModel } from '../repositories/indicateursRepository'
 import { ReferentielTypeEquipementModel } from '../repositories/typesEquipementsRepository'
-
-type IndicateursImpactsEquipements = Readonly<{
-  acidification: string
-  distribution: string
-  emissionsDeParticulesFines: string
-  empreinteCarbone: string
-  epuisementDesRessources: string
-  fabrication: string
-  finDeVie: string
-  radiationIonisantes: string
-  utilisation: string
-  kilometresEnVoiture: string
-}>
 
 export type IndicateurImpactEquipementSomme = Readonly<{
   etapeAcv: `${EtapesAcv}`
@@ -32,21 +19,6 @@ export type IndicateursClesPresenter = Readonly<{
   isAdmin: boolean
   referentielsTypesEquipements: ReadonlyArray<string>
 }>
-
-export enum EtapesAcv {
-  fabrication = 'FABRICATION',
-  distribution = 'DISTRIBUTION',
-  utilisation = 'UTILISATION',
-  finDeVie = 'FIN_DE_VIE',
-}
-
-enum Criteres {
-  radiationIonisantes = 'Ionising radiation',
-  epuisementDesRessources = 'Resource use (minerals and metals)',
-  emissionsDeParticulesFines = 'Particulate matter and respiratory inorganics',
-  acidification = 'Acidification',
-  empreinteCarbone = 'Climate change',
-}
 
 export function indicateursClesPresenter(
   referentielsTypesEquipementsModel: ReadonlyArray<ReferentielTypeEquipementModel>,
@@ -68,61 +40,6 @@ export function indicateursClesPresenter(
     indicateursImpactsEquipementsSommes,
     isAdmin: profil.isAdmin,
     referentielsTypesEquipements,
-  }
-}
-
-function indicateursImpactsEquipementsPresenter(
-  indicateursImpactsEquipementsModel: ReadonlyArray<indicateurImpactEquipementModel>
-): IndicateursImpactsEquipements {
-  let radiationIonisantes = 0
-  let epuisementDesRessources = 0
-  let emissionsDeParticulesFines = 0
-  let acidification = 0
-  let empreinteCarbone = 0
-  let fabrication = 0
-  let distribution = 0
-  let utilisation = 0
-  let finDeVie = 0
-  const kilometresEquivalent1TonneCO2 = 5181
-
-  for (const indicateurImpactEquipementModel of indicateursImpactsEquipementsModel) {
-    const critere = indicateurImpactEquipementModel.critere as Criteres
-    const etapeacv = indicateurImpactEquipementModel.etapeAcv as EtapesAcv
-
-    if (critere === Criteres.radiationIonisantes) {
-      radiationIonisantes += indicateurImpactEquipementModel.impactUnitaire
-    } else if (critere === Criteres.epuisementDesRessources) {
-      epuisementDesRessources += indicateurImpactEquipementModel.impactUnitaire
-    } else if (critere === Criteres.emissionsDeParticulesFines) {
-      emissionsDeParticulesFines += indicateurImpactEquipementModel.impactUnitaire
-    } else if (critere === Criteres.acidification) {
-      acidification += indicateurImpactEquipementModel.impactUnitaire
-    } else {
-      empreinteCarbone += indicateurImpactEquipementModel.impactUnitaire / 1000
-
-      if (etapeacv === EtapesAcv.fabrication) {
-        fabrication += indicateurImpactEquipementModel.impactUnitaire / 1000
-      } else if (etapeacv === EtapesAcv.distribution) {
-        distribution += indicateurImpactEquipementModel.impactUnitaire / 1000
-      } else if (etapeacv === EtapesAcv.utilisation) {
-        utilisation += indicateurImpactEquipementModel.impactUnitaire / 1000
-      } else {
-        finDeVie += indicateurImpactEquipementModel.impactUnitaire / 1000
-      }
-    }
-  }
-
-  return {
-    acidification: formaterDeuxChiffresApresLaVirgule(acidification),
-    distribution: formaterDeuxChiffresApresLaVirgule(distribution),
-    emissionsDeParticulesFines: formaterDeuxChiffresApresLaVirgule(emissionsDeParticulesFines),
-    empreinteCarbone: formaterDeuxChiffresApresLaVirgule(empreinteCarbone),
-    epuisementDesRessources: formaterDeuxChiffresApresLaVirgule(epuisementDesRessources),
-    fabrication: formaterDeuxChiffresApresLaVirgule(fabrication),
-    finDeVie: formaterDeuxChiffresApresLaVirgule(finDeVie),
-    kilometresEnVoiture: Math.round(empreinteCarbone * kilometresEquivalent1TonneCO2).toLocaleString(),
-    radiationIonisantes: formaterDeuxChiffresApresLaVirgule(radiationIonisantes),
-    utilisation: formaterDeuxChiffresApresLaVirgule(utilisation),
   }
 }
 

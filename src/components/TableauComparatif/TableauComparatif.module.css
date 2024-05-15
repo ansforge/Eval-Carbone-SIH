@@ -1,0 +1,16 @@
+.indicateur {
+  background-color: #EFF4FD;
+  color: var(--black);
+}
+
+.differencePositive {
+  color: #017803
+}
+
+.differenceNegative {
+  color: #D20050
+}
+
+.hauteur {
+  height: 14rem;
+}

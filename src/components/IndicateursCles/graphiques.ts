@@ -1,7 +1,7 @@
 import { Chart, CategoryScale, LinearScale, BarElement, Tooltip, Legend, ArcElement, ChartData, ChartOptions, ChartDataset } from 'chart.js'
 
-import { EtapesAcv, IndicateurImpactEquipementSomme } from '../../presenters/indicateursClesPresenter'
-import { mettreEnBasDeCasse } from '../../presenters/sharedPresenter'
+import { IndicateurImpactEquipementSomme } from '../../presenters/indicateursClesPresenter'
+import { EtapesAcv, mettreEnBasDeCasse } from '../../presenters/sharedPresenter'
 
 Chart.register(
   ArcElement,
