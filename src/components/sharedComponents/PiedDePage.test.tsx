@@ -23,6 +23,6 @@ describe('composant pied de page', () => {
     const lienCgu = within(menuItems[3]).getByRole('link', { name: 'CGU' })
     expect(lienCgu).toHaveAttribute('href', '/cgu')
     const lienNousContacter = within(menuItems[4]).getByRole('link', { name: 'Nous contacter' })
-    expect(lienNousContacter).toHaveAttribute('href', 'mailto:nathalie.baudiniere@esante.gouv.fr')
+    expect(lienNousContacter).toHaveAttribute('href', 'mailto:eval-carbone-sih@esante.gouv.fr')
   })
 })

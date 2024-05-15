@@ -31,7 +31,7 @@ export default function PiedDePage(): ReactElement {
               <li className="footer-list__item">
                 <Link
                   className="external-link"
-                  href="mailto:nathalie.baudiniere@esante.gouv.fr"
+                  href="mailto:eval-carbone-sih@esante.gouv.fr"
                 >
                   Nous contacter
                 </Link>

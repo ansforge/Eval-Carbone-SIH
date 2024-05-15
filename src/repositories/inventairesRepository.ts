@@ -62,7 +62,13 @@ export async function dupliquerUnInventaireRepository(
     }
   })
 
-  await creerUnInventaireRepository(nomEtablissement, nouveauNomInventaire, modelesDupliques)
+  const inventaire = await recupererUnInventaireRepository(nomEtablissement, ancienNomInventaire)
+
+  if (inventaire?.statut === 'EN_ATTENTE') {
+    await enregistrerUnInventaireNonCalculeRepository(nomEtablissement, nouveauNomInventaire, modelesDupliques)
+  } else {
+    await creerUnInventaireRepository(nomEtablissement, nouveauNomInventaire, modelesDupliques)
+  }
 }
 
 export async function passerATraiteUnInventaireRepository(nomEtablissement: string, nomInventaire: string): Promise<void> {

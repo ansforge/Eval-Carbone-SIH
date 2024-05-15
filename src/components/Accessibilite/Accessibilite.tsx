@@ -22,7 +22,7 @@ export default function Accessibilite(): ReactElement {
         {' '}
         <Link
           className="external-link"
-          href="mailto:nathalie.baudiniere@esante.gouv.fr"
+          href="mailto:eval-carbone-sih@esante.gouv.fr"
         >
           nous contacter
         </Link>

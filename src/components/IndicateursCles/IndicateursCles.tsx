@@ -244,7 +244,7 @@ export default function IndicateursCles({
         !presenter.isAdmin && (
           <section className="border rounded-sm top-left-radius-0 p-5 mb-3 bg-white row">
             <div className="wysiwyg col-md-6">
-              <h2>
+              <h2 className="fw-bold">
                 Simulez vos réductions d’empreinte
               </h2>
               <p>
@@ -360,6 +360,19 @@ export default function IndicateursCles({
           />
         </div>
       </Accordeon>
+      <h2 className="fw-bold text-center">
+        Pour aller plus loin
+      </h2>
+      <div className=" text-center">
+        <Link
+          className="external-link"
+          href="https://esante.gouv.fr/strategie-nationale/ethique-et-numerique/ecoresponsabilite"
+          rel="external noopener noreferrer"
+          target="_blank"
+        >
+          Consultez la page dédiée à l’éco-responsabilité
+        </Link>
+      </div>
     </>
   )
 }

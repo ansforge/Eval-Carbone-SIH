@@ -78,17 +78,9 @@ export async function getProfilAtih(): Promise<ProfilAtih> {
     }
   }
 
-  const etablissementGeographique = 'ET'
   // @ts-expect-error
   const profilsAtih = session.user.profile_atih
-
-  let numeroFiness = profilsAtih.entite.finess ?? 'admin'
-
-  if (profilsAtih.entite.niveau === etablissementGeographique) {
-    if (profilsAtih.entite.statut[1] !== undefined) {
-      numeroFiness = profilsAtih.entite.finessJuridique
-    }
-  }
+  const numeroFiness = profilsAtih.entite.finess ?? 'admin'
 
   return {
     isAdmin: profilsAtih.niveau === niveauAdmin,

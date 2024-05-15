@@ -32,7 +32,7 @@ export default function SupprimerUnInventaire({ fermerLaModale, isOpen, nomInven
       validerLaModale={supprimerInventaire}
     >
       <p>
-        Si vous supprimez l’inventaire, celui si sera définitivement effacé et ne sera plus accessible dans la liste des inventaires.
+        Si vous supprimez l’inventaire, celui-ci sera définitivement effacé et ne sera plus accessible dans la liste des inventaires.
       </p>
     </Modale>
   )

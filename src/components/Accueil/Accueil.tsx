@@ -26,7 +26,7 @@ export default function Accueil({ isAdmin, isConnected, providers }: AccueilProp
               Fruit de la collaboration entre la DNS, l’ANS et le MTE,
               {' '}
               <span className="fw-bold">
-                EvalCarbone SIH vise à soutenir les établissements de santé à optimiser leur empreinte environnementale
+                EvalCarbone SIH vise à soutenir les établissements de santé à réduire leur empreinte environnementale
               </span>
               .
               <br />
