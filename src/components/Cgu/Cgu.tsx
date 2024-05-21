@@ -4,7 +4,7 @@ export default function Cgu(): ReactElement {
   return (
     <>
       <h1>
-        Conditions Générales d’Utilisation Service de calcul d’impact environnemental du système d’information de santé, EvalCarbone SIH
+        Conditions Générales d’Utilisation du Service de calcul d’impact environnemental d'un système d’information d'une structure de soins, EvalCarbone SIH
       </h1>
       <h2>
         Article 1. Objet
@@ -13,11 +13,11 @@ export default function Cgu(): ReactElement {
         Le service de calcul EvalCarbone SIH désigne la plateforme qui permet aux établissements sanitaires
         et médico-sociaux de mesurer l’impact environnemental de leur système d’information, ci-dessous dénommé « le Service ».
         <br />
-        Le système d’information, objet de l’évaluation par le Service, est dénommée ci-dessous par le terme “SIH” (Système d’information hospitalier).
+        Le système d’information, objet de l’évaluation par le Service, est dénommée ci-dessous par le terme “SISS” (Système d’information d'une structure de soins).
         <br />
         Le terme “Utilisateurs” désigne les personnels en établissements de santé ou médico-social titulaires d’un compte leur permettant d’accéder au Service.
         <br />
-        Le Ministère du travail de la santé et des solidarités assume la qualité d’éditeur du Service (ci-après « l’Editeur »),
+        Le Ministère du travail de la santé et des solidarités, représenté par la DNS (Délégation du numérique en santé), assume la qualité d’éditeur du Service (ci-après « l’Editeur »),
         au sens de la Loi n° 2004-575 du 21 juin 2004 pour la Confiance dans l’Economie Numérique modifiée,
         pour les Contenus qu’elle détermine et à l’exclusion du Contenu fourni par le Partenaire Editeur.
         <br />
@@ -42,7 +42,7 @@ export default function Cgu(): ReactElement {
         Article 2. Accès au Service
       </h2>
       <h3>
-        2.2 Prérequis : création de compte dans le fournisseur d’identité ATIH
+        2.2 Prérequis : création de compte auprès du fournisseur d’identité de l'ATIH
       </h3>
       <p>
         L’accès au Service en tant qu’Utilisateur nécessite la création d’un compte auprès du fournisseur d’identité de l’ATIH
@@ -74,7 +74,7 @@ export default function Cgu(): ReactElement {
       <div className="wysiwyg mb-2">
         <ul>
           <li>
-            Renseignement d’inventaires matériels répertoriant les équipements informatiques détenus ou utilisés par l’établissement.
+            Description d’inventaires matériels répertoriant les équipements informatiques détenus ou utilisés par l’établissement.
           </li>
           <li>
             Calcul des indicateurs d’impact environnemental des équipement inventoriés.
@@ -96,8 +96,8 @@ export default function Cgu(): ReactElement {
         <br />
         L’Utilisateur reconnait agir au nom et pour le compte de l’établissement auquel il est rattaché. Il s’engage à utiliser
         le Service de bonne foi et uniquement en vue d’obtenir l’impact environnemental du système d’information de l’établissement
-        auquel il est rattaché. L’Utilisateur est responsable de tout litige ou contentieux lié à une utilisation du Service non conforme
-        aux dispositions des présentes CGU.
+        auquel il est rattaché. L'utilisateur ne doit faire aucun usage commercial du service EvalCarbone SIH et des résultats fournis par le service. 
+        L’Utilisateur est responsable de tout litige ou contentieux lié à une utilisation du Service non conforme aux dispositions des présentes CGU.
         <br />
         L’Utilisateur est responsable de la préservation de la sécurité et de la confidentialité de ses moyens d’authentification personnels.
         L’Utilisateur s’engage à informer sans délai l’Editeur de toute modification de sa situation professionnelle déclarée
@@ -129,7 +129,7 @@ export default function Cgu(): ReactElement {
         <br />
         Ce traitement est mis en œuvre sous la responsabilité de l’Editeur, représenté par la Délégation ministérielle au numérique en santé (DNS).
         <br />
-        L’Opérateur est le sous-traitant au sens de l’article 28 du RGPD.
+        L’Opérateur est un sous-traitant au sens de l’article 28 du RGPD.
         <br />
         Ce traitement est fondé sur une mission d’intérêt public au sens de l’article 6 du RGPD.
       </p>
