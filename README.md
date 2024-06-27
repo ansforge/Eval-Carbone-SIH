@@ -79,7 +79,7 @@ BiRel(reverse-proxy, front, "")
 Rel(front, expositiondonneesentrees, "use", "Lancer le calcul et ajouter les équipements physiques")
 ```
 
-## Configuration GitHub
+## Configuration GitHub 
 
 La clé SSH privée (créée plus haut) doit être mise sur GitHub dans les [settings](https://github.com/ansforge/Eval-Carbone-SIH/settings/secrets/actions).
 
