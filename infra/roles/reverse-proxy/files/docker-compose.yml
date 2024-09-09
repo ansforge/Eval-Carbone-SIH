@@ -16,6 +16,11 @@ services:
       - ./eval-carbone-sih.esante.gouv.fr.crt:/etc/nginx/certs/eval-carbone-sih.esante.gouv.fr.crt
       - ./eval-carbone-sih.esante.gouv.fr.key:/etc/nginx/certs/eval-carbone-sih.esante.gouv.fr.key
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "5"
 
 networks:
   eval-carbone:
