@@ -1,3 +1,9 @@
+x-logging: &default-logging
+  options:
+    max-size: "100m"
+    max-file: "5"
+  driver: json-file
+
 services:
   zookeeper:
     image: docker.io/bitnami/zookeeper:3.9
@@ -8,6 +14,7 @@ services:
       - "numecoeval_zookeeper_data:/bitnami"
     environment:
       ALLOW_ANONYMOUS_LOGIN: "yes"
+    logging: *default-logging
 
   kafka:
     image: docker.io/bitnami/kafka:3.6
@@ -26,6 +33,7 @@ services:
       interval: 5s
       timeout: 2s
       retries: 3
+    logging: *default-logging
 
   postgresdb:
     image: docker.io/postgres:15
@@ -42,6 +50,7 @@ services:
       interval: 5s
       timeout: 10s
       retries: 3
+    logging: *default-logging
 
   api-rest-referentiels:
     image: ${REGISTRY_URL}/api-referentiel:${TAG}
@@ -66,6 +75,7 @@ services:
       NUMECOEVAL_URLS_ALLOWED: "http://localhost,http://api-rest-referentiels,http://localhost:3000"
       LOGGING_LEVEL_ROOT: $LOGGING_LEVEL_ROOT
       LOGGING_LEVEL_ORG_SPRINGFRAMEWORK: $LOGGING_LEVEL_ORG_SPRINGFRAMEWORK
+    logging: *default-logging
 
   api-rest-expositiondonneesentrees:
     image: ${REGISTRY_URL}/api-expositiondonneesentrees:${TAG}
@@ -95,6 +105,7 @@ services:
       LOGGING_LEVEL_ROOT: $LOGGING_LEVEL_ROOT
       LOGGING_LEVEL_ORG_SPRINGFRAMEWORK: $LOGGING_LEVEL_ORG_SPRINGFRAMEWORK
       NUMECOEVAL_CALCULS_SERVER_URL: "http://api-event-calculs:8080"
+    logging: *default-logging
 
   api-event-donneesentrees:
     image: ${REGISTRY_URL}/api-event-donneesentrees:${TAG}
@@ -117,6 +128,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: $POSTGRES_PASSWORD
       LOGGING_LEVEL_ROOT: $LOGGING_LEVEL_ROOT
       LOGGING_LEVEL_ORG_SPRINGFRAMEWORK: $LOGGING_LEVEL_ORG_SPRINGFRAMEWORK
+    logging: *default-logging
 
   api-event-calculs:
     image: ${REGISTRY_URL}/api-event-calculs:${TAG}
@@ -139,6 +151,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: $POSTGRES_PASSWORD
       LOGGING_LEVEL_ROOT: $LOGGING_LEVEL_ROOT
       LOGGING_LEVEL_ORG_SPRINGFRAMEWORK: $LOGGING_LEVEL_ORG_SPRINGFRAMEWORK
+    logging: *default-logging
 
 networks:
   eval-carbone:
