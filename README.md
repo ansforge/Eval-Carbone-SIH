@@ -40,6 +40,23 @@ Puis :
   - Les fichiers crt et key peuvent être récupérés sur la VM ou en demandant à Nathalie Baudiniere
 - `yarn deploy:referential` (joué la première fois ou lors d'une mise à jour)
 
+## Procédure de secours pour relancer les conteneurs
+
+En étant connecté sur la VM OVH avec `ssh`, il suffit de lancer les commandes suivantes :
+```
+# se placer dans le bon répertoire
+cd /home/ubuntu/
+
+# relancer le reverse proxy (nginx)
+docker compose --file docker-compose-reverse-proxy.yml up -d --force-recreate
+
+# relancer les conteneurs du front NumEcoEval
+docker compose --file docker-compose-front.yml --env-file .env.prod --env-file .env.version up -d --force-recreate
+
+# relancer les conteneurs du backend NumEcoEval
+docker compose up -d --force-recreate
+```
+
 ### Schéma de la production
 
 ```mermaid
