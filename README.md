@@ -106,4 +106,3 @@ A savoir lors d'une mise à jour des référentiels au format CSV :
 - Idéalement, il faudrait utiliser le SaaS du Ministère de la Transition Ecologique (qui n'est pas encore en ligne à ce jour) et retirer la brique NumEcoEval mais voir le point numéro 1
 - Avoir un système de monitoring de la base de données pour pouvoir la mettre à l'échelle s'il y a trop de données et pourrait faire ralentir l'application à long terme
 - La base de données doit avoir un système de sauvegarde régulier au cas où la VM d'OVH doit être reconstruite
-- 
