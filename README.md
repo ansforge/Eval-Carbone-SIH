@@ -57,6 +57,7 @@ docker compose --file docker-compose-front.yml --env-file .env.prod --env-file .
 docker compose up -d --force-recreate
 ```
 
+
 ### Schéma de la production
 
 ```mermaid
