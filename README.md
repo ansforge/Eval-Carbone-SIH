@@ -43,7 +43,7 @@ Puis :
 ## Procédure de secours pour relancer les conteneurs
 
 En étant connecté sur la VM OVH avec `ssh`, il suffit de lancer les commandes suivantes :
-```
+```shell
 # se placer dans le bon répertoire
 cd /home/ubuntu/
 
@@ -54,7 +54,7 @@ docker compose --file docker-compose-reverse-proxy.yml up -d --force-recreate
 docker compose --file docker-compose-front.yml --env-file .env.prod --env-file .env.version up -d --force-recreate
 
 # relancer les conteneurs du backend NumEcoEval
-docker compose up -d --force-recreate
+docker compose --env-file .env.prod --env-file .env.version up -d --force-recreate
 ```
 
 
