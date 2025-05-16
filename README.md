@@ -57,6 +57,14 @@ docker compose --file docker-compose-front.yml --env-file .env.prod --env-file .
 docker compose --env-file .env.prod --env-file .env.version up -d --force-recreate
 ```
 
+## Debugger Next-Auth
+
+Pour débugger Next-Auth, il faut ajouter modifier la variable d'environnement `NODE_ENV` avec une valeur `development` dans le fichier `.env.prod` et relancer les conteneurs.
+
+## Certificats non vérifiés
+
+Pour indiquer à NodeJS de ne pas vérifier les certificats, il faut ajouter la variable d'environnement `NODE_TLS_REJECT_UNAUTHORIZED=0` dans le fichier `.env.prod` et relancer les conteneurs.
+Cette variable permet d'indiquer à NodeJS de ne pas vérifier les certificats SSL lors des appels API.
 
 ### Schéma de la production
 
