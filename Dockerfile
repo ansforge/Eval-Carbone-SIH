@@ -1,5 +1,5 @@
 # Ca doit être la même version qu'il y a dans package.json
-FROM node:22.15.0-alpine
+FROM node:20.12.2-alpine
 
 WORKDIR /usr/src/app
 
