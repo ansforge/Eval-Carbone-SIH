@@ -89,7 +89,7 @@ export default function Inventaires({
                   </td>
                   <td>
                     {
-                      inventaire.lienDupliquer !== '/' ? (
+                      inventaire.lienDupliquer === '/' ? null : (
                         <Link
                           className="text-default mr-2"
                           href={inventaire.lienDupliquer}
@@ -105,7 +105,7 @@ export default function Inventaires({
                             Dupliquer l’inventaire
                           </span>
                         </Link>
-                      ) : null
+                      )
                     }
                     <ActionSupprimer inventaire={inventaire} />
                   </td>

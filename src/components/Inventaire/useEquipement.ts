@@ -56,6 +56,6 @@ function modelesReducer(modeles: ReadonlyArray<ModeleReducer>, action: ActionRed
       return (modele.id === action.id) ? action.modele : modele
     })
   } else {
-    throw Error('Unknown action: ' + action.type)
+    throw new Error('Unknown action: ' + action.type)
   }
 }

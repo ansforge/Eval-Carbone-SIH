@@ -30,7 +30,23 @@ export default function InventairesLayout({ presenter }: InventairesLayoutProps)
           </div>
         </div>
         {
-          !presenter.isAdmin ? (
+          presenter.isAdmin ? (
+            <div>
+              <Link
+                className="btn btn--ghost btn--default"
+                href="/api/exporter-les-inventaires"
+              >
+                <svg
+                  aria-hidden
+                  className="svg-icon svg-download mr-1"
+                  focusable="false"
+                >
+                  <use xlinkHref="/svg-icons/icon-sprite.svg#download" />
+                </svg>
+                Exporter les inventaires
+              </Link>
+            </div>
+          ) : (
             <div className="btn-group">
               <button
                 className={`btn btn--ghost btn--default ${styles.fix}`}
@@ -45,22 +61,6 @@ export default function InventairesLayout({ presenter }: InventairesLayoutProps)
                 href="creer-un-inventaire"
               >
                 Créer un inventaire
-              </Link>
-            </div>
-          ) : (
-            <div>
-              <Link
-                className="btn btn--ghost btn--default"
-                href="/api/exporter-les-inventaires"
-              >
-                <svg
-                  aria-hidden
-                  className="svg-icon svg-download mr-1"
-                  focusable="false"
-                >
-                  <use xlinkHref="/svg-icons/icon-sprite.svg#download" />
-                </svg>
-                Exporter les inventaires
               </Link>
             </div>
           )

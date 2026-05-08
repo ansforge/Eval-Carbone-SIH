@@ -44,7 +44,7 @@ export default function Equipement({
           {' '}
           (
           {lignesModele.reduce((quantiteAccumulee, modele): number => {
-            if (!isNaN(modele.quantite)) {
+            if (!Number.isNaN(modele.quantite)) {
               return quantiteAccumulee + modele.quantite
             }
             return quantiteAccumulee
