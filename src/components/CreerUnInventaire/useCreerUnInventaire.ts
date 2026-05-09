@@ -25,18 +25,18 @@ export function useCreerUnInventaire(): UseCreerUnInventaire {
 
     const nomInventaireExiste = await isLeNomInventaireExisteAction(nomInventaire)
 
-    if (!nomInventaireExiste) {
-      const url = new URL('/inventaire', document.location.href)
-      url.searchParams.append('nomEtablissement', nomEtablissement)
-      url.searchParams.append('nomInventaire', nomInventaire)
-
-      router.push(url.toString())
-    } else {
+    if (nomInventaireExiste) {
       setState({
         isDisabled: true,
         isInvalid: true,
         nouveauNomInventaire: state.nouveauNomInventaire,
       })
+    } else {
+      const url = new URL('/inventaire', document.location.href)
+      url.searchParams.append('nomEtablissement', nomEtablissement)
+      url.searchParams.append('nomInventaire', nomInventaire)
+
+      router.push(url.toString())
     }
   }
 

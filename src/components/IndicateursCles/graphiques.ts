@@ -91,7 +91,7 @@ export function donneesParTypeEquipement(indicateursImpactsEquipementsSommes: Re
       backgroundColor: colors[index],
       data: indicateursImpactsEquipementsSommes
         .filter(filtrerParEtapeAcv(etapeAcv))
-        .reduce(cumulerParImpact, Array<number>()),
+        .reduce(cumulerParImpact, new Array<number>()),
       label: mettreEnBasDeCasse(etapeAcv),
     }
   })
@@ -118,7 +118,7 @@ export function donneesParCycleDeVie(indicateursImpactsEquipementsSommes: Readon
         backgroundColor: colors[index],
         data: indicateursImpactsEquipementsSommes
           .filter(filtrerParTypeEquipement(referentielTypeEquipement))
-          .reduce(cumulerParImpact, Array<number>()),
+          .reduce(cumulerParImpact, new Array<number>()),
         label: referentielTypeEquipement + ` (${quantite})`,
       }
     })
@@ -147,7 +147,7 @@ export function donneesRepartitionParTypeEquipement(
       return indicateursImpactsEquipementsSommes
         .filter(filtrerParTypeEquipement(referentielTypeEquipement))
         .filter(filtrerParEtapeAcv(etapeAcv))
-        .reduce(cumulerParImpact, Array<number>())
+        .reduce(cumulerParImpact, new Array<number>())
     })
     .filter((data): boolean => data.length !== 0)
 
