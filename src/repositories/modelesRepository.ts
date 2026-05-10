@@ -45,16 +45,14 @@ export async function enregistrerLesModelesRepository(
     method: 'POST',
   })
 
-  if (!responseEntrees.ok) {
-    if (responseEntrees.status === UnsupportedMediaTypeStatus) {
-      const error = await responseEntrees.json() as ApiErrorJava
-      throw new Error(`Status: ${responseEntrees.status}, Status text: ${error.detail}`)
-    } else {
-      const error = await responseEntrees.json() as ApiError
-      throw new Error(`Status: ${responseEntrees.status}, Status text: ${error.message}`)
-    }
-  } else {
+  if (responseEntrees.ok) {
     return true
+  } else if (responseEntrees.status === UnsupportedMediaTypeStatus) {
+    const error = await responseEntrees.json() as ApiErrorJava
+    throw new Error(`Status: ${responseEntrees.status}, Status text: ${error.detail}`)
+  } else {
+    const error = await responseEntrees.json() as ApiError
+    throw new Error(`Status: ${responseEntrees.status}, Status text: ${error.message}`)
   }
 }
 
@@ -70,16 +68,14 @@ export async function calculerEmpreinteRepository(nomEtablissement: string, nomI
     method: 'POST',
   })
 
-  if (!responseCalculs.ok) {
-    if (responseCalculs.status === UnsupportedMediaTypeStatus) {
-      const error = await responseCalculs.json() as ApiErrorJava
-      throw new Error(`Status: ${responseCalculs.status}, Status text: ${error.detail}`)
-    } else {
-      const error = await responseCalculs.json() as ApiError
-      throw new Error(`Status: ${responseCalculs.status}, Status text: ${error.message}`)
-    }
-  } else {
+  if (responseCalculs.ok) {
     await passerATraiteUnInventaireRepository(nomEtablissement, nomInventaire)
+  } else if (responseCalculs.status === UnsupportedMediaTypeStatus) {
+    const error = await responseCalculs.json() as ApiErrorJava
+    throw new Error(`Status: ${responseCalculs.status}, Status text: ${error.detail}`)
+  } else {
+    const error = await responseCalculs.json() as ApiError
+    throw new Error(`Status: ${responseCalculs.status}, Status text: ${error.message}`)
   }
 }
 

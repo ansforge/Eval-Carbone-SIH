@@ -45,7 +45,7 @@ export default function ModifierUnReferentiel(): ReactElement {
           ) : null
         }
         {
-          isReferentielModifieErreur !== '' ? (
+          isReferentielModifieErreur === '' ? null : (
             <AlerteErreur marge={12}>
               <h2 className="o-alert__title">
                 Une erreur est survenue
@@ -54,7 +54,7 @@ export default function ModifierUnReferentiel(): ReactElement {
                 {isReferentielModifieErreur}
               </pre>
             </AlerteErreur>
-          ) : null
+          )
         }
         <form onSubmit={modifierUnReferentiel}>
           <div className="form-group text-left">
