@@ -35,7 +35,7 @@ const authOptions = {
   providers: [
     {
       authorization: {
-        params: { scope: 'profile_atih' },
+        params: { scope: 'openid profile_atih' },
       },
       clientId: process.env.PROVIDER_CLIENT_ID,
       clientSecret: process.env.PROVIDER_CLIENT_SECRET,
