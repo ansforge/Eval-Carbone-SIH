@@ -63,7 +63,7 @@ export function inventairePresenter(
 }
 
 function modifierQuantite(quantite: number, pourcentage?: string): number {
-  return pourcentage !== undefined ? Math.round(quantite + quantite * Number(pourcentage) / 100) : quantite
+  return pourcentage === undefined ? quantite : Math.round(quantite + quantite * Number(pourcentage) / 100)
 }
 
 function modifierDureeDeVie(dureeDeVie: number, ajout?: string): number {

@@ -30,7 +30,13 @@ export function useCreerUneSimulation(ancienNomInventaire: string): UseCreerUneS
 
     const nomInventaireExiste = await isLeNomInventaireExisteAction(nouveauNomInventaire)
 
-    if (!nomInventaireExiste) {
+    if (nomInventaireExiste) {
+      setState({
+        isDisabled: true,
+        isInvalid: true,
+        nouveauNomInventaire: state.nouveauNomInventaire,
+      })
+    } else {
       const url = new URL('/inventaire', document.location.href)
       url.searchParams.append('nomEtablissement', nomEtablissement)
       url.searchParams.append('nomInventaire', ancienNomInventaire)
@@ -41,12 +47,6 @@ export function useCreerUneSimulation(ancienNomInventaire: string): UseCreerUneS
       url.searchParams.append('statut', StatutsInventaire.TRAITE)
 
       router.push(url.toString())
-    } else {
-      setState({
-        isDisabled: true,
-        isInvalid: true,
-        nouveauNomInventaire: state.nouveauNomInventaire,
-      })
     }
   }
 
