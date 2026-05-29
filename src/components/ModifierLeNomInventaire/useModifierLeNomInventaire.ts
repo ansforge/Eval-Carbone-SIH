@@ -26,7 +26,13 @@ export function useModifierLeNomInventaire(ancienNomInventaire: string): UseModi
 
     const nomInventaireExiste = await isLeNomInventaireExisteAction(nouveauNomInventaire, nomEtablissement)
 
-    if (!nomInventaireExiste) {
+    if (nomInventaireExiste) {
+      setState({
+        isDisabled: true,
+        isInvalid: true,
+        nouveauNomInventaire: state.nouveauNomInventaire,
+      })
+    } else {
       await modifierLeNomInventaireAction(ancienNomInventaire, nouveauNomInventaire, nomEtablissement)
 
       const url = new URL('/indicateurs-cles', document.location.href)
@@ -34,12 +40,6 @@ export function useModifierLeNomInventaire(ancienNomInventaire: string): UseModi
       url.searchParams.append('nomInventaire', nouveauNomInventaire)
 
       router.push(url.toString())
-    } else {
-      setState({
-        isDisabled: true,
-        isInvalid: true,
-        nouveauNomInventaire: state.nouveauNomInventaire,
-      })
     }
   }
 
