@@ -78,17 +78,20 @@ model correspondanceTypeEquipementModeleModel {
 model referentielModeleModel {
   nom String @unique @map("modele_equipement_source")
   id String @id @map("ref_equipement_cible")
+  nomOrganisation String @map("nom_organisation")
 
   typesEquipement correspondanceTypeEquipementModeleModel[]
 
   @@map("ref_correspondance_ref_eqp")
 }
 
+// En base, la clé primaire est (type, nom_organisation) : toujours filtrer sur nomOrganisation = '' (référentiel commun)
 model referentielTypeEquipementModel {
   type String @unique
+  nomOrganisation String @map("nom_organisation")
   dureeDeVie Float @map("duree_vie_defaut")
 
   modeles correspondanceTypeEquipementModeleModel[]
 
-  @@map("ref_type_equipement")
+  @@map("ref_type_item")
 }

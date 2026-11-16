@@ -28,12 +28,13 @@ export async function enregistrerLesModelesRepository(
   urlEntrees.searchParams.append('nomOrganisation', nomEtablissement)
   urlEntrees.searchParams.append('dateLot', dateInventaire.toISOString().split('T')[0])
 
-  const data = ['nomEquipementPhysique;modele;quantite;nomCourtDatacenter;dateAchat;dateRetrait;type;statut;paysDUtilisation;consoElecAnnuelle;utilisateur;nomSourceDonnee;nomEntite;nbCoeur;nbJourUtiliseAn;goTelecharge;modeUtilisation;tauxUtilisation']
+  // NumEcoEval calcule la durée de vie en mode FIXE (dureeUsageInterne) ; dateAchat ne sert qu'à relire la durée de vie côté front
+  const data = ['nomEquipementPhysique;modele;quantite;nomCourtDatacenter;dateAchat;dateRetrait;dureeUsageInterne;type;statut;paysDUtilisation;consoElecAnnuelle;utilisateur;nomSourceDonnee;nomEntite;nbCoeur;modeUtilisation;tauxUtilisation']
   for (const modele of modeles) {
     const dateAchat = new Date()
     dateAchat.setFullYear(dateAchat.getFullYear() - modele.dureeDeVie)
 
-    data.push(`;${modele.modele};${modele.quantite};;${dateAchat.toISOString().split('T')[0]};${dateRetrait};${modele.type};;France;;;;;;365;;;${modele.heureUtilisation / 24}`)
+    data.push(`;${modele.modele};${modele.quantite};;${dateAchat.toISOString().split('T')[0]};${dateRetrait};${modele.dureeDeVie};${modele.type};;France;;;;;;;${modele.heureUtilisation / 24}`)
   }
   const fichierCsv = new File([data.join('\n')], 'EquipementPhysique.csv', { type: 'text/csv' })
 
@@ -61,6 +62,8 @@ export async function enregistrerLesModelesRepository(
 export async function calculerEmpreinteRepository(nomEtablissement: string, nomInventaire: string): Promise<void> {
   const urlCalcul = new URL(`${process.env.EXPOSITION_DONNEES_ENTREES_URL}/entrees/calculs/soumission`)
   urlCalcul.searchParams.append('mode', 'SYNC')
+  // Depuis NumEcoEval 2.x, la soumission réécrit en_donnees_entrees.nom_organisation avec ce paramètre (vide si absent)
+  urlCalcul.searchParams.append('nomOrganisation', nomEtablissement)
 
   const responseCalculs = await fetch(urlCalcul, {
     body: JSON.stringify({ nomLot: nomInventaire }),

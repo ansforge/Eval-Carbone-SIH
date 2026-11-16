@@ -24,7 +24,7 @@ export function useModifierLeNomInventaire(ancienNomInventaire: string): UseModi
     const nouveauNomInventaire = formData.get('nouveauNomInventaire') as string
     const nomEtablissement = formData.get('nomEtablissement') as string
 
-    const nomInventaireExiste = await isLeNomInventaireExisteAction(nouveauNomInventaire, nomEtablissement)
+    const nomInventaireExiste = await isLeNomInventaireExisteAction(nouveauNomInventaire)
 
     if (!nomInventaireExiste) {
       await modifierLeNomInventaireAction(ancienNomInventaire, nouveauNomInventaire, nomEtablissement)

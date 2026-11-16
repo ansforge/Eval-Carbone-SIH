@@ -25,5 +25,6 @@ export async function recupererLesReferentielsTypesEquipementsRepository(): Prom
       },
       type: true,
     },
+    where: { nomOrganisation: '' },
   })
 }

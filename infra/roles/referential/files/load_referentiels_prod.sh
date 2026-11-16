@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REFERENTIELS="criteres etapes hypotheses typeEquipement correspondanceRefEquipement impactequipements mixelecs"
+REFERENTIELS="criteres etapes hypotheses typeItem correspondanceRefEquipement facteursCaracterisation"
 
 for referentiel in $REFERENTIELS; do
   # Attention, manipulations pour que cet import fonctionne :

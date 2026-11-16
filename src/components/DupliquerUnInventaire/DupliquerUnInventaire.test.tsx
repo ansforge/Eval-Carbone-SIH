@@ -3,7 +3,7 @@ import * as navigation from 'next/navigation'
 
 import PageDupliquerUnInventaire from '../../app/(connecte)/(utilisateur)/dupliquer-un-inventaire/page'
 import * as repositoryInventaires from '../../repositories/inventairesRepository'
-import { FrozenDate, inventaireModelFactory, jeSuisUnAdmin, jeSuisUnUtilisateur, renderComponent, spyNextNavigation } from '../../testShared'
+import { FrozenDate, jeSuisUnAdmin, jeSuisUnUtilisateur, renderComponent, spyNextNavigation } from '../../testShared'
 
 describe('page créer une simulation', () => {
   describe('en tant qu’utilisateur', () => {
@@ -42,7 +42,7 @@ describe('page créer une simulation', () => {
       // GIVEN
       jeSuisUnUtilisateur()
 
-      vi.spyOn(repositoryInventaires, 'recupererUnInventaireRepository').mockResolvedValueOnce(inventaireModelFactory())
+      vi.spyOn(repositoryInventaires, 'isLeNomInventaireUtiliseRepository').mockResolvedValueOnce(true)
 
       renderComponent(await PageDupliquerUnInventaire(queryParams()))
 
@@ -61,7 +61,7 @@ describe('page créer une simulation', () => {
       const textErreur = await screen.findByText('Cet inventaire existe déjà. Modifiez le nom de l’inventaire pour continuer.', { selector: 'p' })
       expect(textErreur).toBeInTheDocument()
 
-      expect(repositoryInventaires.recupererUnInventaireRepository).toHaveBeenCalledWith('Hopital de Paris$$00000001K', 'nom inventaire dejà exitant')
+      expect(repositoryInventaires.isLeNomInventaireUtiliseRepository).toHaveBeenCalledWith('nom inventaire dejà exitant')
     })
 
     it('quand je valide le formulaire avec un nom d’inventaire qui n’existe pas alors la duplication s’effectue et je reviens à ma liste d’inventaire', async () => {
@@ -71,7 +71,7 @@ describe('page créer une simulation', () => {
       vi.spyOn(navigation, 'useRouter')
         .mockReturnValueOnce(spyNextNavigation.useRouter)
         .mockReturnValueOnce(spyNextNavigation.useRouter)
-      vi.spyOn(repositoryInventaires, 'recupererUnInventaireRepository').mockResolvedValueOnce(null)
+      vi.spyOn(repositoryInventaires, 'isLeNomInventaireUtiliseRepository').mockResolvedValueOnce(false)
       vi.spyOn(repositoryInventaires, 'dupliquerUnInventaireRepository').mockResolvedValueOnce()
 
       renderComponent(await PageDupliquerUnInventaire(queryParams()))

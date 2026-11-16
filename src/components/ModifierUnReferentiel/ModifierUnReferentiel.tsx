@@ -29,7 +29,7 @@ export default function ModifierUnReferentiel(): ReactElement {
         </p>
         <p>
           Vous avez la possibilité de faire des modification sur les référentiels suivants :
-          correspondanceRefEquipement, impactequipements, correspondanceTypeEquipement, mixelecs, typeEquipement.
+          correspondanceRefEquipement, correspondanceTypeEquipement, facteursCaracterisation, hypotheses, typeItem.
         </p>
         {
           isReferentielModifieSucces ? (

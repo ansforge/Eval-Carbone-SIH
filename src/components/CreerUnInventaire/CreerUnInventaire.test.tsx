@@ -3,7 +3,7 @@ import * as navigation from 'next/navigation'
 
 import PageCreerUnInventaire from '../../app/(connecte)/(utilisateur)/creer-un-inventaire/page'
 import * as repositoryInventaires from '../../repositories/inventairesRepository'
-import { inventaireModelFactory, jeSuisUnAdmin, jeSuisUnUtilisateur, renderComponent, spyNextNavigation } from '../../testShared'
+import { jeSuisUnAdmin, jeSuisUnUtilisateur, renderComponent, spyNextNavigation } from '../../testShared'
 
 describe('page modifier le nom de l’inventaire', () => {
   describe('en tant qu’utilisateur', () => {
@@ -38,7 +38,7 @@ describe('page modifier le nom de l’inventaire', () => {
       // GIVEN
       jeSuisUnUtilisateur()
 
-      vi.spyOn(repositoryInventaires, 'recupererUnInventaireRepository').mockResolvedValueOnce(inventaireModelFactory())
+      vi.spyOn(repositoryInventaires, 'isLeNomInventaireUtiliseRepository').mockResolvedValueOnce(true)
 
       renderComponent(await PageCreerUnInventaire())
 
@@ -57,7 +57,7 @@ describe('page modifier le nom de l’inventaire', () => {
       const textErreur = await screen.findByText('Cet inventaire existe déjà. Modifiez le nom de l’inventaire pour continuer.', { selector: 'p' })
       expect(textErreur).toBeInTheDocument()
 
-      expect(repositoryInventaires.recupererUnInventaireRepository).toHaveBeenCalledWith('Hopital de Paris$$00000001K', 'nom inventaire dejà exitant')
+      expect(repositoryInventaires.isLeNomInventaireUtiliseRepository).toHaveBeenCalledWith('nom inventaire dejà exitant')
     })
 
     it('quand je valide le formulaire avec un nom d’inventaire qui n’existe pas alors je vais à la suite', async () => {
@@ -67,7 +67,7 @@ describe('page modifier le nom de l’inventaire', () => {
       vi.spyOn(navigation, 'useRouter')
         .mockReturnValueOnce(spyNextNavigation.useRouter)
         .mockReturnValueOnce(spyNextNavigation.useRouter)
-      vi.spyOn(repositoryInventaires, 'recupererUnInventaireRepository').mockResolvedValueOnce(null)
+      vi.spyOn(repositoryInventaires, 'isLeNomInventaireUtiliseRepository').mockResolvedValueOnce(false)
 
       renderComponent(await PageCreerUnInventaire())
 

@@ -26,6 +26,11 @@ export async function recupererUnInventaireRepository(nomEtablissement: string, 
   return prisma.inventaireModel.findFirst({ where: { nomEtablissement, nomInventaire } })
 }
 
+// NumEcoEval 2.x identifie un inventaire par son seul nom_lot (findByNomLot) : un nom doit être unique tous établissements confondus
+export async function isLeNomInventaireUtiliseRepository(nomInventaire: string): Promise<boolean> {
+  return await prisma.inventaireModel.count({ where: { nomInventaire } }) > 0
+}
+
 export async function enregistrerUnInventaireNonCalculeRepository(
   nomEtablissement: string,
   nomInventaire: string,

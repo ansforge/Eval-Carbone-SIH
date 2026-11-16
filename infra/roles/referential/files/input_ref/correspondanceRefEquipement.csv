@@ -1,11 +1,11 @@
-modeleEquipementSource;refEquipementCible
-Ultra portable -  11 à 14 pouces;ordinateur-portable-1
-Portable - 14 à 17 pouces;ordinateur-portable-2
-Tous types d’ordinateur fixe;ordinateur-fixe-1
-Écran - 15 à 24 pouces;ecran-1
-Écran - 25 à 34 pouces;ecran-2
-Écran - 35 à 55 pouces;ecran-3
-Tous types de serveur rack;serveur-rack-1
-Baie de stockage;baie-stockage-1
-Baie NAS;baie-nas-1
-Tous types de commutateur;commutateur-1
+modeleEquipementSource;refEquipementCible;nomOrganisation
+Ultra portable -  11 à 14 pouces;ordinateur-portable-1;
+Portable - 14 à 17 pouces;ordinateur-portable-2;
+Tous types d’ordinateur fixe;ordinateur-fixe-1;
+Écran - 15 à 24 pouces;ecran-1;
+Écran - 25 à 34 pouces;ecran-2;
+Écran - 35 à 55 pouces;ecran-3;
+Tous types de serveur rack;serveur-rack-1;
+Baie de stockage;baie-stockage-1;
+Baie NAS;baie-nas-1;
+Tous types de commutateur;commutateur-1;
