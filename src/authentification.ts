@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import NextAuth, { NextAuthOptions, Session, getServerSession } from 'next-auth'
 import { JWT } from 'next-auth/jwt'
 import { OAuthConfig } from 'next-auth/providers'
+import CredentialsProvider from 'next-auth/providers/credentials'
 
 import { separator } from './configuration'
 
@@ -12,12 +13,48 @@ type Profil = Readonly<{
   sub: string
 }>
 
+const pasrelProvider = {
+  authorization: {
+    params: { scope: 'openid profile_atih' },
+  },
+  clientId: process.env.PROVIDER_CLIENT_ID,
+  clientSecret: process.env.PROVIDER_CLIENT_SECRET,
+  id: 'pasrel',
+  idToken: true,
+  name: 'Pasrel',
+  profile(profile: Profil) {
+    return {
+      id: profile.sub,
+    }
+  },
+  type: 'oauth',
+  wellKnown: 'https://connect-pasrel.atih.sante.fr/cas/oidc/.well-known',
+} satisfies OAuthConfig<Profil>
+
+// Local dev only: MOCK_AUTH=user|admin logs in without Pasrel. Never active in production.
+const mockAuth = process.env.NODE_ENV !== 'production' ? process.env.MOCK_AUTH : undefined
+
+const mockPasrelProvider = CredentialsProvider({
+  authorize: () => ({
+    id: 'mock-user',
+    profile_atih: mockAuth === 'admin'
+      ? { entite: { libelle: 'ATIH' }, niveau: 'NATIONAL' }
+      : { entite: { finess: '000000000', libelle: 'Hôpital Mock' }, niveau: 'ETABLISSEMENT' },
+  }),
+  credentials: {},
+  id: 'pasrel',
+  name: 'Pasrel (mock)',
+})
+
 const authOptions = {
   callbacks: {
-    jwt({ token, profile }): JWT {
+    jwt({ token, profile, user }): JWT {
       if (profile !== undefined) {
         // @ts-expect-error
         token.profile_atih = profile.profile_atih.profils[profile.profile_atih.idProfilSelectionne]
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- user is only set at sign-in, despite its type
+      } else if (user !== undefined && 'profile_atih' in user) {
+        token.profile_atih = user.profile_atih
       }
 
       return token
@@ -32,25 +69,7 @@ const authOptions = {
     },
   },
   debug: process.env.NODE_ENV !== 'production',
-  providers: [
-    {
-      authorization: {
-        params: { scope: 'openid profile_atih' },
-      },
-      clientId: process.env.PROVIDER_CLIENT_ID,
-      clientSecret: process.env.PROVIDER_CLIENT_SECRET,
-      id: 'pasrel',
-      idToken: true,
-      name: 'Pasrel',
-      profile(profile: Profil) {
-        return {
-          id: profile.sub,
-        }
-      },
-      type: 'oauth',
-      wellKnown: 'https://connect-pasrel.atih.sante.fr/cas/oidc/.well-known',
-    } satisfies OAuthConfig<Profil>,
-  ],
+  providers: [mockAuth !== undefined ? mockPasrelProvider : pasrelProvider],
   theme: {
     brandColor: '#1d71b8',
     buttonText: '#fff',

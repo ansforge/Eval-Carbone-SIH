@@ -1,6 +1,6 @@
 import { useReducer, useState } from 'react'
 
-import { modelesSelectionnes } from './modele'
+import { modelesSelectionnes } from './modeleStore'
 
 export type ModeleReducer = Readonly<{
   id: string

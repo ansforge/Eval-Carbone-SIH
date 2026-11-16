@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ReactElement } from 'react'
 
-import { pagination } from './pagination'
+import { pagination } from './paginationStore'
 
 type DernierePageProps = Readonly<{
   nombreDeResultat: number
