@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation'
 import { Dispatch, SetStateAction, SyntheticEvent, useEffect, useState } from 'react'
 
 import { creerUnInventaireAction, enregistrerUnInventaireNonCalculeAction } from './action'
-import { modelesSelectionnes } from './modele'
+import { modelesSelectionnes } from './modeleStore'
 import { tempsAlerte } from '../../configuration'
 
 type UseInventaire = Readonly<{
