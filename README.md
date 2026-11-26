@@ -8,6 +8,7 @@
 ## Installation locale
 
 - `yarn`
+- `yarn prisma:generate` (les scripts d'installation des dépendances sont désactivés dans `.yarnrc.yml`, `yarn` ne génère donc pas le client Prisma ; à relancer après une modification de `src/schema.prisma` ou une mise à jour de Prisma)
 - `npx husky init`
 - `cp .env .env.local` (remplir les variables affectées par "A_REMPLIR")
 - `yarn start:db` (il se peut que le container Kafka ne se lance pas du premier coup, le relancer)

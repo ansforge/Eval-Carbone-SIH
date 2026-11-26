@@ -20,6 +20,8 @@ jobs:
 
       - run: corepack enable && yarn install --immutable
 
+      - run: yarn prisma:generate
+
       - run: yarn amibroken
 
       - run: yarn build

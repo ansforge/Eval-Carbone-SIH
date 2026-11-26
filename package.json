@@ -7,7 +7,7 @@
     "build": "yarn prisma:generate && next build",
     "deadcode": "knip",
     "depcheck": "depcheck",
-    "dev": "yarn prisma:generate && next dev",
+    "dev": "next dev",
     "dev-https": "next dev --experimental-https",
     "lint:css": "stylelint 'src/**/*.css'",
     "lint:typescript": "eslint . --ext .tsx,.ts --max-warnings=0",
