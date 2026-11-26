@@ -292,6 +292,7 @@ describe('page inventaires', () => {
         jeSuisUnAdmin()
 
         vi.spyOn(repositoryInventaires, 'recupererLesInventairesPaginesRepository').mockResolvedValueOnce([])
+        vi.spyOn(repositoryInventaires, 'recupererLeTotalInventairesRepository').mockResolvedValueOnce(0)
 
         // WHEN
         renderComponent(await PageInventaires({}))
@@ -321,6 +322,7 @@ describe('page inventaires', () => {
             nomInventaire: 'mon inventaire B',
           }),
         ])
+        vi.spyOn(repositoryInventaires, 'recupererLeTotalInventairesRepository').mockResolvedValueOnce(2)
 
         // WHEN
         renderComponent(await PageInventaires({}))
@@ -395,7 +397,8 @@ describe('page inventaires', () => {
         // GIVEN
         jeSuisUnAdmin()
 
-        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([inventaireModelFactory()])
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesPaginesRepository').mockResolvedValueOnce([inventaireModelFactory()])
+        vi.spyOn(repositoryInventaires, 'recupererLeTotalInventairesRepository').mockResolvedValueOnce(1)
 
         // WHEN
         renderComponent(await PageInventaires({}))

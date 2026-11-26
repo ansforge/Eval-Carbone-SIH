@@ -20,7 +20,7 @@ export enum StatutsInventaire {
   TRAITE = 'CALCULÉ',
 }
 
-export enum Criteres {
+enum Criteres {
   radiationIonisantes = 'Ionising radiation',
   epuisementDesRessources = 'Resource use (minerals and metals)',
   emissionsDeParticulesFines = 'Particulate matter and respiratory inorganics',
