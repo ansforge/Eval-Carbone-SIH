@@ -1,20 +1,27 @@
 # Ca doit être la même version qu'il y a dans package.json
-FROM node:20.12.2-alpine
+ARG NODE_VERSION=20.12.2
+
+FROM node:${NODE_VERSION}-alpine AS build
 
 WORKDIR /usr/src/app
 
 ENV YARN_CACHE_FOLDER=/cache/yarn
 COPY .yarn/releases ./.yarn/releases
-COPY yarn.lock package.json .yarnrc.yml ./
+COPY package.json yarn.lock .yarnrc.yml ./
 RUN --mount=type=cache,target=/cache/yarn \
-    corepack enable && corepack prepare yarn@stable --activate && yarn workspaces focus --all --production
-
+    corepack enable && yarn install --immutable
 COPY . .
-
 RUN yarn build
 
-RUN adduser -D evalcarbone
+FROM node:${NODE_VERSION}-alpine
 
-USER evalcarbone
+WORKDIR /usr/src/app
 
-CMD ["yarn", "start"]
+ENV HOSTNAME=0.0.0.0
+COPY --from=build /usr/src/app/.next/standalone ./
+COPY --from=build /usr/src/app/.next/static ./.next/static
+COPY --from=build /usr/src/app/public ./public
+
+USER node
+
+CMD ["node", "server.js"]
