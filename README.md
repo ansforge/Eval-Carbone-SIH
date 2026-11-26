@@ -2,7 +2,6 @@
 
 ## Prérequis
 
-- Ansible
 - Docker CE
 - NodeJs
 
@@ -29,16 +28,6 @@
 Pour se connecter sur la VM OVH :
 
 - `ssh ubuntu@eval-carbone-sih.esante.gouv.fr`
-
-Tout se fait avec les recettes Ansible se trouvant dans `/infra`.\
-Récupérer le fichier `.env.prod` sur la machine en question.
-Puis :
-
-- `ansible-galaxy collection install community.docker`
-- `yarn deploy:backend` (joué la première fois ou lors d'une mise à jour)
-- `yarn deploy:reverse-proxy` (joué la première fois ou lors d'une mise à jour)
-  - Les fichiers crt et key peuvent être récupérés sur la VM ou en demandant à Nathalie Baudiniere
-- `yarn deploy:referential` (joué la première fois ou lors d'une mise à jour)
 
 ## Procédure de secours pour relancer les conteneurs
 
@@ -104,10 +93,6 @@ BiRel(front, db, "write and read")
 BiRel(reverse-proxy, front, "")
 Rel(front, expositiondonneesentrees, "use", "Lancer le calcul et ajouter les équipements physiques")
 ```
-
-## Configuration GitHub 
-
-La clé SSH privée (créée plus haut) doit être mise sur GitHub dans les [settings](https://github.com/ansforge/Eval-Carbone-SIH/settings/secrets/actions).
 
 ## Configuration Plage
 

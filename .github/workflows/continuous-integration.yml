@@ -53,10 +53,3 @@ jobs:
           cache-to: type=gha,mode=max
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-      - uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
-
-      - name: Deploy frontend
-        run: ansible-playbook -i infra/inventories/ovh.yml infra/playbook-frontend.yml -e IMAGE_NAME=ghcr.io/${IMAGE_NAME,,} -e IMAGE_TAG=${GITHUB_SHA::7}
