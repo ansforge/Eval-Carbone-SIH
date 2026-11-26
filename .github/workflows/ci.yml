@@ -1,19 +1,38 @@
-name: Continuous deployment
+name: CI
 
 on:
+  pull_request:
   push:
-    branches:
-      - main
+    branches: [main]
 
-env:
-  IMAGE_NAME: ${{ github.repository }}
+permissions:
+  contents: read
 
 jobs:
-  deploy:
+  quality-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+
+      - run: corepack enable && yarn install --immutable
+
+      - run: yarn amibroken
+
+      - run: yarn build
+
+  publish-image:
+    needs: quality-gate
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
+    env:
+      IMAGE_NAME: ${{ github.repository }}
     steps:
       - uses: actions/checkout@v4
 
