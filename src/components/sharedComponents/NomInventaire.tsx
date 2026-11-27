@@ -1,11 +1,11 @@
-import { FormEvent, ReactElement } from 'react'
+import { ChangeEvent, ReactElement } from 'react'
 
 import InfoBulle from '../sharedComponents/Infobulle'
 
 type NomInventaireProps = Readonly<{
   hasAsterisque: boolean
   isInvalid: boolean
-  modifierNouveauNomInventaire: (event: FormEvent<HTMLInputElement>) => void
+  modifierNouveauNomInventaire: (event: ChangeEvent<HTMLInputElement>) => void
   nomEtablissement: string
   nouveauNomInventaire: string
 }>

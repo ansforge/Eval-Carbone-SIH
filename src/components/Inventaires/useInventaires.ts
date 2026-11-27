@@ -1,10 +1,10 @@
 import { useRouter } from 'next/navigation'
-import { FormEvent, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 
 type UseInventaires = Readonly<{
   comparerDeuxInventaires: () => void
   isDisabled: boolean
-  mettreAJourNombreInventaireCoche: (event: FormEvent<HTMLInputElement>) => void
+  mettreAJourNombreInventaireCoche: (event: ChangeEvent<HTMLInputElement>) => void
 }>
 
 export function useInventaires(): UseInventaires {
@@ -12,7 +12,7 @@ export function useInventaires(): UseInventaires {
   const [inventairesCoches, setInventairesCoches] = useState<Array<string>>([])
   const isDisabled = inventairesCoches.length < 2 || inventairesCoches.length > 2
 
-  function mettreAJourNombreInventaireCoche(event: FormEvent<HTMLInputElement>) {
+  function mettreAJourNombreInventaireCoche(event: ChangeEvent<HTMLInputElement>) {
     if (event.currentTarget.checked) {
       setInventairesCoches([
         ...inventairesCoches,

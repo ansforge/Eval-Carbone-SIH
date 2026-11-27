@@ -1,4 +1,4 @@
-import { Dispatch, FormEvent, SetStateAction, useState } from 'react'
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react'
 
 import { caracteresMinimumPourUnNomInventaire } from '../../configuration'
 
@@ -9,7 +9,7 @@ type State = Readonly<{
 }>
 
 type UseModifierNouveauNomInventaire = Readonly<{
-  modifierNouveauNomInventaire: (event: FormEvent<HTMLInputElement>) => void
+  modifierNouveauNomInventaire: (event: ChangeEvent<HTMLInputElement>) => void
   setState: Dispatch<SetStateAction<State>>,
   state: State
 }>
@@ -21,7 +21,7 @@ export function useModifierNouveauNomInventaire(ancienNomInventaire: string, isD
     nouveauNomInventaire: ancienNomInventaire,
   })
 
-  const modifierNouveauNomInventaire = (event: FormEvent<HTMLInputElement>) => {
+  const modifierNouveauNomInventaire = (event: ChangeEvent<HTMLInputElement>) => {
     setState({
       isDisabled: event.currentTarget.value.length < caracteresMinimumPourUnNomInventaire,
       isInvalid: false,

@@ -1,11 +1,11 @@
-import { FormEvent, ReactElement, useState } from 'react'
+import { ChangeEvent, ReactElement, useState } from 'react'
 
 import InfoBulle from '../sharedComponents/Infobulle'
 
 export default function HeureUtilisation(): ReactElement {
   const [heureUtilisation, setHeureUtilisation] = useState('0')
 
-  const modifierHeureUtilisation = (event: FormEvent<HTMLInputElement>) => {
+  const modifierHeureUtilisation = (event: ChangeEvent<HTMLInputElement>) => {
     setHeureUtilisation(event.currentTarget.value)
   }
 

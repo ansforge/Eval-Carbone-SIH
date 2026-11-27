@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation'
-import { FormEvent } from 'react'
+import { ChangeEvent, SubmitEvent } from 'react'
 
 import { modifierLeNomInventaireAction } from './action'
 import { isLeNomInventaireExisteAction } from '../sharedComponents/action'
@@ -8,8 +8,8 @@ import { useModifierNouveauNomInventaire } from '../sharedComponents/useModifier
 type UseModifierLeNomInventaire = Readonly<{
   isDisabled: boolean
   isInvalid: boolean
-  modifierLeNomInventaire: (event: FormEvent<HTMLFormElement>) => Promise<void>
-  modifierNouveauNomInventaire: (event: FormEvent<HTMLInputElement>) => void
+  modifierLeNomInventaire: (event: SubmitEvent<HTMLFormElement>) => Promise<void>
+  modifierNouveauNomInventaire: (event: ChangeEvent<HTMLInputElement>) => void
   nouveauNomInventaire: string
 }>
 
@@ -17,7 +17,7 @@ export function useModifierLeNomInventaire(ancienNomInventaire: string): UseModi
   const router = useRouter()
   const { modifierNouveauNomInventaire, setState, state } = useModifierNouveauNomInventaire(ancienNomInventaire)
 
-  const modifierLeNomInventaire = async (event: FormEvent<HTMLFormElement>) => {
+  const modifierLeNomInventaire = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const formData = new FormData(event.currentTarget)
