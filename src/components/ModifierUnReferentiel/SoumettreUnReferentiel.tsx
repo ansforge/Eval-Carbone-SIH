@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 
 import Modale from '../sharedComponents/Modale'
 import { useModale } from '../sharedComponents/useModale'

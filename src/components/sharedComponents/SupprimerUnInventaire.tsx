@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 
 import { supprimerInventaireAction } from '../sharedComponents/action'
 import Modale from '../sharedComponents/Modale'

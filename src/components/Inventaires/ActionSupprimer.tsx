@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 
 import { InventairePresenter } from '../../presenters/inventairesPresenter'
 import SupprimerUnInventaire from '../sharedComponents/SupprimerUnInventaire'
