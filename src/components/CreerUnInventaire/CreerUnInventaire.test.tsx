@@ -51,7 +51,10 @@ describe('page modifier le nom de l’inventaire', () => {
 
       // THEN
       const champNomInventaireMaj = await screen.findByLabelText('Nom de l’inventaire (minimum 4 caractères)')
-      expect(champNomInventaireMaj).toHaveAttribute('aria-describedby', 'formInputError-error')
+      // React 19 applies the update of the async submit later: the field exists before it is marked invalid.
+      await waitFor(() => {
+        expect(champNomInventaireMaj).toHaveAttribute('aria-describedby', 'formInputError-error')
+      })
       expect(champNomInventaireMaj).toHaveAttribute('aria-invalid', 'true')
 
       const textErreur = await screen.findByText('Cet inventaire existe déjà. Modifiez le nom de l’inventaire pour continuer.', { selector: 'p' })

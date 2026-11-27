@@ -15,7 +15,7 @@ describe('page inventaires', () => {
         vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([])
 
         // WHEN
-        renderComponent(await PageInventaires({}))
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
 
         // THEN
         const titre = screen.getByRole('heading', { level: 1 })
@@ -48,7 +48,7 @@ describe('page inventaires', () => {
         ])
 
         // WHEN
-        renderComponent(await PageInventaires({}))
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
 
         // THEN
         const tableInventaires = screen.getByRole('table')
@@ -92,7 +92,7 @@ describe('page inventaires', () => {
         ])
 
         // WHEN
-        renderComponent(await PageInventaires({}))
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
 
         // THEN
         const navigation = screen.queryByRole('navigation', { name: 'Pagination' })
@@ -112,7 +112,7 @@ describe('page inventaires', () => {
         ])
 
         // WHEN
-        renderComponent(await PageInventaires({}))
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
 
         // THEN
         const lienExporterLesInventaires = screen.queryByRole('link', { name: 'Exporter les inventaires' })
@@ -126,7 +126,7 @@ describe('page inventaires', () => {
         vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([inventaireModelFactory()])
 
         // WHEN
-        renderComponent(await PageInventaires({}))
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
 
         // THEN
         const buttonComparerDeuxInventaires = screen.getByRole('button', { name: 'Comparer deux inventaires' })
@@ -151,7 +151,7 @@ describe('page inventaires', () => {
         ])
 
         // WHEN
-        renderComponent(await PageInventaires({}))
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
 
         // THEN
         const checkboxInventaire1 = screen.getByLabelText('mon premier inventaire')
@@ -170,7 +170,7 @@ describe('page inventaires', () => {
           }),
         ])
 
-        renderComponent(await PageInventaires({}))
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
         const checkboxInventaire1 = screen.getByLabelText('mon super inventaire')
 
         // WHEN
@@ -206,7 +206,7 @@ describe('page inventaires', () => {
           }),
         ])
 
-        renderComponent(await PageInventaires({}))
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
 
         // WHEN
         const checkboxInventaire1 = screen.getByLabelText('mon premier inventaire')
@@ -239,7 +239,7 @@ describe('page inventaires', () => {
         ])
         vi.spyOn(navigation, 'useRouter').mockReturnValue(spyNextNavigation.useRouter)
 
-        renderComponent(await PageInventaires({}))
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
         const checkboxInventaire1 = screen.getByLabelText('mon premier inventaire')
         fireEvent.click(checkboxInventaire1)
         const checkboxInventaire2 = screen.getByLabelText('mon deuxième inventaire')
@@ -263,7 +263,7 @@ describe('page inventaires', () => {
         vi.spyOn(navigation, 'useRouter').mockReturnValue(spyNextNavigation.useRouter)
         vi.spyOn(repositoryInventaires, 'supprimerUnInventaireRepository').mockResolvedValueOnce(new Date())
 
-        renderComponent(await PageInventaires({}))
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
 
         const poubelle = screen.getByRole('button', { name: 'Supprimer l’inventaire' })
         fireEvent.click(poubelle)
@@ -282,6 +282,148 @@ describe('page inventaires', () => {
         const titreModale = within(modale).queryByRole('heading', { level: 1, name: 'Supprimer l’inventaire' })
         expect(titreModale).not.toBeInTheDocument()
       })
+
+      it('quand j’annule la suppression d’un inventaire alors le focus revient sur le bouton qui a ouvert la modale', async () => {
+        // GIVEN
+        jeSuisUnUtilisateur()
+
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([inventaireModelFactory()])
+        vi.spyOn(navigation, 'useRouter').mockReturnValue(spyNextNavigation.useRouter)
+
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
+
+        const poubelle = screen.getByRole('button', { name: 'Supprimer l’inventaire' })
+        poubelle.focus()
+        fireEvent.click(poubelle)
+        const modale = screen.getByRole('dialog', { name: 'Supprimer l’inventaire' })
+        expect(poubelle).not.toHaveFocus()
+
+        // WHEN
+        fireEvent.click(within(modale).getByRole('button', { name: 'Annuler' }))
+
+        // THEN
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+        expect(poubelle).toHaveFocus()
+      })
+
+      it('quand j’appuie sur Échap dans la modale de suppression alors elle se ferme et le focus revient sur le bouton qui l’a ouverte', async () => {
+        // GIVEN
+        jeSuisUnUtilisateur()
+
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([inventaireModelFactory()])
+        vi.spyOn(navigation, 'useRouter').mockReturnValue(spyNextNavigation.useRouter)
+        vi.spyOn(repositoryInventaires, 'supprimerUnInventaireRepository').mockResolvedValueOnce(new Date())
+
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
+
+        const poubelle = screen.getByRole('button', { name: 'Supprimer l’inventaire' })
+        poubelle.focus()
+        fireEvent.click(poubelle)
+        const modale = screen.getByRole('dialog', { name: 'Supprimer l’inventaire' })
+
+        // WHEN
+        // A browser fires `cancel` on the <dialog> when Escape is pressed.
+        fireEvent(modale, new Event('cancel', { cancelable: true }))
+
+        // THEN
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+        expect(poubelle).toHaveFocus()
+        expect(repositoryInventaires.supprimerUnInventaireRepository).not.toHaveBeenCalled()
+      })
+
+      it('quand je clique en dehors de la modale de suppression alors elle se ferme sans supprimer l’inventaire', async () => {
+        // GIVEN
+        jeSuisUnUtilisateur()
+
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([inventaireModelFactory()])
+        vi.spyOn(navigation, 'useRouter').mockReturnValue(spyNextNavigation.useRouter)
+        vi.spyOn(repositoryInventaires, 'supprimerUnInventaireRepository').mockResolvedValueOnce(new Date())
+
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
+
+        const poubelle = screen.getByRole('button', { name: 'Supprimer l’inventaire' })
+        poubelle.focus()
+        fireEvent.click(poubelle)
+        const modale = screen.getByRole('dialog', { name: 'Supprimer l’inventaire' })
+
+        // WHEN
+        // A click on the backdrop lands on the <dialog> element itself.
+        fireEvent.click(modale)
+
+        // THEN
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+        expect(poubelle).toHaveFocus()
+        expect(repositoryInventaires.supprimerUnInventaireRepository).not.toHaveBeenCalled()
+      })
+
+      it('quand je clique dans le contenu de la modale de suppression alors elle reste ouverte', async () => {
+        // GIVEN
+        jeSuisUnUtilisateur()
+
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([inventaireModelFactory()])
+        vi.spyOn(navigation, 'useRouter').mockReturnValue(spyNextNavigation.useRouter)
+
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
+
+        fireEvent.click(screen.getByRole('button', { name: 'Supprimer l’inventaire' }))
+        const modale = screen.getByRole('dialog', { name: 'Supprimer l’inventaire' })
+
+        // WHEN
+        fireEvent.click(within(modale).getByRole('heading', { level: 1, name: 'Supprimer l’inventaire' }))
+
+        // THEN
+        expect(screen.getByRole('dialog', { name: 'Supprimer l’inventaire' })).toBeInTheDocument()
+      })
+
+      it('quand je place le focus sur l’aide alors l’infobulle s’affiche et Échap la masque', async () => {
+        // GIVEN
+        jeSuisUnUtilisateur()
+
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([inventaireModelFactory()])
+        vi.spyOn(navigation, 'useRouter').mockReturnValue(spyNextNavigation.useRouter)
+
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
+
+        const aide = screen.getByRole('button', { name: 'Aide' })
+        expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
+
+        // WHEN
+        fireEvent.focus(aide)
+
+        // THEN
+        const infobulle = screen.getByRole('tooltip')
+        expect(aide).toHaveAttribute('aria-describedby', infobulle.id)
+
+        // WHEN
+        fireEvent.keyDown(document, { key: 'Escape' })
+
+        // THEN
+        expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
+      })
+
+      it('quand je survole l’aide alors l’infobulle s’affiche et disparaît quand je la quitte', async () => {
+        // GIVEN
+        jeSuisUnUtilisateur()
+
+        vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([inventaireModelFactory()])
+        vi.spyOn(navigation, 'useRouter').mockReturnValue(spyNextNavigation.useRouter)
+
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
+
+        const aide = screen.getByRole('button', { name: 'Aide' })
+
+        // WHEN
+        fireEvent.mouseEnter(aide)
+
+        // THEN
+        expect(screen.getByRole('tooltip')).toBeInTheDocument()
+
+        // WHEN
+        fireEvent.mouseLeave(aide)
+
+        // THEN
+        expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
+      })
     })
   })
 
@@ -294,7 +436,7 @@ describe('page inventaires', () => {
         vi.spyOn(repositoryInventaires, 'recupererLesInventairesPaginesRepository').mockResolvedValueOnce([])
 
         // WHEN
-        renderComponent(await PageInventaires({}))
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
 
         // THEN
         const titre = screen.getByRole('heading', { level: 2 })
@@ -323,7 +465,7 @@ describe('page inventaires', () => {
         ])
 
         // WHEN
-        renderComponent(await PageInventaires({}))
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
 
         // THEN
         const listeInventaires = screen.getByRole('table')
@@ -356,7 +498,7 @@ describe('page inventaires', () => {
         vi.spyOn(repositoryInventaires, 'recupererLeTotalInventairesRepository').mockResolvedValueOnce(2)
 
         // WHEN
-        renderComponent(await PageInventaires({}))
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
 
         // THEN
         const navigation = screen.getByRole('navigation', { name: 'Pagination' })
@@ -379,7 +521,7 @@ describe('page inventaires', () => {
         vi.spyOn(repositoryInventaires, 'recupererLeTotalInventairesRepository').mockResolvedValueOnce(2)
 
         // WHEN
-        renderComponent(await PageInventaires({}))
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
 
         // THEN
         const listeInventaires = screen.getByRole('table')
@@ -398,7 +540,7 @@ describe('page inventaires', () => {
         vi.spyOn(repositoryInventaires, 'recupererLesInventairesRepository').mockResolvedValueOnce([inventaireModelFactory()])
 
         // WHEN
-        renderComponent(await PageInventaires({}))
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
 
         // THEN
         const buttonComparerDeuxInventaires = screen.queryByRole('button', { name: 'Comparer deux inventaires' })
@@ -421,7 +563,7 @@ describe('page inventaires', () => {
         vi.spyOn(repositoryInventaires, 'recupererLeTotalInventairesRepository').mockResolvedValueOnce(2)
 
         // WHEN
-        renderComponent(await PageInventaires({}))
+        renderComponent(await PageInventaires({ searchParams: Promise.resolve({}) }))
 
         // THEN
         const lienExporterLesInventaires = screen.getByRole('link', { name: 'Exporter les inventaires' })

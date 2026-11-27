@@ -14,10 +14,10 @@ describe('page liste d’équipements', () => {
       jeSuisUnUtilisateur()
 
       const queryParams = {
-        searchParams: {
+        searchParams: Promise.resolve({
           nomEtablissement: 'Hopital de Bordeaux$$00000001J',
           nomInventaire: 'Centre hospitalier',
-        },
+        }),
       }
 
       // WHEN
@@ -136,10 +136,10 @@ describe('page liste d’équipements', () => {
 
       vi.spyOn(navigation, 'usePathname').mockReturnValueOnce('/liste-equipements')
       const queryParams = {
-        searchParams: {
+        searchParams: Promise.resolve({
           nomEtablissement: 'Hopital de Bordeaux$$00000001J',
           nomInventaire: 'Centre hospitalier',
-        },
+        }),
       }
 
       vi.spyOn(repositoryModeles, 'recupererLesModelesRepository').mockResolvedValueOnce([modeleModelFactory()])
@@ -157,9 +157,9 @@ describe('page liste d’équipements', () => {
   it('quand il n’y a pas le nom d’inventaire dans l’URL alors je n’y ai pas accès', async () => {
     // GIVEN
     const queryParams = {
-      searchParams: {
+      searchParams: Promise.resolve({
         nomEtablissement: 'Hopital de Paris$$00000001K',
-      },
+      }),
     }
 
     // WHEN
@@ -172,9 +172,9 @@ describe('page liste d’équipements', () => {
   it('quand il n’y a pas le nom d’établissement dans l’URL alors je n’y ai pas accès', async () => {
     // GIVEN
     const queryParams = {
-      searchParams: {
+      searchParams: Promise.resolve({
         nomInventaire: 'Centre hospitalier',
-      },
+      }),
     }
 
     // WHEN
@@ -198,11 +198,11 @@ describe('page liste d’équipements', () => {
   })
 })
 
-function queryParams(): { searchParams: { nomEtablissement: string; nomInventaire: string } } {
+function queryParams(): { searchParams: Promise<{ nomEtablissement: string; nomInventaire: string }> } {
   return {
-    searchParams: {
+    searchParams: Promise.resolve({
       nomEtablissement: 'Hopital de Paris$$00000001K',
       nomInventaire: 'Centre hospitalier',
-    },
+    }),
   }
 }
