@@ -16,17 +16,47 @@
   color: var(--primary);
 }
 
-[data-reach-dialog-overlay] {
-  background: hsl(224.44deg 14.75% 35.88% / 90%);
-  display: block;
+/* Native <dialog> opened with showModal(): it fills the viewport, and the .modal-dialog inside centres the content. */
+.modale {
+  background: transparent;
+  border: 0;
+
+  /* The browser's own dialog style sets the text to black (CanvasText): keep the page's text colour instead. */
+  color: inherit;
   height: 100%;
-  left: 0;
+  max-height: none;
+  max-width: none;
   outline: 0;
   overflow: hidden;
-  position: fixed;
-  top: 0;
+  padding: 0;
   width: 100%;
-  z-index: 1050;
+}
+
+.modale::backdrop {
+  background: hsl(224.44deg 14.75% 35.88% / 90%);
+}
+
+/* A modal dialog does not lock page scroll by itself. */
+body:has(.modale[open]) {
+  overflow: hidden;
+}
+
+/* Rendered at the end of <body> and placed by Infobulle.tsx (left, top), as @reach/tooltip was. */
+.infobulle {
+  background-color: var(--primary, #1d71b8);
+  border-radius: 1.4rem;
+  box-sizing: border-box;
+  color: #fff;
+  line-break: loose;
+  padding: 2rem;
+  position: absolute;
+  white-space: normal;
+  width: 28rem;
+  z-index: 1060;
+}
+
+.infobulle[hidden] {
+  display: none;
 }
 
 .navbar-expand-xl .navbar-nav {

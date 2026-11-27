@@ -1,4 +1,3 @@
-import { Alert } from '@reach/alert'
 import { PropsWithChildren, ReactElement } from 'react'
 
 type AlerteErreurProps = PropsWithChildren<Readonly<{
@@ -7,24 +6,22 @@ type AlerteErreurProps = PropsWithChildren<Readonly<{
 
 export default function AlerteErreur({ children, marge }: AlerteErreurProps): ReactElement {
   return (
-    <Alert>
-      <div className="row justify-content-center">
-        <output
-          className={`o-alert o-alert--error col-md-${marge}`}
-          role="alert"
-        >
-          <div className="o-alert__icon">
-            <svg
-              aria-hidden
-              className="svg-icon svg-circle-cross"
-              focusable="false"
-            >
-              <use xlinkHref="svg-icons/icon-sprite.svg#circle-cross" />
-            </svg>
-          </div>
-          {children}
-        </output>
-      </div>
-    </Alert>
+    <div className="row justify-content-center">
+      <output
+        className={`o-alert o-alert--error col-md-${marge}`}
+        role="alert"
+      >
+        <div className="o-alert__icon">
+          <svg
+            aria-hidden
+            className="svg-icon svg-circle-cross"
+            focusable="false"
+          >
+            <use xlinkHref="svg-icons/icon-sprite.svg#circle-cross" />
+          </svg>
+        </div>
+        {children}
+      </output>
+    </div>
   )
 }
