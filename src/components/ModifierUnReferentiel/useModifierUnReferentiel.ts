@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import { ChangeEvent, SubmitEvent, useState } from 'react'
 
 import { modifierUnReferentielAction } from './action'
 import { tempsAlerte } from '../../configuration'
@@ -12,8 +12,8 @@ type UseReferentiel = Readonly<{
   isDisabled: boolean
   isReferentielModifieErreur: string
   isReferentielModifieSucces: boolean
-  modifierUnReferentiel: (event: FormEvent<HTMLFormElement>) => Promise<void>
-  selectionnerFichierReferentiel: (event: FormEvent<HTMLInputElement>) => void
+  modifierUnReferentiel: (event: SubmitEvent<HTMLFormElement>) => Promise<void>
+  selectionnerFichierReferentiel: (event: ChangeEvent<HTMLInputElement>) => void
   validerLeformulaire: () => void
 }>
 
@@ -25,7 +25,7 @@ export function useModifierUnReferentiel(): UseReferentiel {
   const [isReferentielModifieSucces, setIsReferentielModifieSucces] = useState(false)
   const [isReferentielModifieErreur, setIsReferentielModifieErreur] = useState('')
 
-  function selectionnerFichierReferentiel(event: FormEvent<HTMLInputElement>) {
+  function selectionnerFichierReferentiel(event: ChangeEvent<HTMLInputElement>) {
     const isFichierReferentielRempli = event.currentTarget.value !== ''
 
     setState((): State => ({
@@ -35,7 +35,7 @@ export function useModifierUnReferentiel(): UseReferentiel {
     }))
   }
 
-  async function modifierUnReferentiel(event: FormEvent<HTMLFormElement>) {
+  async function modifierUnReferentiel(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
 
     try {

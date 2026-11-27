@@ -56,6 +56,7 @@ export class FrozenDate extends Date {
 export const spyNextNavigation = {
   useRouter: {
     back: vi.fn(),
+    bfcacheId: 'bfcache-id',
     forward: vi.fn(),
     prefetch: vi.fn(),
     push: vi.fn(),

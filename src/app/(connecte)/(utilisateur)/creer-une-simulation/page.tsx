@@ -12,13 +12,14 @@ export const metadata: Metadata = {
 }
 
 type PageProps = Readonly<{
-  searchParams?: Readonly<{
+  searchParams: Promise<Readonly<{
     nomInventaire?: string
-  }>
+  }>>
 }>
 
-export default async function PageCreerUneSimulation({ searchParams }: PageProps): Promise<ReactElement> {
-  if (searchParams?.nomInventaire === undefined) {
+export default async function PageCreerUneSimulation({ searchParams: searchParamsPromise }: PageProps): Promise<ReactElement> {
+  const searchParams = await searchParamsPromise
+  if (searchParams.nomInventaire === undefined) {
     notFound()
   }
 

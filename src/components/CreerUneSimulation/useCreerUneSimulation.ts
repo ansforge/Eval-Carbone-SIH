@@ -1,15 +1,15 @@
 import { useRouter } from 'next/navigation'
-import { FormEvent } from 'react'
+import { ChangeEvent, SubmitEvent } from 'react'
 
 import { StatutsInventaire } from '../../presenters/sharedPresenter'
 import { isLeNomInventaireExisteAction } from '../sharedComponents/action'
 import { useModifierNouveauNomInventaire } from '../sharedComponents/useModifierNouveauNomInventaire'
 
 type UseCreerUneSimulation = Readonly<{
-  creerUneSimulation: (event: FormEvent<HTMLFormElement>) => Promise<void>
+  creerUneSimulation: (event: SubmitEvent<HTMLFormElement>) => Promise<void>
   isDisabled: boolean
   isInvalid: boolean
-  modifierNouveauNomInventaire: (event: FormEvent<HTMLInputElement>) => void
+  modifierNouveauNomInventaire: (event: ChangeEvent<HTMLInputElement>) => void
   nouveauNomInventaire: string
 }>
 
@@ -18,7 +18,7 @@ export function useCreerUneSimulation(ancienNomInventaire: string): UseCreerUneS
   const router = useRouter()
   const { modifierNouveauNomInventaire, setState, state } = useModifierNouveauNomInventaire(`${ancienNomInventaire} - simulation ${date.toLocaleString('fr-FR')}`, false)
 
-  const creerUneSimulation = async (event: FormEvent<HTMLFormElement>) => {
+  const creerUneSimulation = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const formData = new FormData(event.currentTarget)

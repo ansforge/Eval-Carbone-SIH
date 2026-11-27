@@ -1,11 +1,11 @@
-import { FormEvent, ReactElement, useState } from 'react'
+import { ChangeEvent, ReactElement, useState } from 'react'
 
 import InfoBulle from '../sharedComponents/Infobulle'
 
 export default function NombreEquipement(): ReactElement {
   const [nombreEquipement, setNombreEquipement] = useState('0')
 
-  const modifierNombreEquipement = (event: FormEvent<HTMLInputElement>) => {
+  const modifierNombreEquipement = (event: ChangeEvent<HTMLInputElement>) => {
     setNombreEquipement(event.currentTarget.value)
   }
 

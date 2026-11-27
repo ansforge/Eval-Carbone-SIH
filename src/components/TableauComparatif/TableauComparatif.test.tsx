@@ -71,9 +71,9 @@ describe('page tableau comparatif', () => {
   it('quand il n’y a pas de nom d’inventaire de référence dans l’url alors je n’y ai pas accès', async () => {
     // GIVEN
     const queryParams = {
-      searchParams: {
+      searchParams: Promise.resolve({
         inventaireCompare: 'Centre hospitalier',
-      },
+      }),
     }
 
     // WHEN
@@ -86,9 +86,9 @@ describe('page tableau comparatif', () => {
   it('quand il n’y a pas de nom d’inventaire comparé dans l’url alors je n’y ai pas accès', async () => {
     // GIVEN
     const queryParams = {
-      searchParams: {
+      searchParams: Promise.resolve({
         inventaireReference: 'Centre hospitalier',
-      },
+      }),
     }
 
     // WHEN
@@ -101,9 +101,9 @@ describe('page tableau comparatif', () => {
 
 function queryParams() {
   return {
-    searchParams: {
+    searchParams: Promise.resolve({
       inventaireCompare: 'Centre hospitalier',
       inventaireReference: 'Secteur infirmier',
-    },
+    }),
   }
 }

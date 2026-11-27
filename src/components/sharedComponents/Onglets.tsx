@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 
 type OngletsProps = Readonly<{
   nomEtablissement: string

@@ -1,4 +1,4 @@
-import { FormEvent, ReactElement } from 'react'
+import { ChangeEvent, ReactElement } from 'react'
 
 import { ModeleReducer } from './useEquipement'
 import InfoBulle from '../sharedComponents/Infobulle'
@@ -12,7 +12,7 @@ type ModeleProps = Readonly<{
 }>
 
 export default function Modele({ id, ligneModele, modifierUnModele, nomEquipement, nomModele }: ModeleProps): ReactElement {
-  const modifierUneValeurDuModele = (clef: string) => (event: FormEvent<HTMLInputElement>) => {
+  const modifierUneValeurDuModele = (clef: string) => (event: ChangeEvent<HTMLInputElement>) => {
     modifierUnModele({
       ...ligneModele,
       [clef]: event.currentTarget.valueAsNumber,

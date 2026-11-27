@@ -7,12 +7,12 @@ import { inventaireModelFactory, jeSuisUnAdmin, jeSuisUnUtilisateur, nomEtabliss
 
 describe('page modifier le nom de l’inventaire', () => {
   describe('en tant qu’utilisateur', () => {
-    it('quand j’affiche la page alors j’ai le nom de l’inventaire prérempli et je ne peux pas valider le formulaire', () => {
+    it('quand j’affiche la page alors j’ai le nom de l’inventaire prérempli et je ne peux pas valider le formulaire', async () => {
       // GIVEN
       jeSuisUnUtilisateur()
 
       // WHEN
-      renderComponent(PageModifierLeNomInventaire(queryParams()))
+      renderComponent(await PageModifierLeNomInventaire(queryParams()))
 
       // THEN
       const champNomInventaire = screen.getByLabelText('Nom de l’inventaire (minimum 4 caractères)')
@@ -22,11 +22,11 @@ describe('page modifier le nom de l’inventaire', () => {
       expect(boutonModifier).toBeDisabled()
     })
 
-    it('quand j’écris un nom d’inventaire inférieur à 4 caractères alors je ne peux pas créer la simulation', () => {
+    it('quand j’écris un nom d’inventaire inférieur à 4 caractères alors je ne peux pas créer la simulation', async () => {
       // GIVEN
       jeSuisUnUtilisateur()
 
-      renderComponent(PageModifierLeNomInventaire(queryParams()))
+      renderComponent(await PageModifierLeNomInventaire(queryParams()))
 
       // WHEN
       const champNomInventaire = screen.getByLabelText('Nom de l’inventaire (minimum 4 caractères)')
@@ -43,7 +43,7 @@ describe('page modifier le nom de l’inventaire', () => {
 
       vi.spyOn(repositoryInventaires, 'recupererUnInventaireRepository').mockResolvedValueOnce(inventaireModelFactory())
 
-      renderComponent(PageModifierLeNomInventaire(queryParams()))
+      renderComponent(await PageModifierLeNomInventaire(queryParams()))
 
       const champNomInventaire = screen.getByLabelText('Nom de l’inventaire (minimum 4 caractères)')
       fireEvent.change(champNomInventaire, { target: { value: 'nom inventaire dejà exitant' } })
@@ -54,7 +54,10 @@ describe('page modifier le nom de l’inventaire', () => {
 
       // THEN
       const champNomInventaireMaj = await screen.findByLabelText('Nom de l’inventaire (minimum 4 caractères)')
-      expect(champNomInventaireMaj).toHaveAttribute('aria-describedby', 'formInputError-error')
+      // React 19 applies the update of the async submit later: the field exists before it is marked invalid.
+      await waitFor(() => {
+        expect(champNomInventaireMaj).toHaveAttribute('aria-describedby', 'formInputError-error')
+      })
       expect(champNomInventaireMaj).toHaveAttribute('aria-invalid', 'true')
 
       const textErreur = await screen.findByText('Cet inventaire existe déjà. Modifiez le nom de l’inventaire pour continuer.', { selector: 'p' })
@@ -73,7 +76,7 @@ describe('page modifier le nom de l’inventaire', () => {
       vi.spyOn(repositoryInventaires, 'recupererUnInventaireRepository').mockResolvedValueOnce(null)
       vi.spyOn(repositoryInventaires, 'modifierLeNomInventaireRepository').mockResolvedValueOnce()
 
-      renderComponent(PageModifierLeNomInventaire(queryParams()))
+      renderComponent(await PageModifierLeNomInventaire(queryParams()))
 
       const champNomInventaire = screen.getByLabelText('Nom de l’inventaire (minimum 4 caractères)')
       fireEvent.change(champNomInventaire, { target: { value: 'nom inventaire correct' } })
@@ -97,7 +100,7 @@ describe('page modifier le nom de l’inventaire', () => {
 
       vi.spyOn(repositoryInventaires, 'recupererUnInventaireRepository').mockResolvedValueOnce(inventaireModelFactory())
 
-      renderComponent(PageModifierLeNomInventaire(queryParams()))
+      renderComponent(await PageModifierLeNomInventaire(queryParams()))
 
       const champNomInventaire = screen.getByLabelText('Nom de l’inventaire (minimum 4 caractères)')
       fireEvent.change(champNomInventaire, { target: { value: 'nom inventaire dejà exitant' } })
@@ -108,7 +111,10 @@ describe('page modifier le nom de l’inventaire', () => {
 
       // THEN
       const champNomInventaireMaj = await screen.findByLabelText('Nom de l’inventaire (minimum 4 caractères)')
-      expect(champNomInventaireMaj).toHaveAttribute('aria-describedby', 'formInputError-error')
+      // React 19 applies the update of the async submit later: the field exists before it is marked invalid.
+      await waitFor(() => {
+        expect(champNomInventaireMaj).toHaveAttribute('aria-describedby', 'formInputError-error')
+      })
       expect(champNomInventaireMaj).toHaveAttribute('aria-invalid', 'true')
 
       const textErreur = await screen.findByText('Cet inventaire existe déjà. Modifiez le nom de l’inventaire pour continuer.', { selector: 'p' })
@@ -127,7 +133,7 @@ describe('page modifier le nom de l’inventaire', () => {
       vi.spyOn(repositoryInventaires, 'recupererUnInventaireRepository').mockResolvedValueOnce(null)
       vi.spyOn(repositoryInventaires, 'modifierLeNomInventaireRepository').mockResolvedValueOnce()
 
-      renderComponent(PageModifierLeNomInventaire(queryParams()))
+      renderComponent(await PageModifierLeNomInventaire(queryParams()))
 
       const champNomInventaire = screen.getByLabelText('Nom de l’inventaire (minimum 4 caractères)')
       fireEvent.change(champNomInventaire, { target: { value: 'nom inventaire correct' } })
@@ -144,23 +150,23 @@ describe('page modifier le nom de l’inventaire', () => {
     })
   })
 
-  it('quand il n’y a pas de nom d’inventaire dans l’url alors je n’y ai pas accès', () => {
+  it('quand il n’y a pas de nom d’inventaire dans l’url alors je n’y ai pas accès', async () => {
     // GIVEN
-    const queryParams = {}
+    const queryParams = { searchParams: Promise.resolve({}) }
 
     // WHEN
-    const page = () => renderComponent(PageModifierLeNomInventaire(queryParams))
+    const page = async () => renderComponent(await PageModifierLeNomInventaire(queryParams))
 
     // THEN
-    expect(page).toThrow('NEXT_NOT_FOUND')
+    await expect(page).rejects.toThrow('NEXT_NOT_FOUND')
   })
 })
 
-function queryParams(): { searchParams: { nomEtablissement: string; nomInventaire: string } } {
+function queryParams(): { searchParams: Promise<{ nomEtablissement: string; nomInventaire: string }> } {
   return {
-    searchParams: {
+    searchParams: Promise.resolve({
       nomEtablissement: `${nomEtablissementFake}$$00000001K`,
       nomInventaire: 'Centre hospitalier',
-    },
+    }),
   }
 }

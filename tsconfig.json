@@ -13,7 +13,7 @@
     "incremental": true,
     "inlineSourceMap": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmit": true,
@@ -41,7 +41,8 @@
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

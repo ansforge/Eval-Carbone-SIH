@@ -16,10 +16,10 @@ describe('page des indicateurs clés', () => {
       jeSuisUnUtilisateur()
 
       const queryParams = {
-        searchParams: {
+        searchParams: Promise.resolve({
           nomEtablissement: 'Hopital de Bordeaux$$00000001J',
           nomInventaire: 'Centre hospitalier',
-        },
+        }),
       }
 
       // WHEN
@@ -81,10 +81,10 @@ describe('page des indicateurs clés', () => {
 
       vi.spyOn(navigation, 'usePathname').mockReturnValueOnce('/indicateurs-cles')
       const queryParams = {
-        searchParams: {
+        searchParams: Promise.resolve({
           nomEtablissement: 'Hopital de Bordeaux$$00000001J',
           nomInventaire: 'Centre hospitalier',
-        },
+        }),
       }
 
       vi.spyOn(repositoryIndicateurs, 'recupererLesIndicateursImpactsEquipementsRepository').mockResolvedValueOnce([indicateurImpactEquipementModelFactory()])
@@ -154,9 +154,9 @@ describe('page des indicateurs clés', () => {
   it('quand il n’y a pas le nom d’inventaire dans l’URL alors je n’y ai pas accès', async () => {
     // GIVEN
     const queryParams = {
-      searchParams: {
+      searchParams: Promise.resolve({
         nomEtablissement: 'Hopital de Paris$$00000001K',
-      },
+      }),
     }
 
     // WHEN
@@ -169,9 +169,9 @@ describe('page des indicateurs clés', () => {
   it('quand il n’y a pas le nom d’établissement dans l’URL alors je n’y ai pas accès', async () => {
     // GIVEN
     const queryParams = {
-      searchParams: {
+      searchParams: Promise.resolve({
         nomInventaire: 'Centre hospitalier',
-      },
+      }),
     }
 
     // WHEN
@@ -195,11 +195,11 @@ describe('page des indicateurs clés', () => {
   })
 })
 
-function queryParams(): { searchParams: { nomEtablissement: string; nomInventaire: string } } {
+function queryParams(): { searchParams: Promise<{ nomEtablissement: string; nomInventaire: string }> } {
   return {
-    searchParams: {
+    searchParams: Promise.resolve({
       nomEtablissement: 'Hopital de Paris$$00000001K',
       nomInventaire: 'Centre hospitalier',
-    },
+    }),
   }
 }

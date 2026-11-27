@@ -26,11 +26,12 @@ export type SearchParams = Readonly<{
 }>
 
 type PageProps = Readonly<{
-  searchParams?: SearchParams
+  searchParams: Promise<SearchParams>
 }>
 
-export default async function PageInventaire({ searchParams }: PageProps): Promise<ReactElement> {
-  if (searchParams?.nomEtablissement === undefined || searchParams.nomInventaire === undefined) {
+export default async function PageInventaire({ searchParams: searchParamsPromise }: PageProps): Promise<ReactElement> {
+  const searchParams = await searchParamsPromise
+  if (searchParams.nomEtablissement === undefined || searchParams.nomInventaire === undefined) {
     notFound()
   }
 

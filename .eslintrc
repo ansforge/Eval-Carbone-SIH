@@ -23,7 +23,8 @@
   },
   "ignorePatterns": [
     "public",
-    "next.config.js"
+    "next.config.js",
+    "next-env.d.ts"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": ["sort-keys-fix", "unused-imports"],

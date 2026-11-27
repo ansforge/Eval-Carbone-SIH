@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { FormEvent, ReactElement } from 'react'
+import { ChangeEvent, ReactElement } from 'react'
 
 import ActionSupprimer from './ActionSupprimer'
 import styles from './Inventaires.module.css'
@@ -10,7 +10,7 @@ import Pagination from '../sharedComponents/Pagination/Pagination'
 type InventairesProps = Readonly<{
   inventaires: ReadonlyArray<InventairePresenter>
   isAdmin: boolean
-  mettreAJourNombreInventaireCoche: (event: FormEvent<HTMLInputElement>) => void
+  mettreAJourNombreInventaireCoche: (event: ChangeEvent<HTMLInputElement>) => void
   pageCourante: number
   totalInventaires: number
 }>

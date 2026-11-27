@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 
 import { EquipementPresenter } from '../../presenters/listeEquipementsPresenter'
 import { genererUnIdentifiantUnique } from '../../presenters/sharedPresenter'
