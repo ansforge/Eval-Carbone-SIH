@@ -15,14 +15,15 @@ export const metadata: Metadata = {
 }
 
 type PageProps = Readonly<{
-  searchParams?: Readonly<{
+  searchParams: Promise<Readonly<{
     inventaireCompare?: string
     inventaireReference?: string
-  }>
+  }>>
 }>
 
-export default async function PageTableauComparatif({ searchParams }: PageProps): Promise<ReactElement> {
-  if (searchParams?.inventaireCompare === undefined || searchParams.inventaireReference === undefined) {
+export default async function PageTableauComparatif({ searchParams: searchParamsPromise }: PageProps): Promise<ReactElement> {
+  const searchParams = await searchParamsPromise
+  if (searchParams.inventaireCompare === undefined || searchParams.inventaireReference === undefined) {
     notFound()
   }
 

@@ -12,14 +12,15 @@ export const metadata: Metadata = {
 }
 
 type PageProps = Readonly<{
-  searchParams?: Readonly<{
+  searchParams: Promise<Readonly<{
     page?: string
-  }>
+  }>>
 }>
 
-export default async function PageInventaires({ searchParams }: PageProps): Promise<ReactElement> {
+export default async function PageInventaires({ searchParams: searchParamsPromise }: PageProps): Promise<ReactElement> {
+  const searchParams = await searchParamsPromise
   const profil = await getProfilAtih()
-  const pageCourante = Number(searchParams?.page ?? 0)
+  const pageCourante = Number(searchParams.page ?? 0)
 
   // eslint-disable-next-line @typescript-eslint/init-declarations
   let inventairesModel: ReadonlyArray<inventaireModel>
